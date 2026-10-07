@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build Your Own Talking Robot Friend! 🤖</title>
+<style>
+:root{--bg:#fff8ec;--panel:#ffffff;--text:#2b2350;--muted:#6b6494;--pink:#ff5fa2;--blue:#4b7bff;--green:#2fc98b;--yellow:#ffc93c;--purple:#8a5cff;--border:#eadfc8;--code:#2b2350}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:19px/1.7 "Trebuchet MS","Comic Sans MS",system-ui,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 22px 100px}
+.topbar{position:sticky;top:0;z-index:5;background:#fffdf8ee;backdrop-filter:blur(6px);border-bottom:3px solid var(--yellow);padding:8px 14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.topbar a{text-decoration:none;color:var(--text);font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px;background:#fff;border:2px solid var(--border)}
+.topbar a:hover{background:var(--yellow)}
+.hero{text-align:center;padding:50px 0 20px}
+.hero .robot{font-size:92px;line-height:1;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(4deg)}}
+.hero h1{font-size:clamp(34px,6vw,56px);margin:8px 0;line-height:1.1;color:var(--purple)}
+.hero p{font-size:22px;color:var(--muted)}
+.chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.chip{background:#fff;border:3px solid var(--border);border-radius:99px;padding:4px 16px;font-weight:700;font-size:16px}
+section{margin-top:56px}
+h2{font-size:34px;margin:0 0 8px;color:var(--blue)}
+h2 .n{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--pink);color:#fff;margin-right:10px;font-size:24px}
+h3{color:var(--purple);font-size:24px;margin:28px 0 6px}
+.card{background:var(--panel);border:4px solid var(--border);border-radius:24px;padding:20px 24px;margin:18px 0;box-shadow:0 6px 0 var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid .card{margin:0;text-align:center}
+.big{font-size:54px;line-height:1.1}
+.photo img{width:100%;height:170px;object-fit:contain;background:#fff;border-radius:16px;border:3px solid var(--border)}
+.spot{font-size:15px;background:#fff3cf;border-radius:12px;padding:4px 10px;margin-top:6px}
+.tip,.safe,.grownup{border-radius:20px;padding:14px 20px;margin:18px 0;border:4px solid}
+.tip{background:#eaf2ff;border-color:var(--blue)}
+.safe{background:#ffeaea;border-color:#ff6b6b}
+.grownup{background:#fff3cf;border-color:var(--yellow)}
+.tip b,.safe b,.grownup b{display:block;font-size:20px}
+.steps{list-style:none;padding:0;counter-reset:s}
+.steps li{counter-increment:s;background:#fff;border:4px solid var(--border);border-radius:20px;padding:14px 18px 14px 70px;margin:12px 0;position:relative}
+.steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;display:grid;place-items:center;font-size:22px}
+.steps li.done{background:#e9fbf2;border-color:var(--green)}
+.steps label{cursor:pointer;display:block}
+.steps input{width:22px;height:22px;accent-color:var(--green);vertical-align:middle;margin-right:6px}
+.bar{height:22px;background:#fff;border:3px solid var(--border);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--yellow),var(--green));transition:width .4s}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;border:4px solid var(--border);font-size:17px}
+th{background:var(--yellow);text-align:left;padding:10px 12px}
+td{padding:9px 12px;border-top:2px solid var(--border)}
+.dot{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:middle;margin-right:6px;border:2px solid #0003}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#f1ebff;padding:1px 7px;border-radius:8px;font-size:.88em}
+pre code{background:none;padding:0;color:inherit;white-space:pre;font-size:inherit}
+.codewrap{position:relative;margin:14px 0}
+.codewrap .fn{display:block;background:var(--purple);color:#fff;font:700 14px ui-monospace,Menlo,monospace;padding:6px 14px;border-radius:16px 16px 0 0}
+pre{margin:0;background:#2b2350;color:#f4efff;padding:16px;border-radius:0 0 16px 16px;overflow:auto;font-size:15px;line-height:1.6}
+.cm{color:#a8e6b4}.hl{background:#ffc93c40;color:#ffe9a8;font-weight:700;border-radius:4px;padding:0 3px}
+.copy{position:absolute;right:8px;top:3px;border:0;background:#fff;border-radius:99px;font-weight:700;padding:2px 12px;cursor:pointer}
+figure{margin:18px 0}
+figure svg{width:100%;height:auto;background:#fff;border:4px solid var(--border);border-radius:24px}
+figcaption{text-align:center;color:var(--muted);font-size:16px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
+.flow .box{background:#fff;border:4px solid var(--border);border-radius:20px;padding:10px 14px;text-align:center;min-width:120px}
+.flow .box span{font-size:40px;display:block}
+.flow .arrow{font-size:30px;color:var(--pink)}
+details{background:#fff;border:4px solid var(--border);border-radius:18px;padding:10px 18px;margin:10px 0}
+summary{cursor:pointer;font-weight:800;font-size:20px}
+.gloss dt{font-weight:800;color:var(--pink);margin-top:10px}
+.gloss dd{margin:0 0 0 0}
+footer{text-align:center;margin-top:70px;color:var(--muted)}
+</style>
+<link rel="stylesheet" href="kids-theme.css">
+<style>
+.facebox{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin:14px 0}
+#facesim{width:min(100%,420px);aspect-ratio:2;border:8px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);background:#05070d}
+.moods{display:flex;flex-wrap:wrap;gap:10px;flex:1;min-width:240px}
+.moods button.btn{font-size:16px;padding:8px 16px}
+.moods{align-items:flex-start}
+.mood{display:flex;flex-direction:column;align-items:center;gap:2px;width:96px;padding:10px 6px 8px;cursor:pointer;
+  font:900 15px "Arial Rounded MT Bold","Trebuchet MS",sans-serif;color:#1d1b4b;border:4px solid #1d1b4b;border-radius:28px;box-shadow:0 6px 0 #1d1b4b;transition:transform .15s}
+.mood:hover{transform:translateY(-4px) rotate(-3deg)}
+.mood:active{transform:translateY(4px);box-shadow:0 2px 0 #1d1b4b}
+.mood.on{outline:5px solid #fff;box-shadow:0 0 0 9px #1d1b4b,0 6px 0 9px #1d1b4b;animation:boing .5s}
+@keyframes boing{30%{transform:scale(1.14) rotate(-4deg)}60%{transform:scale(.96)}}
+.mood[data-m=idle]{background:#ffd23f}.mood[data-m=happy]{background:#ff8fc4}.mood[data-m=listen]{background:#7fb0ff}
+.mood[data-m=think]{background:#c3a1ff}.mood[data-m=speak]{background:#6fe3b0}.mood[data-m=sleep]{background:#ffb27a}
+.colrow{flex-basis:100%;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-weight:800;margin-top:6px}
+.sw{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 6px;font:800 14px "Trebuchet MS",sans-serif;cursor:pointer;background:#fff;color:#1d1b4b;border:3px solid #1d1b4b;border-radius:99px;box-shadow:0 4px 0 #1d1b4b}
+.sw i{width:26px;height:26px;border-radius:8px;border:3px solid #1d1b4b;display:block}
+.sw.on{background:#ffd23f}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a href="#what">🤔 What is it?</a><a href="#how">⚙️ How it works</a><a href="#parts">🧩 Parts</a><a href="#ide">💻 Set up</a><a href="#face">😀 Face</a><a href="#wire">🔌 Wiring</a><a class="hot" href="guide-breadboard.html#step=1" target="_blank">🧵 Breadboard Buddy</a><a href="#software">💻 Software</a><a href="#test">🎉 Test it</a><a href="#code">🎨 Make it yours</a><a href="#stuck">🆘 Stuck?</a><a href="#words">📖 Words</a><a href="#next">🚀 What next?</a>
+</div>
+<div class="wrap">
+
+<header class="hero">
+  <div class="robot">🤖</div>
+  <h1>Build Your Own Talking Robot Friend!</h1>
+  <p>Push a button, ask any question, and your robot talks back!<br>You will build it yourself with real electronics.</p>
+  <div class="chips"><span class="chip">⏱ A weekend</span><span class="chip">👨‍👩‍👧 Best with a grown-up helper</span><span class="chip">🧠 Uses real AI</span></div>
+</header>
+<div class="ticker"><span>★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN </span></div>
+
+<!-- WHAT -->
+<section id="what">
+  <h2><span class="n">1</span>What are we making?</h2>
+  <div class="card">
+    <p>Imagine a tiny robot on your desk. You press its button and ask, <i>“Why is the sky blue?”</i> A moment later, it <b>answers out loud</b>!</p>
+    <p>Your robot does not know everything by itself. It has a tiny brain, but it calls a <b>super-smart helper on the internet</b> called <b>Gemini</b>. Think of it like phoning a very clever friend who always picks up.</p>
+  </div>
+  <div class="flow">
+    <div class="box"><span>🗣️</span>You talk</div><div class="arrow">➜</div>
+    <div class="box"><span>👂</span>Robot's ear (microphone)</div><div class="arrow">➜</div>
+    <div class="box"><span>📡</span>Internet to Gemini</div><div class="arrow">➜</div>
+    <div class="box"><span>📢</span>Robot's mouth (speaker)</div>
+  </div>
+</section>
+
+<section id="how">
+  <h2><span class="n">2</span>How does it work?</h2>
+  <ol class="steps">
+    <li><b>You press the button.</b> The brain wakes up and calls Gemini over WiFi.</li>
+    <li><b>You talk.</b> The microphone turns your voice into numbers. (Yes, computers turn sounds into numbers!)</li>
+    <li><b>The numbers fly to Gemini.</b> Gemini understands you and thinks of an answer.</li>
+    <li><b>The answer comes back as numbers.</b> The amplifier turns them back into sound and the speaker says it out loud!</li>
+  </ol>
+  <div class="tip"><b>🎧 Why is the mic switched off while it talks?</b>If the robot heard its own voice, it would start talking to itself, like two mirrors looking at each other. So it covers its ears while it speaks!</div>
+</section>
+
+<!-- PARTS -->
+<section id="parts">
+  <h2><span class="n">3</span>Meet your parts</h2>
+  <p>Every part is like a part of a body!</p>
+  <div class="grid">
+    <div class="card"><div class="photo"><img src="images/esp32.jpg" alt="ESP32-S3 board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧠</div></div><div class="spot">🔎 Look for the words “ESP32-S3” on the little metal square.</div><h3>ESP32-S3 board</h3>The <b>brain</b>. A tiny computer the size of a stick of gum. It runs our code.</div>
+    <div class="card"><div class="photo"><img src="images/oled.jpg" alt="OLED face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">😀</div></div><div class="spot">🔎 A little blue square with a black screen and 4 pins at the top. The pins say <b>GND VDD SCK SDA</b>.</div><h3>Face screen (OLED)</h3>A tiny screen that shows your robot's <b>eyes and smile</b>. It blinks, looks around and talks!</div>
+    <div class="card"><div class="photo"><img src="images/mic.jpg" alt="Microphone" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">👂</div></div><div class="spot">🔎 Look for “INMP441” printed on it. It has a tiny hole on top.</div><h3>Microphone (INMP441)</h3>The <b>ear</b>. It listens to your voice.</div>
+    <div class="card"><div class="photo"><img src="images/amp.jpg" alt="Amplifier" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">📣</div></div><div class="spot">🔎 Look for “MAX98357”. It has little green screw blocks.</div><h3>Amplifier (MAX98357)</h3>The <b>voice box</b>. It makes the sound strong enough to hear.</div>
+    <div class="card"><div class="photo"><img src="images/speaker.jpg" alt="Speaker" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔊</div></div><div class="spot">🔎 A round disc with two thin wires.</div><h3>Speaker</h3>The <b>mouth</b>. The sound comes out here.</div>
+    <div class="card"><div class="photo"><img src="images/button.jpg" alt="Push button" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔘</div></div><div class="spot">🔎 A shiny metal ring you can press.</div><h3>Push button</h3>The <b>“talk now!” switch</b>.</div>
+    <div class="card"><div class="photo"><img src="images/breadboard.jpg" alt="Breadboard" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧵</div></div><div class="spot">🔎 A white board full of tiny holes. The picture is a short one. <b>Yours is longer</b>, with about 63 columns!</div><h3>Breadboard + wires</h3>A board with holes where you plug things together. <b>No glue, no soldering!</b></div>
+  </div>
+  <h3>🎁 Extra parts for later</h3>
+  <p>Your kit has more cool parts. We do <b>not</b> need them today. They are for upgrades after your robot talks!</p>
+  <div class="grid">
+    <div class="card"><div class="photo"><img src="images/battery.jpg" alt="TP4056 charger board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔋</div></div><div class="spot">🔎 Blue board with a USB-C plug and “4056” printed on it.</div><h3>Battery charger (TP4056)</h3>Charges a rechargeable battery so the robot can go anywhere.<div class="spot" style="background:#ffeaea">⚠️ Batteries need a grown-up!</div></div>
+    <div class="card"><div class="photo"><img src="images/servo.jpg" alt="MG90S servo" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🦾</div></div><div class="spot">🔎 A small box with three wires and a little white arm.</div><h3>Servo (MG90S)</h3>A tiny motor that turns to an exact spot. It can make your robot nod its head!</div>
+  </div>
+</section>
+
+<!-- HOW -->
+<!-- IDE SETUP -->
+<section id="ide">
+  <h2><span class="n">4</span>Set up your computer (one time)</h2>
+  <p class="lead">You need one free program called <b>Arduino IDE</b>. It is where you load instructions into the brain. Do this part <b>once</b> with a grown-up. It takes about 20 minutes, mostly waiting.</p>
+  <div class="bar"><i id="bar2"></i></div>
+  <ol class="steps" id="ideCheck">
+    <li><label><input type="checkbox"> <b>Download and install Arduino IDE 2</b> (free) from <a href="https://www.arduino.cc/en/software" target="_blank" rel="noopener">arduino.cc/en/software</a>. 👩‍👧 Grown-up helps.</label></li>
+    <li><label><input type="checkbox"> <b>Teach it about your brain board.</b> Open the settings: click <b>Arduino IDE → Settings…</b> in the menu bar at the top of your Mac screen (or press <b>⌘ + ,</b>). Find the box called <b>“Additional boards manager URLs”</b> and paste this line, then click OK:
+      <div class="codewrap" style="margin:8px 0"><span class="fn">paste this</span><button class="copy">Copy</button><pre><code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></pre></div></label></li>
+    <li><label><input type="checkbox"> <b>Install the brain board.</b> Click <b>Tools → Board → Boards Manager…</b>, type <code>esp32</code>, and click <b>Install</b> on <b>“esp32 by Espressif Systems”</b> (version 3 or newer). It takes a few minutes. Go get a snack 🍪</label></li>
+    <li><label><input type="checkbox"> <b>Install 3 helper libraries.</b> Click <b>Sketch → Include Library → Manage Libraries…</b>. Search for each name and click <b>Install</b> (say <b>“Install all”</b> if it asks about extra pieces):
+      <ul><li><code>WebSockets</code> by <i>Markus Sattler</i></li><li><code>Adafruit SSD1306</code></li><li><code>Adafruit GFX Library</code></li></ul></label></li>
+    <li><label><input type="checkbox"> <b>Pick the board and its settings</b> from the <a href="#cheat"><b>cheat sheet</b></a> just below. (You do this in the <b>Tools</b> menu.)</label></li>
+  </ol>
+
+  <h3 id="cheat">🧾 Tools menu cheat sheet</h3>
+  <p>Choose <b>exactly</b> these. Everything else stays as it is.</p>
+  <table>
+    <tr><th>Tools menu item</th><th>Choose</th></tr>
+    <tr><td>Board</td><td><b>ESP32S3 Dev Module</b> (under “esp32”)</td></tr>
+    <tr><td>USB CDC On Boot</td><td><b>Disabled</b></td></tr>
+    <tr><td>Flash Size</td><td><b>16MB (128Mb)</b></td></tr>
+    <tr><td>PSRAM</td><td><b>OPI PSRAM</b></td></tr>
+    <tr><td>Partition Scheme</td><td><b>16M Flash (3MB APP/9.9MB FATFS)</b></td></tr>
+    <tr><td>Port</td><td>Plug the USB cable into the port marked <b>COM</b> (that word is printed on the board), then pick the new port that appears. On a Mac it looks like <code>/dev/cu.usbserial-…</code> or <code>/dev/cu.usbmodem…</code></td></tr>
+  </table>
+  <div class="tip"><b>🗣️ Want it to wake up when you say its name?</b>Later, in section 9, you can switch on the wake word. Then pick this Partition Scheme instead: <b>ESP SR 16M (3MB APP/7MB SPIFFS/2.9MB MODEL)</b>.</div>
+  <div class="tip"><b>🔁 Two USB ports?</b>Your brain board has two USB-C ports. Use the one marked <b>COM</b>. If the computer cannot find the board, try the other port and set <b>USB CDC On Boot</b> to <b>Enabled</b>.</div>
+  <div class="grownup"><b>👩‍👧 Grown-up corner</b>The board package must be the Espressif <b>3.x</b> series, because the code uses <code>ESP_I2S.h</code>. The sketches are in the project folder: <code>arduino/Face_Demo</code> and <code>arduino/AI_Companion</code>. Keep each folder together, because Arduino needs all its files side by side.</div>
+</section>
+
+<!-- FACE -->
+<section id="face">
+  <h2><span class="n">5</span>First, give it a face! 😀</h2>
+  <p class="lead">Before the ears and the voice, let's make your robot <b>come alive</b>. In about 15 minutes it will be blinking at you!</p>
+  <div class="card">
+    <h3>🔌 Step A · Plug it in</h3>
+    <p>Open <b>Breadboard Buddy</b> with the big <b>pink button</b> in the yellow banner just below, and follow <b>steps 1 to 4</b>. It shows every wire for the face screen, and has a checklist so you can tick each one off.</p>
+    <p style="margin:0"><b>Come back here when the face screen has its 4 wires.</b></p>
+  </div>
+
+  <a class="cta" href="guide-breadboard.html#step=1" target="_blank" rel="noopener">
+    <span class="ic">😀</span>
+    <span class="tx"><em class="ptag">Breadboard Buddy · Part 1 of 2</em><b>Get ready to give your robot a FACE!</b><span>In just 4 quick steps you will build your robot's home, add the power, and plug in a screen that blinks back at you. Never used a breadboard? No problem! Breadboard Buddy shows you every hole.</span></span>
+    <span class="go">Let's go! Steps 1 to 4 ➜</span>
+  </a>
+
+  <div class="card">
+    <h3>⬆️ Step B · Wake up the face</h3>
+    <ol class="steps" style="margin:0">
+      <li>Plug in the USB cable (the port marked <b>COM</b>).</li>
+      <li>In Arduino IDE click <b>File → Open…</b> and choose <code>arduino / Face_Demo / Face_Demo.ino</code>.</li>
+      <li>Check the <b>Tools</b> menu settings and pick your <b>Port</b>. They are all listed in the <a href="#cheat"><b>🧾 Tools menu cheat sheet</b></a> (section 4).</li>
+      <li>Click the <b>→ Upload</b> arrow at the top left. Wait for “Done uploading”.</li>
+      <li>Watch the screen. It smiles, then blinks and looks around! 🎉</li>
+    </ol>
+    <p style="margin:10px 0 0">The <code>Face_Demo</code> only needs the brain and the screen. No microphone, speaker or WiFi yet!</p>
+  </div>
+
+  <h3>👇 Try the faces right here</h3>
+  <p>This is what the real screen will show. Click a mood!</p>
+  <div class="facebox">
+    <svg id="facesim" viewBox="0 0 128 64" aria-label="Robot face preview"><rect width="128" height="64" fill="#05070d"/><g id="fg" fill="#fff"></g><g style="mix-blend-mode:multiply"><rect id="tintTop" width="128" height="16" fill="#ffd21f"/><rect id="tintBot" y="16" width="128" height="48" fill="#3fa9ff"/></g></svg>
+    <div class="moods" id="moods">
+      <button class="mood" data-m="idle"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="19" rx="4" ry="7" fill="#1d1b4b"/><ellipse cx="32" cy="19" rx="4" ry="7" fill="#1d1b4b"/><path d="M18 35h12"/></svg><span>Awake</span></button><button class="mood" data-m="happy"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 22q7-11 14 0M25 22q7-11 14 0"/><path d="M14 31q10 12 20 0" fill="#1d1b4b"/></svg><span>Happy</span></button><button class="mood" data-m="listen"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="20" r="6" fill="#1d1b4b"/><circle cx="31" cy="20" r="6" fill="#1d1b4b"/><ellipse cx="24" cy="36" rx="3" ry="3.5"/><path d="M4 16q-3 6 0 12M44 16q3 6 0 12"/></svg><span>Listening</span></button><button class="mood" data-m="think"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="18" cy="22" rx="4" ry="6.5" fill="#1d1b4b"/><ellipse cx="32" cy="22" rx="4" ry="6.5" fill="#1d1b4b"/><path d="M15 37q3-3 6 0t6 0t6 0"/><circle cx="36" cy="6" r="1.6" fill="#1d1b4b"/><circle cx="41" cy="9" r="2" fill="#1d1b4b"/></svg><span>Thinking</span></button><button class="mood" data-m="speak"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="18" rx="4" ry="6.5" fill="#1d1b4b"/><ellipse cx="32" cy="18" rx="4" ry="6.5" fill="#1d1b4b"/><ellipse cx="24" cy="35" rx="7" ry="6" fill="#1d1b4b"/></svg><span>Talking</span></button><button class="mood" data-m="sleep"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h12M27 21h12"/><path d="M19 35q5 3 10 0"/><path d="M34 4h7l-7 8h7" stroke-width="2.6"/></svg><span>Sleeping</span></button>
+      <div class="colrow"><b>Screen colours (pick yours):</b>
+        <button class="sw" id="cYB"><i style="background:linear-gradient(#ffd21f 0 28%,#3fa9ff 28%)"></i>Yellow + blue</button>
+        <button class="sw" id="cWB"><i style="background:linear-gradient(#fff 0 28%,#3fa9ff 28%)"></i>White + blue</button></div>
+    </div>
+  </div>
+  <table>
+    <tr><th>Face</th><th>Means</th></tr>
+    <tr><td>😄 Smiling eyes</td><td>Hello! The robot just woke up.</td></tr>
+    <tr><td>😐 Blinking eyes</td><td>Waiting for you. Press the button!</td></tr>
+    <tr><td>👂 Big eyes and dots</td><td>Listening. Talk now!</td></tr>
+    <tr><td>🤔 Eyes looking around and “...”</td><td>Thinking of an answer.</td></tr>
+    <tr><td>🗣️ Moving mouth</td><td>Talking to you.</td></tr>
+  </table>
+  <div class="grownup"><b>👩‍👧 Grown-up corner</b>
+    <p><b>About the screen.</b> It is the 0.96" SSD1306 OLED (128×64 dots, 4-pin I2C). Yellow-and-blue and white-and-blue versions are two-colour: the top 16 rows of dots are one colour and everything below is blue. The robot writes a short word in that top band, like READY or LISTENING, and draws the face in the blue area.</p>
+    <p><b>If the screen stays black,</b> the Serial Monitor says “No OLED found”. Check these in order:</p>
+    <ol>
+      <li>The 4 wires match the Breadboard Buddy checklist (GND, VDD, SCK, SDA).</li>
+      <li>The I2C address. It is usually <code>0x3C</code>, but a few screens use <code>0x3D</code>. Change <code>OLED_ADDR</code> in the <code>config.h</code> tab.</li>
+    </ol>
+    <p><b>Two optional settings</b> in the <code>config.h</code> tab:</p>
+    <ul>
+      <li><code>FACE_ENABLED</code>: set it to <code>0</code> and the robot works without a screen.</li>
+      <li><code>FACE_FLIP</code>: the screen is mounted flipped over on the breadboard, so <code>1</code> turns the picture around. Set it to <code>0</code> if you mount the screen the other way up.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WIRE -->
+<section id="wire">
+  <h2><span class="n">6</span>Connect the wires</h2>
+  <p class="lead">All the wiring happens in <b>Breadboard Buddy</b>. It shows every wire, one at a time, with the pin lists and checkboxes right there.</p>
+  <div class="safe"><b>⚠️ Safety first!</b>Always <b>unplug the USB cable</b> before changing any wire. Ask a grown-up to check your wires before you plug in. A wire in the wrong place can break a part.</div>
+  <a class="cta" href="guide-breadboard.html#step=5" target="_blank" rel="noopener">
+    <span class="ic">🧵</span>
+    <span class="tx"><em class="ptag">Breadboard Buddy · Part 2 of 2</em><b>Keep going! Steps 5 to 13</b><span>Pick up where the face left off. Watch the ear, voice box, button and speaker go on, one wire at a time.</span></span>
+    <span class="go">Continue with steps 5 to 13 ➜</span>
+  </a>
+  <div class="tip"><b>✅ When all the wires are in</b>Ask a grown-up to check every wire against the picture. Then plug in the USB cable and go to the next section!</div>
+</section>
+
+<!-- SOFTWARE -->
+<section id="software">
+  <h2><span class="n">7</span>Teach the brain</h2>
+  <p>The brain needs instructions. Those instructions are called <b>code</b>. The code is already written. You only need to <b>load it</b> and change <b>three lines</b>.</p>
+  <div class="bar"><i id="bar"></i></div>
+  <ol class="steps" id="checklist">
+    <li><label><input type="checkbox"> <b>Get the “magic password” for Gemini.</b> A grown-up goes to <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> and makes a key. It is a long line of letters.</label></li>
+    <li><label><input type="checkbox"> <b>Open the robot.</b> In Arduino IDE click <b>File → Open…</b> and choose <code>arduino / AI_Companion / AI_Companion.ino</code>. You will see lots of tabs at the top. That is normal!</label></li>
+    <li><label><input type="checkbox"> <b>Click the <code>secrets.h</code> tab</b> and type in your WiFi and key. Change the 3 lines in the box below:</label>
+      <div class="codewrap"><span class="fn">secrets.h tab  ← change these 3 lines!</span><button class="copy">Copy</button>
+      <pre><code>#pragma once
+#define WIFI_SSID     <span class="hl">"your-wifi-name"</span>
+#define WIFI_PASS     <span class="hl">"your-wifi-password"</span>
+#define GEMINI_API_KEY <span class="hl">"your-magic-password"</span></code></pre></div>
+    </li>
+    <li><label><input type="checkbox"> <b>Check the Tools menu.</b> Open the <a href="#cheat"><b>🧾 Tools menu cheat sheet</b></a> (section 4) and make sure each setting matches, and that your <b>Port</b> is picked.</label></li>
+    <li><label><input type="checkbox"> <b>Plug the USB cable in</b> (after the grown-up checks your wires).</label></li>
+    <li><label><input type="checkbox"> <b>Click the → Upload arrow.</b> The first time takes 3 to 5 minutes. When it says “Done uploading”, the instructions are in the brain!</label></li>
+    <li><label><input type="checkbox"> <b>Open the Serial Monitor</b> (the magnifying glass 🔍 at the top right) and set it to <code>115200 baud</code>. This is the robot's diary. It writes what it is doing.</label></li>
+  </ol>
+
+  <div class="grownup"><b>👩‍👧 Grown-up corner</b>The API key is like a credit card for the AI service. Keep <code>secrets.h</code> private, never post it online, and set a usage limit in Google AI Studio. The code is also not yet tested on real hardware, so a little debugging is normal.</div>
+
+  <div class="tip"><b>🎨 Want a pirate robot or a wizard robot?</b>After your robot talks, jump to <a href="#code"><b>section 9, Make it yours</b></a>. The Robot Maker builds a personality and a voice for you.</div>
+</section>
+
+<!-- TEST -->
+<section id="test">
+  <h2><span class="n">8</span>Try it! 🎉</h2>
+  <ol class="steps">
+    <li>In the diary (Serial Monitor) you should see <code>WiFi OK</code>. That means the robot found the internet!</li>
+    <li>Press the button. Wait until the diary says <code>Gemini ready</code>.</li>
+    <li>Say: <b>“Tell me a joke about space!”</b></li>
+    <li>Listen. Your robot is talking back! 🚀 Watch its face: big eyes when it listens, a moving mouth when it talks.</li>
+    <li>Press the button again to hang up.</li>
+  </ol>
+  <div class="card" style="text-align:center"><div class="big">🏆</div><h3>You built an AI robot!</h3>Take a photo and show your friends.</div>
+</section>
+
+<!-- STUCK -->
+<!-- CODE -->
+<section id="code">
+  <h2><span class="n">9</span>Make it yours: customize your robot!</h2>
+  <p class="lead">Your robot works! Now make it <b>YOURS</b>. Give it a personality, a new voice, its own look. Every change is just a few words. <b>Change, upload, and try it!</b></p>
+
+  <div class="maker">
+    <h3>🤖 Robot Maker</h3>
+    <p>Pick a ready-made personality, or make up your own. The box at the bottom fills in by itself!</p>
+    <div class="presets" id="presets"><button class="preset" data-name="Captain Barnacle" data-who="a friendly pirate captain" data-loves="treasure maps and sea adventures" data-style="say arrr a lot"><span>🏴‍☠️</span>Pirate</button><button class="preset" data-name="Wizard Willow" data-who="a kind and wise wizard" data-loves="magic spells and ancient books" data-style="speak in a mysterious, wise way"><span>🧙</span>Wizard</button><button class="preset" data-name="Nova" data-who="a brave space explorer" data-loves="planets, stars and rockets" data-style="sound excited about every discovery"><span>🚀</span>Space explorer</button><button class="preset" data-name="Mr. Whiskers" data-who="a funny, grumpy cat who secretly loves everybody" data-loves="naps and tuna" data-style="complain a little, but always be kind"><span>🐱</span>Grumpy cat</button><button class="preset" data-name="Ace" data-who="an excited sports announcer" data-loves="turning everything into a big game" data-style="talk like you are commentating a live match"><span>🏟️</span>Sports announcer</button><button class="preset" data-name="Rex" data-who="a dinosaur expert" data-loves="fossils and prehistoric facts" data-style="roar once in a while"><span>🦖</span>Dino expert</button><button class="preset" data-name="Luna" data-who="a calm bedtime storyteller" data-loves="tiny stories with happy endings" data-style="speak softly and slowly"><span>📖</span>Storyteller</button><button class="preset" data-name="Dr. Zap" data-who="a silly scientist" data-loves="experiments and crazy inventions" data-style="shout eureka when you have an idea"><span>🔬</span>Silly scientist</button></div>
+    <div class="mk-grid">
+      <label>Its name is… <input id="mkName" value="Buddy" maxlength="30"><small>Its wake-up phrase will be <b id="mkPhraseHint">“Hi Buddy”</b>. Pick a name that is easy to say.</small></label>
+      <label>My robot is… <input id="mkWho" value="a friendly desktop companion" maxlength="90"></label>
+      <label>It loves… <input id="mkLoves" value="helping kids learn cool things" maxlength="90"></label>
+      <label>It talks like this… <input id="mkStyle" value="speak in a cheerful way" maxlength="90"></label>
+      <label>Its voice
+        <select id="mkVoice">
+          <option value="Puck">Puck (upbeat)</option><option value="Kore">Kore (firm)</option><option value="Charon">Charon (informative)</option>
+          <option value="Fenrir">Fenrir (excitable)</option><option value="Aoede">Aoede (breezy)</option>
+        </select></label>
+      <label>How loud? <output id="mkVolOut">60</output> <input type="range" id="mkVol" min="10" max="100" value="60"></label>
+      <label class="mk-check"><span class="mk-line"><input type="checkbox" id="mkWake"><span class="mk-text">🗣️ Wake up when I say <b id="mkPhrase">“Hi Buddy”</b></span></span><small>Instead of pressing the button. New and experimental. If it does not hear you, try the name <b>ESP</b>, which works best.</small></label>
+    </div>
+    <div class="codewrap"><span class="fn">config.h tab  ← paste over everything under “MAKE IT YOURS”</span><button class="copy">Copy</button>
+<pre class="big"><code id="mkOut"></code></pre></div>
+    <div class="tip" id="mkWakeNote" style="display:none"><b>🗣️ Before you Upload (wake word)</b>Open <b>Tools → Partition Scheme</b> and choose <b>ESP SR 16M (3MB APP/7MB SPIFFS/2.9MB MODEL)</b>. After uploading, the robot sleeps with closed eyes. Say your wake-up phrase clearly, close to the microphone, to wake it up. It goes back to sleep after 15 quiet seconds. You can still press the button too! <b>If it keeps missing you,</b> try a shorter, clearer name, or the name ESP.</div>
+    <ol class="steps" style="margin-top:16px">
+      <li>In Arduino IDE, click the <b><code>config.h</code> tab</b>. At the very top you will see <b>MAKE IT YOURS</b> with 5 settings.</li>
+      <li>Click at the start of the first line (<code>// 1) WHO is your robot?</code>) and drag down to the end of the line <code>#define WAKE_PHRASE</code>. All 11 lines turn blue.</li>
+      <li>Click <b>Copy</b> above, then press <b>⌘ + V</b> to paste over them.</li>
+      <li>Click the <b>→ Upload</b> arrow. Then press the button and say hi to your new robot!</li>
+    </ol>
+    <div class="safe"><b>⚠️ Paste only into the config.h tab!</b>Pasting into another tab will break the robot. If that happens, re-open the original file from the <code>arduino</code> folder.</div>
+    <div class="grownup"><b>👩‍👧 Grown-up corner</b>The Maker always adds “Keep answers short, fun and kid-friendly” and strips quotes so the line stays valid. Listening for the wake-up phrase happens <b>on the chip</b>, so nothing is sent to the internet until the phrase is heard. “Hi ESP” uses a dedicated detector and is the most reliable. Any other name is matched by the chip's phrase recognizer from plain English text, so it can miss unusual names or wake up by mistake. Names should be letters only (the Maker removes everything else). This feature has not been tested on real hardware yet. AI can still make mistakes, so supervise the first chats. Voice names and their descriptions come from Google and may change.</div>
+  </div>
+
+  <h3>😀 Change its face</h3>
+  <p>Click the <code>face.cpp</code> tab, find the line, change it, then Upload. (Click inside the code first and press <b>⌘ + F</b> to search for the line.)</p>
+  <div class="tryit"><div><small>FIND</small><code>header("READY");</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>header("HI!");</code></div><p>The word in the top band changes. Use your own name!</p></div>
+  <div class="tryit"><div><small>FIND</small><code>const int w = 30, h = 28;</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>const int w = 40, h = 28;</code></div><p>Wider eyes! Try h = 36 for taller eyes too.</p></div>
+  <div class="tryit"><div><small>FIND</small><code>nextBlink = now + random(2000, 5500);</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>nextBlink = now + random(300, 900);</code></div><p>Your robot blinks super fast, like it has something in its eye.</p></div>
+  <p>Now click the <code>AI_Companion.ino</code> tab:</p>
+  <div class="tryit"><div><small>FIND</small><code>else                        faceSet(FACE_LISTEN);</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>else                        faceSet(FACE_SLEEP);</code></div><p>Your robot looks sleepy while it listens to you! Change it back after you laugh.</p></div>
+
+  <h3>🏅 Customize challenges</h3>
+  <ol class="steps" id="codeCheck">
+    <li><label><input type="checkbox"> Make a robot with a <b>new personality</b> in the Robot Maker, and have a chat.</label></li>
+    <li><label><input type="checkbox"> Try <b>three different voices</b>. Which one is your favourite?</label></li>
+    <li><label><input type="checkbox"> Put <b>your name</b> in the top band of the screen.</label></li>
+    <li><label><input type="checkbox"> Make the eyes <b>wider</b> or <b>taller</b>.</label></li>
+    <li><label><input type="checkbox"> Make it <b>blink super fast</b>, then set it back.</label></li>
+    <li><label><input type="checkbox"> Make it look <b>sleepy</b> when it listens. Then fix it again.</label></li>
+  </ol>
+  <div class="bar"><i id="bar3"></i></div>
+
+  <details class="peek">
+    <summary>🔍 Curious? Peek inside and read the code!</summary>
+    <p class="lead">Code is just a list of instructions, like a recipe. The computer follows it one line at a time, super fast. Every file is already in your <code>arduino</code> folder. These pages show them so you can <b>read</b> them.</p>
+  <h3>🔤 Code words you will see</h3>
+  <div class="grid words">
+    <div class="card"><code>// like this</code><p>A <b>note for humans</b>. The robot skips it. Green in our pictures. Always read the green notes!</p></div>
+    <div class="card"><code>#define SPK_VOLUME 60</code><p>A <b>label on a box</b>. Change the 60, change the loudness.</p></div>
+    <div class="card"><code>void setup() { }</code><p>Runs <b>one time</b>, when the robot wakes up.</p></div>
+    <div class="card"><code>void loop() { }</code><p>Runs <b>again and again, forever</b>, super fast.</p></div>
+    <div class="card"><code>if (buttonPressed()) { }</code><p>A <b>question</b>. If the answer is yes, do the lines inside.</p></div>
+    <div class="card"><code>bool lastButton = HIGH;</code><p>A <b>variable</b>: a labelled box that remembers something.</p></div>
+    <div class="card"><code>faceSet(FACE_HAPPY);</code><p>A <b>function call</b>: asking a mini recipe to do its job.</p></div>
+    <div class="card"><code>{ }</code> and <code>;</code><p>Curly brackets <b>hug</b> lines that belong together. The <b>;</b> is the full stop at the end of a line.</p></div>
+  </div>
+
+
+  <!-- FILE 1 -->
+  <div class="filecard">
+    <header><span class="stars">⭐ Easy</span><h3>config.h · The settings list</h3></header>
+    <p><b>What it does:</b> a list of names and numbers the whole robot reads. It says which pin each part uses, how loud to be, and <b>who your robot is</b>.</p>
+    <ul class="read"><li>Each line starts with <code>#define</code>, then a <b>name</b>, then a <b>value</b>.</li><li>Pins are numbers like <code>42</code>. They match the wires you plugged in.</li><li>The text between <code>" "</code> quotes is words the robot will use.</li></ul>
+    <!--CODE:AI_Companion/config.h|config.h tab--><div class="codewrap"><span class="fn">config.h tab</span><button class="copy">Copy</button><pre class="big"><code><span class="pp">#pragma</span> once
+<span class="cm">// ==========================================================</span>
+<span class="cm">//  MAKE IT YOURS  (the fun part! Change these settings)</span>
+<span class="cm">// ==========================================================</span>
+<span class="cm">// 1) WHO is your robot? Change the words between the quotes.</span>
+<span class="pp">#define</span> SYSTEM_PROMPT <span class="st">&quot;You are a friendly desktop companion. Keep answers short, fun and kid-friendly.&quot;</span>
+<span class="cm">// 2) What VOICE does it have? Try &quot;Puck&quot;, &quot;Kore&quot;, &quot;Charon&quot;, &quot;Fenrir&quot; or &quot;Aoede&quot;.</span>
+<span class="pp">#define</span> GEMINI_VOICE <span class="st">&quot;Puck&quot;</span>
+<span class="cm">// 3) How LOUD is it? 0 = silent, 100 = very loud.</span>
+<span class="pp">#define</span> SPK_VOLUME <span class="nm">60</span>
+<span class="cm">// 4) Wake up when you say a phrase? 1 = yes, 0 = no (use the button).</span>
+<span class="pp">#define</span> WAKEWORD_ENABLED <span class="nm">0</span>
+<span class="cm">// 5) The wake-up phrase: &quot;Hi&quot; + your robot&#x27;s name, like &quot;Hi Jarvis&quot;. Use plain English</span>
+<span class="cm">//    words that sound the way they are spelled. &quot;Hi ESP&quot; works best.</span>
+<span class="pp">#define</span> WAKE_PHRASE <span class="st">&quot;Hi ESP&quot;</span>
+<span class="cm">// ==========================================================</span>
+
+<span class="cm">// ==========================================================</span>
+<span class="cm">//  SETTINGS - a list of labels (names) the robot uses.</span>
+<span class="cm">//  &quot;#define NAME value&quot; means: wherever the robot sees NAME,</span>
+<span class="cm">//  use value. Change a value here to change the robot!</span>
+<span class="cm">// ==========================================================</span>
+
+<span class="cm">// --- Which pin is each part plugged into? ---</span>
+<span class="cm">// INMP441 microphone (the EAR) - the brain&#x27;s BOTTOM row of pins</span>
+<span class="pp">#define</span> PIN_MIC_SCK <span class="nm">42</span>
+<span class="pp">#define</span> PIN_MIC_WS  <span class="nm">41</span>
+<span class="pp">#define</span> PIN_MIC_SD  <span class="nm">40</span>
+
+<span class="cm">// MAX98357 amplifier (the VOICE BOX) - the brain&#x27;s TOP row of pins</span>
+<span class="pp">#define</span> PIN_SPK_BCLK <span class="nm">15</span>
+<span class="pp">#define</span> PIN_SPK_LRC  <span class="nm">16</span>
+<span class="pp">#define</span> PIN_SPK_DIN  <span class="nm">7</span>
+
+<span class="cm">// The big push button. Push it to start or stop a conversation.</span>
+<span class="pp">#define</span> PIN_BUTTON <span class="nm">4</span>
+
+<span class="cm">// --- Sound settings (please leave these alone) ---</span>
+<span class="pp">#define</span> MIC_RATE_HZ     <span class="nm">16000</span>   <span class="cm">// how many sound snapshots per second going IN to Gemini</span>
+<span class="pp">#define</span> SPK_RATE_HZ     <span class="nm">24000</span>   <span class="cm">// how many sound snapshots per second coming OUT of Gemini</span>
+<span class="pp">#define</span> MIC_CHUNK_SAMPLES <span class="nm">1600</span>  <span class="cm">// how many snapshots we send at once (0.1 seconds)</span>
+
+<span class="cm">// --- Gemini settings ---</span>
+<span class="cm">// Verify against Google&#x27;s current Live API docs</span>
+<span class="pp">#define</span> GEMINI_MODEL <span class="st">&quot;models/gemini-2.5-flash-native-audio-preview-09-2025&quot;</span>
+
+<span class="cm">// --- Microphone sensitivity ---</span>
+<span class="cm">// Mic too quiet? Make MIC_SHIFT smaller (like 12). Too loud? Make it bigger (like 16).</span>
+<span class="pp">#define</span> MIC_SHIFT <span class="nm">14</span>
+
+<span class="cm">// --- Say its name (only when WAKEWORD_ENABLED is 1) ---</span>
+<span class="cm">// Which listener? 1 = the built-in one. It hears WAKE_PHRASE (&quot;Hi ESP&quot; works best).</span>
+<span class="cm">//                 2 = YOUR OWN trained wake word (a teen project, see wakeword.cpp)</span>
+<span class="pp">#define</span> WAKE_ENGINE <span class="nm">1</span>
+<span class="cm">// After this many quiet seconds the robot hangs up and goes back to sleep.</span>
+<span class="pp">#define</span> SESSION_IDLE_SECONDS <span class="nm">15</span>
+
+<span class="cm">// --- The face (the little screen) ---</span>
+<span class="cm">// 1 = use the face, 0 = run without it</span>
+<span class="pp">#define</span> FACE_ENABLED <span class="nm">1</span>
+<span class="pp">#define</span> PIN_OLED_SDA <span class="nm">2</span>
+<span class="pp">#define</span> PIN_OLED_SCL <span class="nm">1</span>
+<span class="pp">#define</span> OLED_ADDR    <span class="nm">0x3C</span>
+<span class="cm">// The screen sits upside down on the breadboard, so turn its picture around.</span>
+<span class="cm">// (1 = turn around, 0 = leave it)</span>
+<span class="pp">#define</span> FACE_FLIP    <span class="nm">1</span></code></pre></div><!--/CODE-->
+  </div>
+
+  <!-- FILE 2 -->
+  <div class="filecard">
+    <header><span class="stars">⭐⭐ Medium</span><h3>AI_Companion.ino · The boss</h3></header>
+    <p><b>What it does:</b> the first file that runs. It wakes everything up, then checks the button, picks the face, and sends your voice to Gemini.</p>
+    <ul class="read"><li><code>setup()</code> runs once: open the diary, start the face, join WiFi, get the ear and mouth ready.</li><li><code>loop()</code> has 3 jobs, numbered in the green notes: <b>1)</b> check the button, <b>2)</b> choose the face, <b>3)</b> send sound.</li><li>Words like <code>audioInRead</code> are recipes that live in the other files.</li></ul>
+    <!--CODE:AI_Companion/AI_Companion.ino|AI_Companion.ino tab--><div class="codewrap"><span class="fn">AI_Companion.ino tab</span><button class="copy">Copy</button><pre class="big"><code><span class="cm">// ==========================================================</span>
+<span class="cm">//  MY TALKING ROBOT - the main file (the &quot;boss&quot; of the robot)</span>
+<span class="cm">//  Press the button, talk, and the robot answers out loud!</span>
+<span class="cm">// ==========================================================</span>
+
+<span class="cm">// These lines bring in &quot;toolboxes&quot; that other people (and we) wrote.</span>
+<span class="pp">#include</span> &lt;Arduino.h&gt;      <span class="cm">// the basic Arduino tools</span>
+<span class="pp">#include</span> &lt;WiFi.h&gt;         <span class="cm">// lets the robot use the internet</span>
+<span class="pp">#include</span> <span class="st">&quot;audio_in.h&quot;</span>     <span class="cm">// our EAR (the microphone)</span>
+<span class="pp">#include</span> <span class="st">&quot;audio_out.h&quot;</span>    <span class="cm">// our MOUTH (the speaker)</span>
+<span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>       <span class="cm">// our settings</span>
+<span class="pp">#include</span> <span class="st">&quot;face.h&quot;</span>         <span class="cm">// our FACE (the little screen)</span>
+<span class="pp">#include</span> <span class="st">&quot;gemini_live.h&quot;</span>  <span class="cm">// the phone line to Gemini</span>
+<span class="pp">#include</span> <span class="st">&quot;secrets.h&quot;</span>      <span class="cm">// our WiFi name and password</span>
+<span class="pp">#include</span> <span class="st">&quot;wakeword.h&quot;</span>     <span class="cm">// the sleeping ear that listens for &quot;Hi, ESP!&quot;</span>
+
+<span class="cm">// A &quot;variable&quot; is a labelled box that remembers something.</span>
+<span class="cm">// This box remembers if the button was up (HIGH) or pushed down (LOW).</span>
+<span class="kw">static</span> <span class="kw">bool</span> lastButton = HIGH;
+<span class="kw">static</span> <span class="kw">bool</span> wasActive = <span class="kw">false</span>;     <span class="cm">// were we in a conversation a moment ago?</span>
+<span class="kw">static</span> <span class="kw">uint32_t</span> lastActive = <span class="nm">0</span>;    <span class="cm">// the last time someone was talking</span>
+
+<span class="cm">// A &quot;function&quot; is a mini recipe with a name.</span>
+<span class="cm">// This one answers the question: &quot;was the button JUST pressed?&quot;</span>
+<span class="kw">static</span> <span class="kw">bool</span> <span class="fnm">buttonPressed</span>() {
+    <span class="kw">bool</span> b = <span class="fnm">digitalRead</span>(PIN_BUTTON);                 <span class="cm">// look at the button right now</span>
+    <span class="kw">bool</span> pressed = (lastButton == HIGH &amp;&amp; b == LOW);  <span class="cm">// it was up, and now it is down</span>
+    lastButton = b;                                   <span class="cm">// remember it for next time</span>
+    <span class="kw">if</span> (pressed) <span class="fnm">delay</span>(<span class="nm">30</span>);                           <span class="cm">// wait a tiny bit so one push counts once</span>
+    <span class="kw">return</span> pressed;
+}
+
+<span class="cm">// setup() runs ONE time, when the robot wakes up.</span>
+<span class="kw">void</span> <span class="fnm">setup</span>() {
+    Serial.<span class="fnm">begin</span>(<span class="nm">115200</span>);  <span class="cm">// open the robot&#x27;s &quot;diary&quot; so it can write messages</span>
+    <span class="fnm">delay</span>(<span class="nm">500</span>);
+    Serial.<span class="fnm">printf</span>(<span class="st">&quot;PSRAM: %u bytes\n&quot;</span>, ESP.<span class="fnm">getPsramSize</span>());  <span class="cm">// write how much memory we have</span>
+    <span class="fnm">pinMode</span>(PIN_BUTTON, INPUT_PULLUP);                       <span class="cm">// get the button ready</span>
+
+<span class="pp">#if</span> FACE_ENABLED
+    <span class="fnm">faceBegin</span>();  <span class="cm">// wake up the face. It says hello with a happy smile!</span>
+<span class="pp">#endif</span>
+
+    WiFi.<span class="fnm">begin</span>(WIFI_SSID, WIFI_PASS);  <span class="cm">// join the WiFi</span>
+    <span class="kw">while</span> (WiFi.<span class="fnm">status</span>() != WL_CONNECTED) {  <span class="cm">// keep waiting until we are connected</span>
+        <span class="fnm">delay</span>(<span class="nm">300</span>);
+        Serial.<span class="fnm">print</span>(&#x27;.&#x27;);  <span class="cm">// write a dot in the diary every time we wait</span>
+    }
+    Serial.<span class="fnm">printf</span>(<span class="st">&quot;\nWiFi OK: %s\n&quot;</span>, WiFi.<span class="fnm">localIP</span>().<span class="fnm">toString</span>().<span class="fnm">c_str</span>());
+
+    <span class="fnm">audioInBegin</span>();   <span class="cm">// get the ear ready</span>
+    <span class="fnm">audioOutBegin</span>();  <span class="cm">// get the mouth ready</span>
+<span class="pp">#if</span> WAKEWORD_ENABLED
+    <span class="kw">if</span> (<span class="fnm">wakeBegin</span>()) Serial.<span class="fnm">println</span>(<span class="st">&quot;Say \&quot;Hi, ESP!\&quot; to wake me up (or press the button)&quot;</span>);
+    <span class="kw">else</span> Serial.<span class="fnm">println</span>(<span class="st">&quot;Wake word is not working - use the button (check the Partition Scheme)&quot;</span>);
+<span class="pp">#else</span>
+    Serial.<span class="fnm">println</span>(<span class="st">&quot;Press the button to talk&quot;</span>);
+<span class="pp">#endif</span>
+}
+
+<span class="cm">// loop() runs OVER and OVER, forever, super fast.</span>
+<span class="kw">void</span> <span class="fnm">loop</span>() {
+    <span class="cm">// 1) Was the button pressed? Then start or stop a conversation.</span>
+    <span class="kw">if</span> (<span class="fnm">buttonPressed</span>()) {
+        <span class="kw">if</span> (<span class="fnm">geminiActive</span>()) {
+            <span class="fnm">geminiEnd</span>();  <span class="cm">// we were talking, so hang up</span>
+            Serial.<span class="fnm">println</span>(<span class="st">&quot;Session ended&quot;</span>);
+        } <span class="kw">else</span> {
+            <span class="fnm">geminiBegin</span>();  <span class="cm">// we were not talking, so call Gemini</span>
+            Serial.<span class="fnm">println</span>(<span class="st">&quot;Session starting&quot;</span>);
+        }
+    }
+
+    <span class="fnm">geminiLoop</span>();  <span class="cm">// keep the phone line working</span>
+
+    <span class="cm">// Was the robot&#x27;s name heard while it was sleeping? Then call Gemini!</span>
+    <span class="kw">if</span> (!<span class="fnm">geminiActive</span>() &amp;&amp; <span class="fnm">wakeHeard</span>()) {
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;I heard my name!&quot;</span>);
+        <span class="fnm">geminiBegin</span>();
+        lastActive = <span class="fnm">millis</span>();
+    }
+
+    <span class="cm">// When a call starts, stop listening for the name. When it ends, listen again.</span>
+    <span class="kw">bool</span> active = <span class="fnm">geminiActive</span>();
+    <span class="kw">if</span> (active &amp;&amp; !wasActive) { <span class="fnm">wakePause</span>(); lastActive = <span class="fnm">millis</span>(); }
+    <span class="kw">if</span> (!active &amp;&amp; wasActive) <span class="fnm">wakeResume</span>();
+    wasActive = active;
+
+<span class="pp">#if</span> FACE_ENABLED
+    <span class="cm">// 2) Choose the right face for what the robot is doing right now.</span>
+    <span class="kw">if</span> (!<span class="fnm">geminiActive</span>())        <span class="fnm">faceSet</span>(WAKEWORD_ENABLED ? FACE_SLEEP : FACE_IDLE);  <span class="cm">// waiting for you</span>
+    <span class="kw">else</span> <span class="kw">if</span> (!<span class="fnm">geminiReady</span>())    <span class="fnm">faceSet</span>(FACE_THINK);   <span class="cm">// calling Gemini...</span>
+    <span class="kw">else</span> <span class="kw">if</span> (<span class="fnm">audioOutPending</span>()) <span class="fnm">faceSet</span>(FACE_SPEAK);   <span class="cm">// the robot is talking</span>
+    <span class="kw">else</span>                        <span class="fnm">faceSet</span>(FACE_LISTEN);  <span class="cm">// the robot is listening</span>
+<span class="pp">#endif</span>
+
+    <span class="cm">// 3) If the call is ready, send what the microphone hears to Gemini.</span>
+    <span class="kw">if</span> (<span class="fnm">geminiReady</span>()) {
+        <span class="kw">static</span> <span class="kw">int16_t</span> chunk[MIC_CHUNK_SAMPLES];           <span class="cm">// a little bucket of sound</span>
+        <span class="kw">size_t</span> n = <span class="fnm">audioInRead</span>(chunk, MIC_CHUNK_SAMPLES);  <span class="cm">// fill it from the microphone</span>
+        <span class="cm">// Don&#x27;t send sound while the robot is talking, or it would hear itself!</span>
+        <span class="kw">if</span> (n &amp;&amp; <span class="fnm">audioOutPending</span>() == <span class="nm">0</span>) <span class="fnm">geminiSendAudio</span>(chunk, n);
+
+<span class="pp">#if</span> WAKEWORD_ENABLED
+        <span class="cm">// Keep track of whether anyone is talking. If it is quiet for a while,</span>
+        <span class="cm">// hang up and go back to sleep.</span>
+        <span class="kw">long</span> loud = <span class="nm">0</span>;
+        <span class="kw">for</span> (<span class="kw">size_t</span> i = <span class="nm">0</span>; i &lt; n; i++) loud += <span class="fnm">abs</span>(chunk[i]);
+        <span class="kw">if</span> (n &amp;&amp; (loud / (<span class="kw">long</span>)n &gt; <span class="nm">400</span> || <span class="fnm">audioOutPending</span>())) lastActive = <span class="fnm">millis</span>();
+        <span class="kw">if</span> (<span class="fnm">millis</span>() - lastActive &gt; SESSION_IDLE_SECONDS * 1000UL) {
+            <span class="fnm">geminiEnd</span>();
+            Serial.<span class="fnm">println</span>(<span class="st">&quot;Quiet for a while - going back to sleep&quot;</span>);
+        }
+<span class="pp">#endif</span>
+    } <span class="kw">else</span> {
+        <span class="fnm">delay</span>(<span class="nm">5</span>);
+    }
+}</code></pre></div><!--/CODE-->
+  </div>
+
+  <!-- FILE 3 -->
+  <div class="filecard">
+    <header><span class="stars">⭐⭐ Medium</span><h3>face.cpp · The face</h3></header>
+    <p><b>What it does:</b> draws the eyes, smile and mouth on the screen about <b>20 times every second</b>. Fast drawings look like movement, like a flip book!</p>
+    <ul class="read"><li>The screen is a grid of dots: <b>128 across</b> and <b>64 down</b>. <code>(0, 0)</code> is the top-left corner.</li><li><code>eye(x, y, width, height)</code> draws one eye. Blinking just makes the height smaller for a moment.</li><li>The big <code>switch</code> picks a drawing for each mood: READY, HELLO, LISTENING, THINKING, TALKING, ZZZ.</li></ul>
+    <!--CODE:AI_Companion/face.cpp|face.cpp tab--><div class="codewrap"><span class="fn">face.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="cm">// THE FACE: draws the robot&#x27;s eyes and mouth on the little screen.</span>
+<span class="pp">#include</span> <span class="st">&quot;face.h&quot;</span>
+<span class="pp">#include</span> &lt;Wire.h&gt;
+<span class="pp">#include</span> &lt;Adafruit_GFX.h&gt;
+<span class="pp">#include</span> &lt;Adafruit_SSD1306.h&gt;
+<span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>
+
+<span class="cm">// The screen is 128 dots wide and 64 dots tall. The dot at the top-left is (0, 0).</span>
+<span class="cm">// Some screens have two colours: the top 16 rows are one colour (the &quot;band&quot;),</span>
+<span class="cm">// the rest is blue. We use the band for a word like READY, and draw the face below.</span>
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">int</span> BAND = <span class="nm">16</span>;
+
+<span class="kw">static</span> Adafruit_SSD1306 <span class="fnm">oled</span>(<span class="nm">128</span>, <span class="nm">64</span>, &amp;Wire, -<span class="nm">1</span>);  <span class="cm">// &quot;oled&quot; is our name for the screen</span>
+<span class="kw">static</span> <span class="kw">volatile</span> FaceMood mood = FACE_IDLE;         <span class="cm">// which face are we making right now?</span>
+<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">uint32_t</span> moodSince = <span class="nm">0</span>;            <span class="cm">// when did this face start?</span>
+
+<span class="cm">// Other files call this to change the face, like faceSet(FACE_HAPPY).</span>
+<span class="kw">void</span> <span class="fnm">faceSet</span>(FaceMood m) {
+    <span class="kw">if</span> (m != mood) {
+        mood = m;
+        moodSince = <span class="fnm">millis</span>();  <span class="cm">// millis() = how many milliseconds since the robot woke up</span>
+    }
+}
+
+<span class="cm">// Draw ONE eye: a rounded rectangle. cx, cy = its centre. w = width, h = height.</span>
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">eye</span>(<span class="kw">int</span> cx, <span class="kw">int</span> cy, <span class="kw">int</span> w, <span class="kw">int</span> h) {
+    <span class="kw">if</span> (h &lt; <span class="nm">3</span>) h = <span class="nm">3</span>;  <span class="cm">// never thinner than a line</span>
+    oled.<span class="fnm">fillRoundRect</span>(cx - w / <span class="nm">2</span>, cy - h / <span class="nm">2</span>, w, h, <span class="fnm">min</span>(<span class="nm">9</span>, h / <span class="nm">2</span>), SSD1306_WHITE);
+}
+
+<span class="cm">// Write a little word in the top band, and draw a line under it.</span>
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">header</span>(<span class="kw">const</span> <span class="kw">char</span> *s) {
+    oled.<span class="fnm">setTextSize</span>(<span class="nm">1</span>);
+    oled.<span class="fnm">setTextColor</span>(SSD1306_WHITE);
+    oled.<span class="fnm">setCursor</span>(<span class="nm">2</span>, <span class="nm">4</span>);
+    oled.<span class="fnm">print</span>(s);
+    oled.<span class="fnm">drawFastHLine</span>(<span class="nm">0</span>, BAND - <span class="nm">1</span>, <span class="nm">128</span>, SSD1306_WHITE);
+}
+
+<span class="cm">// This &quot;task&quot; runs on its own, all the time, like a little artist inside the robot.</span>
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">faceTask</span>(<span class="kw">void</span> *) {
+    <span class="kw">const</span> <span class="kw">int</span> LX = <span class="nm">36</span>, RX = <span class="nm">92</span>, CY = <span class="nm">37</span>;  <span class="cm">// where the LEFT eye, RIGHT eye and eye height are</span>
+    <span class="kw">const</span> <span class="kw">float</span> blinkScale[] = {<span class="nm">0.7f</span>, <span class="nm">0.35f</span>, <span class="nm">0.1f</span>, <span class="nm">0.35f</span>, <span class="nm">0.7f</span>};  <span class="cm">// how closed the eye is, frame by frame</span>
+    <span class="kw">int</span> blinkFrame = -<span class="nm">1</span>;  <span class="cm">// -1 means &quot;not blinking right now&quot;</span>
+    <span class="kw">uint32_t</span> nextBlink = <span class="fnm">millis</span>() + <span class="nm">2500</span>, nextLook = <span class="fnm">millis</span>() + <span class="nm">3000</span>;
+    <span class="kw">int</span> lookX = <span class="nm">0</span>, lookY = <span class="nm">0</span>;  <span class="cm">// how far the eyes look left/right and up/down</span>
+
+    <span class="kw">for</span> (;;) {  <span class="cm">// forever...</span>
+        <span class="kw">uint32_t</span> now = <span class="fnm">millis</span>();
+        FaceMood m = mood;
+
+        <span class="cm">// HAPPY only lasts 2.5 seconds, then we go back to IDLE.</span>
+        <span class="kw">if</span> (m == FACE_HAPPY &amp;&amp; now - moodSince &gt; <span class="nm">2500</span>) {
+            <span class="fnm">faceSet</span>(FACE_IDLE);
+            m = FACE_IDLE;
+        }
+
+        <span class="cm">// Time to blink? Step through the blink frames one by one.</span>
+        <span class="kw">if</span> (blinkFrame &lt; <span class="nm">0</span> &amp;&amp; now &gt; nextBlink) blinkFrame = <span class="nm">0</span>;
+        <span class="kw">float</span> bs = <span class="nm">1.0f</span>;  <span class="cm">// 1.0 = eye fully open</span>
+        <span class="kw">if</span> (blinkFrame &gt;= <span class="nm">0</span>) {
+            bs = blinkScale[blinkFrame++];
+            <span class="kw">if</span> (blinkFrame &gt;= <span class="nm">5</span>) {
+                blinkFrame = -<span class="nm">1</span>;
+                nextBlink = now + <span class="fnm">random</span>(<span class="nm">2000</span>, <span class="nm">5500</span>);  <span class="cm">// blink again in 2 to 5 seconds</span>
+            }
+        }
+        <span class="cm">// Every few seconds, look somewhere new.</span>
+        <span class="kw">if</span> (now &gt; nextLook) {
+            lookX = <span class="fnm">random</span>(-<span class="nm">8</span>, <span class="nm">9</span>);
+            lookY = <span class="fnm">random</span>(-<span class="nm">3</span>, <span class="nm">4</span>);
+            nextLook = now + <span class="fnm">random</span>(<span class="nm">1500</span>, <span class="nm">4000</span>);
+        }
+
+        oled.<span class="fnm">clearDisplay</span>();  <span class="cm">// wipe the screen, then draw the new picture</span>
+        <span class="kw">const</span> <span class="kw">int</span> w = <span class="nm">30</span>, h = <span class="nm">28</span>;  <span class="cm">// eye width and height</span>
+        <span class="kw">switch</span> (m) {  <span class="cm">// pick the drawing that matches the mood</span>
+            <span class="kw">case</span> FACE_IDLE:  <span class="cm">// waiting: open eyes that blink and look around</span>
+                <span class="fnm">header</span>(<span class="st">&quot;READY&quot;</span>);
+                <span class="fnm">eye</span>(LX + lookX, CY + lookY, w, h * bs);
+                <span class="fnm">eye</span>(RX + lookX, CY + lookY, w, h * bs);
+                <span class="kw">break</span>;
+            <span class="kw">case</span> FACE_HAPPY:  <span class="cm">// happy: ^ ^ eyes and a smile</span>
+                <span class="fnm">header</span>(<span class="st">&quot;HELLO!&quot;</span>);
+                <span class="kw">for</span> (<span class="kw">int</span> cx : {LX, RX}) {
+                    oled.<span class="fnm">fillRoundRect</span>(cx - <span class="nm">15</span>, CY - <span class="nm">12</span>, <span class="nm">30</span>, <span class="nm">26</span>, <span class="nm">11</span>, SSD1306_WHITE);
+                    oled.<span class="fnm">fillCircle</span>(cx, CY + <span class="nm">12</span>, <span class="nm">16</span>, SSD1306_BLACK);  <span class="cm">// cut away the bottom to make a ^</span>
+                }
+                oled.<span class="fnm">drawCircle</span>(<span class="nm">64</span>, <span class="nm">47</span>, <span class="nm">10</span>, SSD1306_WHITE);  <span class="cm">// a smile is the bottom half of a circle</span>
+                oled.<span class="fnm">fillRect</span>(<span class="nm">52</span>, <span class="nm">34</span>, <span class="nm">24</span>, <span class="nm">13</span>, SSD1306_BLACK);
+                <span class="kw">break</span>;
+            <span class="kw">case</span> FACE_LISTEN: {  <span class="cm">// listening: big eyes and pulsing dots</span>
+                <span class="fnm">header</span>(<span class="st">&quot;LISTENING&quot;</span>);
+                <span class="fnm">eye</span>(LX, CY - <span class="nm">3</span>, w + <span class="nm">4</span>, (h + <span class="nm">8</span>) * bs);
+                <span class="fnm">eye</span>(RX, CY - <span class="nm">3</span>, w + <span class="nm">4</span>, (h + <span class="nm">8</span>) * bs);
+                <span class="kw">int</span> ph = (now / <span class="nm">200</span>) % <span class="nm">3</span>;  <span class="cm">// which dot is big right now?</span>
+                <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++)
+                    oled.<span class="fnm">fillCircle</span>(<span class="nm">50</span> + i * <span class="nm">14</span>, <span class="nm">59</span>, (i == ph) ? <span class="nm">3</span> : <span class="nm">2</span>, SSD1306_WHITE);
+                <span class="kw">break</span>;
+            }
+            <span class="kw">case</span> FACE_THINK: {  <span class="cm">// thinking: eyes swing side to side and &quot;...&quot; appear</span>
+                <span class="fnm">header</span>(<span class="st">&quot;THINKING&quot;</span>);
+                <span class="kw">int</span> sway = (<span class="kw">int</span>)(<span class="nm">10</span> * <span class="fnm">sin</span>(now / <span class="nm">350.0</span>));  <span class="cm">// sin() makes a smooth back-and-forth</span>
+                <span class="fnm">eye</span>(LX + sway, CY - <span class="nm">4</span>, w, h * bs);
+                <span class="fnm">eye</span>(RX + sway, CY - <span class="nm">4</span>, w, h * bs);
+                <span class="kw">int</span> dots = (now / <span class="nm">350</span>) % <span class="nm">4</span>;  <span class="cm">// 0, 1, 2 or 3 dots</span>
+                <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; dots; i++) oled.<span class="fnm">fillCircle</span>(<span class="nm">50</span> + i * <span class="nm">14</span>, <span class="nm">59</span>, <span class="nm">3</span>, SSD1306_WHITE);
+                <span class="kw">break</span>;
+            }
+            <span class="kw">case</span> FACE_SPEAK: {  <span class="cm">// talking: a mouth that opens and closes</span>
+                <span class="fnm">header</span>(<span class="st">&quot;TALKING&quot;</span>);
+                <span class="fnm">eye</span>(LX, CY - <span class="nm">5</span>, w, h * bs);
+                <span class="fnm">eye</span>(RX, CY - <span class="nm">5</span>, w, h * bs);
+                <span class="kw">int</span> mh = <span class="nm">4</span> + (<span class="kw">int</span>)(<span class="nm">5</span> + <span class="nm">5</span> * <span class="fnm">sin</span>(now / <span class="nm">90.0</span> + <span class="fnm">random</span>(<span class="nm">0</span>, <span class="nm">3</span>)));  <span class="cm">// mouth height wobbles</span>
+                oled.<span class="fnm">fillRoundRect</span>(<span class="nm">50</span>, <span class="nm">53</span>, <span class="nm">28</span>, mh, <span class="nm">4</span>, SSD1306_WHITE);
+                <span class="kw">break</span>;
+            }
+            <span class="kw">case</span> FACE_SLEEP:  <span class="cm">// sleeping: thin closed eyes and a floating z</span>
+                <span class="fnm">header</span>(<span class="st">&quot;ZZZ&quot;</span>);
+                oled.<span class="fnm">fillRoundRect</span>(LX - <span class="nm">15</span>, CY, <span class="nm">30</span>, <span class="nm">4</span>, <span class="nm">2</span>, SSD1306_WHITE);
+                oled.<span class="fnm">fillRoundRect</span>(RX - <span class="nm">15</span>, CY, <span class="nm">30</span>, <span class="nm">4</span>, <span class="nm">2</span>, SSD1306_WHITE);
+                oled.<span class="fnm">setTextSize</span>(<span class="nm">2</span>);
+                oled.<span class="fnm">setCursor</span>(<span class="nm">100</span> + (<span class="kw">int</span>)(<span class="nm">4</span> * <span class="fnm">sin</span>(now / <span class="nm">400.0</span>)), <span class="nm">22</span>);
+                oled.<span class="fnm">print</span>(<span class="st">&quot;z&quot;</span>);
+                <span class="kw">break</span>;
+        }
+        oled.<span class="fnm">display</span>();                 <span class="cm">// show the new picture on the screen</span>
+        <span class="fnm">vTaskDelay</span>(<span class="fnm">pdMS_TO_TICKS</span>(<span class="nm">50</span>));  <span class="cm">// rest for 50 ms, so we draw about 20 pictures a second</span>
+    }
+}
+
+<span class="cm">// Get the screen ready. Returns false if no screen is found (the robot still works!).</span>
+<span class="kw">bool</span> <span class="fnm">faceBegin</span>() {
+    Wire.<span class="fnm">begin</span>(PIN_OLED_SDA, PIN_OLED_SCL);  <span class="cm">// connect to the screen&#x27;s 2 wires</span>
+    Wire.<span class="fnm">setClock</span>(<span class="nm">400000</span>);
+    <span class="kw">if</span> (!oled.<span class="fnm">begin</span>(SSD1306_SWITCHCAPVCC, OLED_ADDR)) {
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;No OLED found - running without a face&quot;</span>);
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+<span class="pp">#if</span> FACE_FLIP
+    oled.<span class="fnm">setRotation</span>(<span class="nm">2</span>);  <span class="cm">// the screen is mounted upside down, so turn the picture around</span>
+<span class="pp">#endif</span>
+    <span class="fnm">faceSet</span>(FACE_HAPPY);
+    <span class="fnm">xTaskCreatePinnedToCore</span>(faceTask, <span class="st">&quot;face&quot;</span>, <span class="nm">4096</span>, <span class="kw">nullptr</span>, <span class="nm">1</span>, <span class="kw">nullptr</span>, <span class="nm">0</span>);  <span class="cm">// start the little artist</span>
+    <span class="kw">return</span> <span class="kw">true</span>;
+}</code></pre></div><!--/CODE-->
+  </div>
+
+  <!-- FILE 4 -->
+  <div class="filecard">
+    <header><span class="stars">⭐⭐⭐ Hard</span><h3>audio_in.cpp · The ear</h3></header>
+    <p><b>What it does:</b> listens to the microphone and turns sound into <b>numbers</b>. Big numbers are loud sounds, small numbers are quiet ones. Gemini understands those numbers!</p>
+    <ul class="read"><li>The microphone sends 16,000 numbers every second. We collect them in a <b>bucket</b> (<code>raw</code>).</li><li>The numbers are too big, so we <b>shrink</b> them with <code>&gt;&gt; MIC_SHIFT</code>.</li><li>If the robot can't hear you, make <code>MIC_SHIFT</code> smaller in <code>config.h</code>.</li></ul>
+    <!--CODE:AI_Companion/audio_in.cpp|audio_in.cpp tab--><div class="codewrap"><span class="fn">audio_in.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="cm">// THE EAR: reads sound from the microphone and turns it into numbers.</span>
+<span class="pp">#include</span> <span class="st">&quot;audio_in.h&quot;</span>
+<span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>
+
+<span class="kw">static</span> I2SClass mic;  <span class="cm">// &quot;mic&quot; is our name for the microphone connection</span>
+
+<span class="cm">// Other files (like the wake-word listener) share the same microphone.</span>
+I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</span> mic; }
+
+<span class="cm">// Get the microphone ready. Runs once from setup().</span>
+<span class="kw">void</span> <span class="fnm">audioInBegin</span>() {
+    <span class="cm">// Tell the brain which 3 pins the microphone is plugged into.</span>
+    mic.<span class="fnm">setPins</span>(PIN_MIC_SCK, PIN_MIC_WS, -<span class="nm">1</span>, PIN_MIC_SD);
+    <span class="cm">// Start listening. The microphone sends a LEFT and a RIGHT sound. Ours only</span>
+    <span class="cm">// talks on the left. If starting does not work, write a message in the diary.</span>
+    <span class="kw">if</span> (!mic.<span class="fnm">begin</span>(I2S_MODE_STD, MIC_RATE_HZ, I2S_DATA_BIT_WIDTH_32BIT,
+                   I2S_SLOT_MODE_STEREO, I2S_STD_SLOT_BOTH)) {
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;Mic I2S init failed&quot;</span>);
+    }
+}
+
+<span class="cm">// Listen for a moment and put the sound into a bucket called &quot;out&quot;.</span>
+<span class="kw">size_t</span> <span class="fnm">audioInRead</span>(<span class="kw">int16_t</span> *out, <span class="kw">size_t</span> count) {
+    <span class="kw">static</span> <span class="kw">int32_t</span> raw[MIC_CHUNK_SAMPLES * <span class="nm">2</span>];  <span class="cm">// a bucket for the raw, big numbers (left + right)</span>
+    <span class="kw">if</span> (count &gt; MIC_CHUNK_SAMPLES) count = MIC_CHUNK_SAMPLES;
+    <span class="kw">size_t</span> frames = mic.<span class="fnm">readBytes</span>((<span class="kw">char</span> *)raw, count * <span class="nm">2</span> * <span class="kw">sizeof</span>(<span class="kw">int32_t</span>)) / (<span class="nm">2</span> * <span class="kw">sizeof</span>(<span class="kw">int32_t</span>));
+    <span class="cm">// The microphone gives BIG numbers. Gemini wants smaller ones,</span>
+    <span class="cm">// so we shrink every number a little (MIC_SHIFT says how much).</span>
+    <span class="cm">// raw[i * 2] is the LEFT number. We skip the empty right one.</span>
+    <span class="kw">for</span> (<span class="kw">size_t</span> i = <span class="nm">0</span>; i &lt; frames; i++) {
+        <span class="kw">int32_t</span> s = raw[i * <span class="nm">2</span>] &gt;&gt; MIC_SHIFT;
+        out[i] = (<span class="kw">int16_t</span>)<span class="fnm">constrain</span>(s, -<span class="nm">32768</span>, <span class="nm">32767</span>);  <span class="cm">// keep it inside the allowed range</span>
+    }
+    <span class="kw">return</span> frames;
+}</code></pre></div><!--/CODE-->
+  </div>
+
+  <!-- FILE 5 -->
+  <div class="filecard">
+    <header><span class="stars">⭐⭐⭐ Hard</span><h3>wakeword.cpp · The sleeping ear</h3></header>
+    <p><b>What it does:</b> while the robot sleeps, this tiny listener waits for your wake-up phrase (<code>WAKE_PHRASE</code> in <code>config.h</code>, like “Hi ESP” or “Hi Jarvis”). It runs <b>inside the brain</b>, so nothing is sent to the internet until the phrase is heard.</p>
+    <ul class="read"><li>When it hears the phrase, <code>heard</code> turns <b>true</b>, and the boss file calls Gemini.</li><li>“Hi ESP” uses the best detector. Other phrases use a general one that reads plain English.</li><li>While you chat, the listener <b>pauses</b>. When the chat ends, it listens again.</li><li>If <code>WAKEWORD_ENABLED</code> is <code>0</code>, all of these functions do nothing.</li></ul>
+    <!--CODE:AI_Companion/wakeword.cpp|wakeword.cpp tab--><div class="codewrap"><span class="fn">wakeword.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="cm">// THE SLEEPING EAR: listens for the robot&#x27;s name all by itself, inside the brain.</span>
+<span class="cm">// Nothing goes to the internet until the name is heard.</span>
+<span class="cm">//</span>
+<span class="cm">// There are 2 &quot;engines&quot; (listeners). Pick one with WAKE_ENGINE in config.h:</span>
+<span class="cm">//   1 = the built-in listener. It hears WAKE_PHRASE from config.h, like &quot;Hi ESP&quot;</span>
+<span class="cm">//       or &quot;Hi Jarvis&quot;.</span>
+<span class="cm">//   2 = your own wake word. This is a project for a teen and a grown-up. The</span>
+<span class="cm">//       4 functions are empty, ready for you to fill in (see &quot;ENGINE 2&quot; below).</span>
+<span class="pp">#include</span> <span class="st">&quot;wakeword.h&quot;</span>
+<span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>
+
+<span class="pp">#if</span> WAKEWORD_ENABLED &amp;&amp; WAKE_ENGINE == <span class="nm">1</span>
+<span class="cm">// ============== ENGINE 1: the phrase in WAKE_PHRASE ==============</span>
+<span class="cm">// &quot;Hi ESP&quot; uses the chip&#x27;s best listener (WakeNet). Any other phrase, like</span>
+<span class="cm">// &quot;Hi Jarvis&quot;, uses the chip&#x27;s phrase-understanding listener (MultiNet). That one</span>
+<span class="cm">// reads your words as plain English, so it can make mistakes with unusual names.</span>
+<span class="pp">#include</span> &lt;ESP_SR.h&gt;  <span class="cm">// Espressif&#x27;s speech-recognition toolbox (comes with the ESP32 board package)</span>
+<span class="pp">#include</span> &lt;strings.h&gt;
+<span class="pp">#include</span> <span class="st">&quot;audio_in.h&quot;</span>
+
+<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">bool</span> heard = <span class="kw">false</span>;  <span class="cm">// did we hear the phrase?</span>
+<span class="kw">static</span> <span class="kw">bool</span> running = <span class="kw">false</span>;         <span class="cm">// is the listener switched on?</span>
+<span class="kw">static</span> <span class="kw">bool</span> phraseMode = <span class="kw">false</span>;      <span class="cm">// true = listening for our own phrase (not &quot;Hi ESP&quot;)</span>
+
+<span class="cm">// The list of phrases to listen for. We only need one: the wake-up phrase.</span>
+<span class="kw">static</span> <span class="kw">const</span> sr_cmd_t commands[] = {{<span class="nm">0</span>, WAKE_PHRASE}};
+
+<span class="cm">// The listener calls this function whenever something happens.</span>
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">onSpeechEvent</span>(sr_event_t event, <span class="kw">int</span> command_id, <span class="kw">int</span> phrase_id) {
+    <span class="kw">if</span> (event == SR_EVENT_WAKEWORD) heard = <span class="kw">true</span>;                    <span class="cm">// it heard &quot;Hi ESP&quot;!</span>
+    <span class="kw">else</span> <span class="kw">if</span> (event == SR_EVENT_COMMAND) heard = <span class="kw">true</span>;                <span class="cm">// it heard our own phrase!</span>
+    <span class="kw">else</span> <span class="kw">if</span> (event == SR_EVENT_TIMEOUT &amp;&amp; phraseMode) ESP_SR.<span class="fnm">setMode</span>(SR_MODE_COMMAND);  <span class="cm">// keep listening</span>
+}
+
+<span class="kw">bool</span> <span class="fnm">wakeBegin</span>() {
+    phraseMode = <span class="fnm">strcasecmp</span>(WAKE_PHRASE, <span class="st">&quot;Hi ESP&quot;</span>) != <span class="nm">0</span>;
+    ESP_SR.<span class="fnm">onEvent</span>(onSpeechEvent);
+    running = ESP_SR.<span class="fnm">begin</span>(<span class="fnm">audioInI2S</span>(), commands, <span class="kw">sizeof</span>(commands) / <span class="kw">sizeof</span>(sr_cmd_t),
+                           SR_CHANNELS_STEREO, phraseMode ? SR_MODE_COMMAND : SR_MODE_WAKEWORD);
+    <span class="kw">return</span> running;
+}
+
+<span class="kw">bool</span> <span class="fnm">wakeHeard</span>() {
+    <span class="kw">if</span> (running &amp;&amp; heard) {
+        heard = <span class="kw">false</span>;  <span class="cm">// only say &quot;yes&quot; one time</span>
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+    <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="kw">void</span> <span class="fnm">wakePause</span>() {
+    <span class="kw">if</span> (running) ESP_SR.<span class="fnm">pause</span>();
+}
+
+<span class="kw">void</span> <span class="fnm">wakeResume</span>() {
+    <span class="kw">if</span> (running) {
+        heard = <span class="kw">false</span>;
+        ESP_SR.<span class="fnm">resume</span>();
+        <span class="kw">if</span> (phraseMode) ESP_SR.<span class="fnm">setMode</span>(SR_MODE_COMMAND);
+    }
+}
+
+<span class="pp">#elif</span> WAKEWORD_ENABLED &amp;&amp; WAKE_ENGINE == <span class="nm">2</span>
+<span class="cm">// ================= ENGINE 2: YOUR OWN WAKE WORD =================</span>
+<span class="cm">// Fill in the 4 functions below. The rest of the robot already knows how to use them:</span>
+<span class="cm">//   wakeBegin()  - runs once at start-up. Load your model. Return true if it worked.</span>
+<span class="cm">//   wakeHeard()  - return true ONE time when your wake word was heard.</span>
+<span class="cm">//   wakePause()  - stop listening (a conversation with Gemini just started).</span>
+<span class="cm">//   wakeResume() - start listening again (the conversation ended).</span>
+<span class="cm">//</span>
+<span class="cm">// Ideas for how to make your own wake word (ask a grown-up to help):</span>
+<span class="cm">//   * Picovoice Porcupine: type any word into their website and download a model.</span>
+<span class="cm">//   * Edge Impulse: record your word many times, train a model in your browser,</span>
+<span class="cm">//     then export it as an Arduino library (Sketch &gt; Include Library &gt; Add .ZIP Library).</span>
+<span class="cm">//</span>
+<span class="cm">// To hear the microphone, use audioInRead() from audio_in.h. It gives you 16,000</span>
+<span class="cm">// numbers per second. Only read it while listening. While a conversation is going,</span>
+<span class="cm">// the main file reads the microphone, so wakePause() must stop your reading.</span>
+<span class="pp">#include</span> <span class="st">&quot;audio_in.h&quot;</span>
+
+<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">bool</span> heard = <span class="kw">false</span>;   <span class="cm">// set this to true when your model hears the word</span>
+<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">bool</span> listening = <span class="kw">false</span>;
+
+<span class="kw">bool</span> <span class="fnm">wakeBegin</span>() {
+    Serial.<span class="fnm">println</span>(<span class="st">&quot;Custom wake word is not set up yet - see wakeword.cpp (use the button for now)&quot;</span>);
+    <span class="kw">return</span> <span class="kw">false</span>;  <span class="cm">// change to true when your listener is ready</span>
+}
+
+<span class="kw">bool</span> <span class="fnm">wakeHeard</span>() {
+    <span class="kw">if</span> (listening &amp;&amp; heard) {
+        heard = <span class="kw">false</span>;
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+    <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="kw">void</span> <span class="fnm">wakePause</span>() { listening = <span class="kw">false</span>; }
+
+<span class="kw">void</span> <span class="fnm">wakeResume</span>() {
+    heard = <span class="kw">false</span>;
+    listening = <span class="kw">true</span>;
+}
+
+<span class="pp">#else</span>
+<span class="cm">// ============ wake word is switched off: these do nothing ============</span>
+<span class="kw">bool</span> <span class="fnm">wakeBegin</span>() { <span class="kw">return</span> <span class="kw">false</span>; }
+<span class="kw">bool</span> <span class="fnm">wakeHeard</span>() { <span class="kw">return</span> <span class="kw">false</span>; }
+<span class="kw">void</span> <span class="fnm">wakePause</span>() {}
+<span class="kw">void</span> <span class="fnm">wakeResume</span>() {}
+<span class="pp">#endif</span></code></pre></div><!--/CODE-->
+  </div>
+
+  <!-- EXPERT -->
+  <div class="filecard expert">
+    <header><span class="stars">🧙 Wizard level</span><h3>The two big files</h3></header>
+    <p>These two files are long and tricky, even for grown-up programmers. Peek if you are curious, but you don't need to understand them yet!</p>
+    <details><summary>🔊 <code>audio_out.cpp</code> · The mouth (a sushi-train for sound)</summary>
+      <p>Gemini sends sound in bursts, faster than the speaker can play. So the robot puts the sound on a <b>circular conveyor belt</b> (a <i>ring buffer</i>). One worker puts sound on the belt, and another takes it off at exactly the right speed, so the voice sounds smooth.</p>
+      <!--CODE:AI_Companion/audio_out.cpp|audio_out.cpp tab--><div class="codewrap"><span class="fn">audio_out.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="pp">#include</span> <span class="st">&quot;audio_out.h&quot;</span>
+<span class="pp">#include</span> &lt;ESP_I2S.h&gt;
+<span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>
+
+<span class="kw">static</span> I2SClass spk;
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">size_t</span> RING_SAMPLES = SPK_RATE_HZ * <span class="nm">20</span>;  <span class="cm">// 20 s in PSRAM</span>
+<span class="kw">static</span> <span class="kw">int16_t</span> *ring;
+<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">size_t</span> head = <span class="nm">0</span>, tail = <span class="nm">0</span>;
+<span class="kw">static</span> portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
+
+<span class="kw">static</span> <span class="kw">size_t</span> <span class="fnm">pendingLocked</span>() { <span class="kw">return</span> (head + RING_SAMPLES - tail) % RING_SAMPLES; }
+
+<span class="kw">size_t</span> <span class="fnm">audioOutPending</span>() {
+    <span class="fnm">portENTER_CRITICAL</span>(&amp;mux);
+    <span class="kw">size_t</span> n = <span class="fnm">pendingLocked</span>();
+    <span class="fnm">portEXIT_CRITICAL</span>(&amp;mux);
+    <span class="kw">return</span> n;
+}
+
+<span class="kw">void</span> <span class="fnm">audioOutClear</span>() {
+    <span class="fnm">portENTER_CRITICAL</span>(&amp;mux);
+    tail = head;
+    <span class="fnm">portEXIT_CRITICAL</span>(&amp;mux);
+}
+
+<span class="kw">void</span> <span class="fnm">audioOutPush</span>(<span class="kw">const</span> <span class="kw">int16_t</span> *samples, <span class="kw">size_t</span> count) {
+    <span class="kw">for</span> (<span class="kw">size_t</span> i = <span class="nm">0</span>; i &lt; count; i++) {
+        <span class="fnm">portENTER_CRITICAL</span>(&amp;mux);
+        <span class="kw">size_t</span> next = (head + <span class="nm">1</span>) % RING_SAMPLES;
+        <span class="kw">if</span> (next != tail) {  <span class="cm">// drop on overflow</span>
+            ring[head] = (<span class="kw">int16_t</span>)((samples[i] * SPK_VOLUME) / <span class="nm">100</span>);
+            head = next;
+        }
+        <span class="fnm">portEXIT_CRITICAL</span>(&amp;mux);
+    }
+}
+
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">playbackTask</span>(<span class="kw">void</span> *) {
+    <span class="kw">static</span> <span class="kw">int16_t</span> buf[<span class="nm">480</span>];  <span class="cm">// 20 ms</span>
+    <span class="kw">for</span> (;;) {
+        <span class="kw">size_t</span> avail = <span class="fnm">audioOutPending</span>();
+        <span class="kw">if</span> (avail == <span class="nm">0</span>) {
+            <span class="fnm">vTaskDelay</span>(<span class="fnm">pdMS_TO_TICKS</span>(<span class="nm">5</span>));
+            <span class="kw">continue</span>;
+        }
+        <span class="kw">size_t</span> n = <span class="fnm">min</span>(avail, (<span class="kw">size_t</span>)<span class="nm">480</span>);
+        <span class="fnm">portENTER_CRITICAL</span>(&amp;mux);
+        <span class="kw">for</span> (<span class="kw">size_t</span> i = <span class="nm">0</span>; i &lt; n; i++) {
+            buf[i] = ring[tail];
+            tail = (tail + <span class="nm">1</span>) % RING_SAMPLES;
+        }
+        <span class="fnm">portEXIT_CRITICAL</span>(&amp;mux);
+        spk.<span class="fnm">write</span>((<span class="kw">uint8_t</span> *)buf, n * <span class="kw">sizeof</span>(<span class="kw">int16_t</span>));  <span class="cm">// blocks at DMA rate</span>
+    }
+}
+
+<span class="kw">void</span> <span class="fnm">audioOutBegin</span>() {
+    ring = (<span class="kw">int16_t</span> *)<span class="fnm">ps_malloc</span>(RING_SAMPLES * <span class="kw">sizeof</span>(<span class="kw">int16_t</span>));
+    spk.<span class="fnm">setPins</span>(PIN_SPK_BCLK, PIN_SPK_LRC, PIN_SPK_DIN);
+    <span class="kw">if</span> (!spk.<span class="fnm">begin</span>(I2S_MODE_STD, SPK_RATE_HZ, I2S_DATA_BIT_WIDTH_16BIT,
+                   I2S_SLOT_MODE_MONO, I2S_STD_SLOT_LEFT)) {
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;Speaker I2S init failed&quot;</span>);
+        <span class="kw">return</span>;
+    }
+    <span class="fnm">xTaskCreatePinnedToCore</span>(playbackTask, <span class="st">&quot;playback&quot;</span>, <span class="nm">4096</span>, <span class="kw">nullptr</span>, <span class="nm">3</span>, <span class="kw">nullptr</span>, <span class="nm">1</span>);
+}</code></pre></div><!--/CODE-->
+    </details>
+    <details><summary>📞 <code>gemini_live.cpp</code> · The phone line to Gemini</summary>
+      <p>A <b>WebSocket</b> is a phone call that stays open, so both sides can talk any time. This file dials Gemini with your secret key, sends your voice as numbers, and plays back the sound that Gemini sends.</p>
+      <!--CODE:AI_Companion/gemini_live.cpp|gemini_live.cpp tab--><div class="codewrap"><span class="fn">gemini_live.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="pp">#include</span> <span class="st">&quot;gemini_live.h&quot;</span>
+<span class="pp">#include</span> &lt;WebSocketsClient.h&gt;
+<span class="pp">#include</span> &lt;mbedtls/base64.h&gt;
+<span class="pp">#include</span> <span class="st">&quot;audio_out.h&quot;</span>
+<span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>
+<span class="pp">#include</span> <span class="st">&quot;secrets.h&quot;</span>
+
+<span class="kw">static</span> WebSocketsClient ws;
+<span class="kw">static</span> <span class="kw">bool</span> active = <span class="kw">false</span>, ready = <span class="kw">false</span>;
+<span class="kw">static</span> String msg;  <span class="cm">// reassembly buffer for fragmented messages</span>
+
+<span class="kw">bool</span> <span class="fnm">geminiReady</span>() { <span class="kw">return</span> ready; }
+<span class="kw">bool</span> <span class="fnm">geminiActive</span>() { <span class="kw">return</span> active; }
+
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">sendSetup</span>() {
+    String s = <span class="st">&quot;{\&quot;setup\&quot;:{\&quot;model\&quot;:\&quot;&quot;</span> GEMINI_MODEL <span class="st">&quot;\&quot;,&quot;</span>
+               <span class="st">&quot;\&quot;generationConfig\&quot;:{\&quot;responseModalities\&quot;:[\&quot;AUDIO\&quot;],&quot;</span>
+               <span class="st">&quot;\&quot;speechConfig\&quot;:{\&quot;voiceConfig\&quot;:{\&quot;prebuiltVoiceConfig\&quot;:{\&quot;voiceName\&quot;:\&quot;&quot;</span> GEMINI_VOICE <span class="st">&quot;\&quot;}}}},&quot;</span>
+               <span class="st">&quot;\&quot;systemInstruction\&quot;:{\&quot;parts\&quot;:[{\&quot;text\&quot;:\&quot;&quot;</span> SYSTEM_PROMPT <span class="st">&quot;\&quot;}]}}}&quot;</span>;
+    ws.<span class="fnm">sendTXT</span>(s);
+}
+
+<span class="cm">// Decode every &quot;data&quot;:&quot;&lt;base64&gt;&quot; in the message and queue it for playback</span>
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">handleMessage</span>(<span class="kw">const</span> String &amp;m) {
+    <span class="kw">if</span> (m.<span class="fnm">indexOf</span>(<span class="st">&quot;setupComplete&quot;</span>) &gt;= <span class="nm">0</span>) {
+        ready = <span class="kw">true</span>;
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;Gemini ready&quot;</span>);
+    }
+    <span class="kw">if</span> (m.<span class="fnm">indexOf</span>(<span class="st">&quot;\&quot;interrupted\&quot;&quot;</span>) &gt;= <span class="nm">0</span>) <span class="fnm">audioOutClear</span>();
+    <span class="kw">if</span> (m.<span class="fnm">indexOf</span>(<span class="st">&quot;turnComplete&quot;</span>) &gt;= <span class="nm">0</span>) Serial.<span class="fnm">println</span>(<span class="st">&quot;turn complete&quot;</span>);
+
+    <span class="kw">int</span> pos = <span class="nm">0</span>;
+    <span class="kw">const</span> String key = <span class="st">&quot;\&quot;data\&quot;:\&quot;&quot;</span>;
+    <span class="kw">while</span> ((pos = m.<span class="fnm">indexOf</span>(key, pos)) &gt;= <span class="nm">0</span>) {
+        pos += key.<span class="fnm">length</span>();
+        <span class="kw">int</span> end = m.<span class="fnm">indexOf</span>(&#x27;&quot;&#x27;, pos);
+        <span class="kw">if</span> (end &lt; <span class="nm">0</span>) <span class="kw">break</span>;
+        <span class="kw">size_t</span> inLen = end - pos, outLen = <span class="nm">0</span>;
+        <span class="kw">size_t</span> cap = inLen * <span class="nm">3</span> / <span class="nm">4</span> + <span class="nm">4</span>;
+        <span class="kw">uint8_t</span> *pcm = (<span class="kw">uint8_t</span> *)<span class="fnm">ps_malloc</span>(cap);
+        <span class="kw">if</span> (pcm &amp;&amp; <span class="fnm">mbedtls_base64_decode</span>(pcm, cap, &amp;outLen,
+                                         (<span class="kw">const</span> <span class="kw">uint8_t</span> *)m.<span class="fnm">c_str</span>() + pos, inLen) == <span class="nm">0</span>) {
+            <span class="fnm">audioOutPush</span>((<span class="kw">int16_t</span> *)pcm, outLen / <span class="nm">2</span>);
+        }
+        <span class="fnm">free</span>(pcm);
+        pos = end;
+    }
+}
+
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">onEvent</span>(WStype_t type, <span class="kw">uint8_t</span> *payload, <span class="kw">size_t</span> length) {
+    <span class="kw">switch</span> (type) {
+        <span class="kw">case</span> WStype_CONNECTED:
+            Serial.<span class="fnm">println</span>(<span class="st">&quot;WS connected&quot;</span>);
+            <span class="fnm">sendSetup</span>();
+            <span class="kw">break</span>;
+        <span class="kw">case</span> WStype_DISCONNECTED:
+            Serial.<span class="fnm">println</span>(<span class="st">&quot;WS disconnected&quot;</span>);
+            ready = <span class="kw">false</span>;
+            active = <span class="kw">false</span>;
+            <span class="kw">break</span>;
+        <span class="kw">case</span> WStype_TEXT:
+        <span class="kw">case</span> WStype_BIN: {
+            String m;
+            m.<span class="fnm">concat</span>((<span class="kw">const</span> <span class="kw">char</span> *)payload, length);
+            <span class="fnm">handleMessage</span>(m);
+            <span class="kw">break</span>;
+        }
+        <span class="kw">case</span> WStype_FRAGMENT_TEXT_START:
+        <span class="kw">case</span> WStype_FRAGMENT_BIN_START:
+            msg = <span class="st">&quot;&quot;</span>;
+            msg.<span class="fnm">concat</span>((<span class="kw">const</span> <span class="kw">char</span> *)payload, length);
+            <span class="kw">break</span>;
+        <span class="kw">case</span> WStype_FRAGMENT:
+            msg.<span class="fnm">concat</span>((<span class="kw">const</span> <span class="kw">char</span> *)payload, length);
+            <span class="kw">break</span>;
+        <span class="kw">case</span> WStype_FRAGMENT_FIN:
+            msg.<span class="fnm">concat</span>((<span class="kw">const</span> <span class="kw">char</span> *)payload, length);
+            <span class="fnm">handleMessage</span>(msg);
+            msg = <span class="st">&quot;&quot;</span>;
+            <span class="kw">break</span>;
+        <span class="kw">default</span>:
+            <span class="kw">break</span>;
+    }
+}
+
+<span class="kw">void</span> <span class="fnm">geminiBegin</span>() {
+    <span class="kw">if</span> (active) <span class="kw">return</span>;
+    active = <span class="kw">true</span>;
+    ready = <span class="kw">false</span>;
+    ws.<span class="fnm">beginSSL</span>(<span class="st">&quot;generativelanguage.googleapis.com&quot;</span>, <span class="nm">443</span>,
+                <span class="st">&quot;/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=&quot;</span> GEMINI_API_KEY);
+    ws.<span class="fnm">onEvent</span>(onEvent);
+    ws.<span class="fnm">setReconnectInterval</span>(<span class="nm">0</span>);
+    ws.<span class="fnm">enableHeartbeat</span>(<span class="nm">15000</span>, <span class="nm">3000</span>, <span class="nm">2</span>);
+}
+
+<span class="kw">void</span> <span class="fnm">geminiEnd</span>() {
+    ws.<span class="fnm">disconnect</span>();
+    ready = <span class="kw">false</span>;
+    active = <span class="kw">false</span>;
+    <span class="fnm">audioOutClear</span>();
+}
+
+<span class="kw">void</span> <span class="fnm">geminiLoop</span>() { ws.<span class="fnm">loop</span>(); }
+
+<span class="kw">void</span> <span class="fnm">geminiSendAudio</span>(<span class="kw">const</span> <span class="kw">int16_t</span> *samples, <span class="kw">size_t</span> count) {
+    <span class="kw">if</span> (!ready) <span class="kw">return</span>;
+    <span class="kw">size_t</span> bytes = count * <span class="nm">2</span>;
+    <span class="kw">size_t</span> cap = (bytes + <span class="nm">2</span>) / <span class="nm">3</span> * <span class="nm">4</span> + <span class="nm">1</span>, outLen = <span class="nm">0</span>;
+    <span class="kw">static</span> <span class="kw">char</span> b64[<span class="nm">4400</span>];  <span class="cm">// enough for 100 ms (3200 B -&gt; 4268 B)</span>
+    <span class="kw">if</span> (cap &gt; <span class="kw">sizeof</span>(b64)) <span class="kw">return</span>;
+    <span class="fnm">mbedtls_base64_encode</span>((<span class="kw">uint8_t</span> *)b64, <span class="kw">sizeof</span>(b64), &amp;outLen, (<span class="kw">const</span> <span class="kw">uint8_t</span> *)samples, bytes);
+    b64[outLen] = <span class="nm">0</span>;
+    String s = <span class="st">&quot;{\&quot;realtimeInput\&quot;:{\&quot;audio\&quot;:{\&quot;mimeType\&quot;:\&quot;audio/pcm;rate=16000\&quot;,\&quot;data\&quot;:\&quot;&quot;</span>;
+    s += b64;
+    s += <span class="st">&quot;\&quot;}}}&quot;</span>;
+    ws.<span class="fnm">sendTXT</span>(s);
+}</code></pre></div><!--/CODE-->
+    </details>
+  </div>
+
+
+  </details>
+</section>
+
+<section id="stuck">
+  <h2><span class="n">10</span>Stuck? Don't worry!</h2>
+  <details><summary>😶 The robot does not talk</summary>Check the speaker wires and that the amplifier's <code>VIN</code> goes to <code>5V</code>. Try turning <code>SPK_VOLUME</code> up.</details>
+  <details><summary>🙉 It does not hear me</summary>Make sure the mic's <code>L/R</code> is connected to <code>GND</code> and <code>VDD</code> goes to <code>3V3</code>. Speak closer to the microphone.</details>
+  <details><summary>📶 The diary never says “WiFi OK”</summary>Check the WiFi name and password in <code>secrets.h</code>. Capital letters matter!</details>
+  <details><summary>🔑 It says “WS connected” but never “Gemini ready”</summary>The magic password (API key) might be wrong, or the AI's name changed. Ask a grown-up to check Google's website.</details>
+  <details><summary>🔁 The robot keeps restarting</summary>Unplug a wire → wait → plug in again. Check no wire is on pins 35, 36, 37.</details>
+  <details><summary>📚 Red error: “WebSocketsClient.h: No such file” (or another missing file)</summary>A helper library is missing. Go back to section 4, step 4, and install the 3 libraries: <b>WebSockets</b>, <b>Adafruit SSD1306</b> and <b>Adafruit GFX Library</b>.</details>
+  <details><summary>🧠 Red error: “ESP_I2S.h: No such file”</summary>Your brain-board package is too old. Open <b>Tools → Board → Boards Manager</b>, find “esp32 by Espressif Systems” and update it to version 3 or newer.</details>
+  <details><summary>🔌 The computer can't find the board</summary>Check that the right <b>Port</b> is picked in the Tools menu. Hold the <b>BOOT</b> button, tap <b>RST</b>, let go of BOOT, then click Upload again. Try the other USB port, or a different cable, since some cables only charge.</details>
+  <details><summary>🗣️ It talks to itself</summary>Move the mic far from the speaker and turn the volume down a little.</details>
+</section>
+
+<!-- WORDS -->
+<section id="words">
+  <h2><span class="n">11</span>Cool words you learned</h2>
+  <dl class="gloss card">
+    <dt>AI</dt><dd>A computer program that can understand and answer questions, a bit like a very fast reader who has read lots of books.</dd>
+    <dt>Microcontroller</dt><dd>A tiny computer on one chip. Our ESP32 is one!</dd>
+    <dt>Code</dt><dd>Step-by-step instructions written for a computer.</dd>
+    <dt>WiFi</dt><dd>Invisible internet signal that flies through the air.</dd>
+    <dt>API key</dt><dd>A secret password that says “yes, I'm allowed to use this service.”</dd>
+    <dt>Wake word</dt><dd>A special name the robot listens for while it sleeps, like “Hi, ESP!”. When it hears it, it wakes up.</dd>
+    <dt>GPIO pin</dt><dd>A tiny metal leg on the brain that can send or receive signals.</dd>
+    <dt>GND (ground)</dt><dd>The “return road” for electricity. Every part needs to be connected to it.</dd>
+    <dt>Speaker / Microphone</dt><dd>Opposites! A mic turns sound into electricity, and a speaker turns electricity into sound.</dd>
+  </dl>
+</section>
+
+<section id="next">
+  <h2><span class="n">12</span>What next? Your robot roadmap</h2>
+  <p class="lead">Personalities, voices and faces are in <a href="#code"><b>section 9</b></a>. Once your robot talks, level it up with these bigger projects! Start at Level 1 and work your way up. Each level is a little harder.</p>
+  <div class="road">
+    <div class="lvl"><header><b>1</b><div><h3>Build a body for it 📦</h3><small>⭐ Easy · 1 hour · craft supplies</small></div></header>
+      <div class="body"><ol>
+        <li>Find a small cardboard box or a clean food container.</li>
+        <li>Cut a hole for the speaker and a tiny hole for the microphone.</li>
+        <li>Cut a hole for the big button and the USB cable.</li>
+        <li>Decorate with paper, markers, googly eyes and stickers!</li></ol>
+        <div class="need">⚠️ Keep the mic far from the speaker, or your robot will hear itself. Ask a grown-up to help with scissors.</div></div></div>
+    <div class="lvl"><header><b>2</b><div><h3>Add a nodding head 🦾</h3><small>⭐⭐ Medium · servo from your kit</small></div></header>
+      <div class="body"><ol>
+        <li>The servo has 3 wires: <b>brown</b> = GND, <b>red</b> = 5V, <b>orange</b> = signal (use pin GPIO10).</li>
+        <li>Stick it inside the box and glue a paper head or ears on its arm.</li>
+        <li>The robot will nod when it listens and talks.</li></ol>
+        <span class="soon">🛠 The nodding code is not written yet. Ask your grown-up helper to add it.</span>
+        <div class="need">🧵 Use Breadboard Buddy's rules: give each servo wire its own column!</div></div></div>
+    <div class="lvl"><header><b>3</b><div><h3>Make the wake-up even better 🗣️</h3><small>⭐⭐⭐ Hard · teen project, with a grown-up</small></div></header>
+      <div class="body"><ol>
+        <li>Your robot already wakes to <b>“Hi” + its name</b>. Switch it on in the Robot Maker (section 9).</li>
+        <li>That uses the chip's general phrase listener, so it can miss some names. “Hi ESP” is the most reliable.</li>
+        <li>For a rock-solid custom phrase, train a model. Open the <a href="#teen"><b>teen project guide</b></a> just below the roadmap.</li></ol>
+        <span class="soon">🛠 The slot for a trained model is ready in <code>wakeword.cpp</code>. The model itself is for you to make!</span></div></div>
+    <div class="lvl"><header><b>4</b><div><h3>Go portable 🔋</h3><small>⭐⭐⭐ Hard · needs a grown-up &amp; a new part</small></div></header>
+      <div class="body"><ol>
+        <li>Your charger board (TP4056) can charge a rechargeable battery.</li>
+        <li>But the robot needs 5 volts, and a battery gives less. You need a small <b>“5V boost converter”</b> module (not in your kit).</li>
+        <li>With the boost converter, your robot can go anywhere with WiFi!</li></ol>
+        <div class="need">⚠️ Batteries can be dangerous if wired wrong. Only do this with a grown-up.</div></div></div>
+    <div class="lvl"><header><b>5</b><div><h3>Design your own expression 😎</h3><small>⭐⭐ Medium · a grown-up helper</small></div></header>
+      <div class="body"><ol>
+        <li>Click the <code>face.cpp</code> tab. Each mood draws eyes with <code>eye(x, y, width, height)</code>.</li>
+        <li>Make the eyes bigger, smaller or closer together, then upload.</li>
+        <li>Draw eyebrows with <code>oled.drawLine()</code> to make an angry or surprised robot!</li></ol>
+        <div class="need">🎨 Sketch your face on graph paper first. The screen is 128 dots wide and 64 dots tall. The top 16 rows are the colour band.</div></div></div>
+  </div>
+  <details class="peek" id="teen">
+    <summary>🧑‍💻 Teen project: choose your own wake-up phrase</summary>
+    <p class="lead">The chip's built-in listener hears “Hi ESP” best, and can try to recognise other names typed as text, but it can miss them. For a phrase that works every time, you train a model that knows <i>your</i> word and swap it in. The robot already has a slot for it.</p>
+    <table>
+      <tr><th>Option</th><th>How you make the word</th><th>Good to know</th></tr>
+      <tr><td><b>Picovoice Porcupine</b></td><td>Type your phrase on their website, click train, download the model. Takes a few minutes.</td><td>Needs a free account and an “AccessKey”. Free use is for personal projects. Check their current rules and the ESP32 instructions.</td></tr>
+      <tr><td><b>Edge Impulse</b></td><td>Record your word many times (100 or more, from different people), add background noise, train in your browser, then export an <b>Arduino library</b>.</td><td>Free and well documented, but it takes an afternoon. It may trigger by mistake, so test it a lot.</td></tr>
+    </table>
+    <h3>🧩 How it plugs in</h3>
+    <ol class="steps">
+      <li>Open the <code>config.h</code> tab. Set <code>WAKEWORD_ENABLED</code> to <code>1</code> and <code>WAKE_ENGINE</code> to <code>2</code>.</li>
+      <li>Open the <code>wakeword.cpp</code> tab and find <b>ENGINE 2</b>. It has 4 empty functions with notes:
+        <code>wakeBegin</code> (load your model), <code>wakeHeard</code> (say “yes” when you hear the word), <code>wakePause</code> and <code>wakeResume</code>.</li>
+      <li>Fill them in using the library from the service you picked. Add the library with <b>Sketch → Include Library → Add .ZIP Library…</b></li>
+      <li>Use the <b>Partition Scheme</b> from the cheat sheet that fits your library. Upload, then say your phrase!</li>
+    </ol>
+    <h3>🎤 Tips for a great wake-up phrase</h3>
+    <ul>
+      <li>Pick <b>3 or 4 syllables</b> (“Hey Sparky” is better than “Hi”).</li>
+      <li>Use <b>unusual sounds</b>, not a word people say all the time. Otherwise the robot wakes up by accident.</li>
+      <li>Test it in a <b>quiet room</b> and a <b>noisy room</b>, and with different people.</li>
+    </ul>
+    <div class="grownup"><b>👩‍👧 Grown-up corner</b>Both services need an account, and each has its own age and terms rules, so a parent should create it. Their offers and library details change, so follow their current docs. The slot in <code>wakeword.cpp</code> compiles, but no custom engine has been written or tested here. Sound samples you record may be uploaded to the service while training, so get everyone's OK before recording.</div>
+  </details>
+
+  <div class="tip"><b>🏅 Bonus challenge</b>Ask your robot 5 different questions. Can you stump it? Write down the funniest answer and show your family!</div>
+</section>
+
+<footer>Made with ❤️ for curious builders · Built with ESP32-S3 + Google Gemini</footer>
+</div>
+
+<script>
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  navigator.clipboard.writeText(b.parentElement.querySelector('pre').innerText);
+  b.textContent='Copied! ✓';setTimeout(()=>b.textContent='Copy',1400);
+}));
+function checklist(listId,barId,key){
+  const boxes=[...document.querySelectorAll('#'+listId+' input')];
+  const saved=JSON.parse(localStorage.getItem(key)||'[]');
+  function upd(){
+    const done=boxes.filter(b=>b.checked).length;
+    document.getElementById(barId).style.width=Math.round(done/boxes.length*100)+'%';
+    boxes.forEach(b=>b.closest('li').classList.toggle('done',b.checked));
+    localStorage.setItem(key,JSON.stringify(boxes.map(b=>b.checked)));
+  }
+  boxes.forEach((b,i)=>{b.checked=!!saved[i];b.addEventListener('change',upd)});upd();
+}
+checklist('checklist','bar','kids-steps');
+checklist('ideCheck','bar2','kids-ide');
+checklist('codeCheck','bar3','kids-code');
+
+/* ---- face preview (mirrors src/face.cpp) ---- */
+(function(){
+  const g=document.getElementById('fg'),NS='http://www.w3.org/2000/svg';
+  let mood='happy',since=performance.now(),blink=-1,nextBlink=1500,lx=0,ly=0,nextLook=2500;
+  const bs=[.7,.35,.1,.35,.7];
+  const R=(x,y,w,h,r,f)=>{const e=document.createElementNS(NS,'rect');e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('width',w);e.setAttribute('height',h);e.setAttribute('rx',r);if(f)e.setAttribute('fill',f);g.appendChild(e)};
+  const C=(x,y,r)=>{const e=document.createElementNS(NS,'circle');e.setAttribute('cx',x);e.setAttribute('cy',y);e.setAttribute('r',r);g.appendChild(e)};
+  const eye=(cx,cy,w,h)=>{h=Math.max(3,h);R(cx-w/2,cy-h/2,w,h,Math.min(10,h/2))};
+  function frame(now){
+    if(mood==='happy'&&now-since>2500){mood='idle'}
+    let b=1;
+    if(blink<0&&now>nextBlink)blink=0;
+    if(blink>=0){b=bs[Math.floor(blink)];blink+=.33;if(blink>=5){blink=-1;nextBlink=now+2000+Math.random()*3500}}
+    if(now>nextLook){lx=Math.round(Math.random()*16-8);ly=Math.round(Math.random()*8-4);nextLook=now+1500+Math.random()*2500}
+    g.innerHTML='';const LX=36,RX=92,CY=37,w=30,h=28;
+    const T=(x,y,str,size)=>{const t=document.createElementNS(NS,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('font-size',size||8);t.setAttribute('font-family','monospace');t.setAttribute('font-weight',700);t.textContent=str;g.appendChild(t)};
+    const head=str=>{T(2,11,str);R(0,15,128,1,0)};
+    if(mood==='idle'){head('READY');eye(LX+lx,CY+ly,w,h*b);eye(RX+lx,CY+ly,w,h*b)}
+    else if(mood==='happy'){head('HELLO!');
+      [LX,RX].forEach(cx=>{R(cx-15,CY-12,30,26,11);const c=document.createElementNS(NS,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',CY+12);c.setAttribute('r',16);c.setAttribute('fill','#05070d');g.appendChild(c)});
+      const sm=document.createElementNS(NS,'path');sm.setAttribute('d','M54 47 Q64 59 74 47');sm.setAttribute('fill','none');sm.setAttribute('stroke','#fff');sm.setAttribute('stroke-width','2');sm.setAttribute('stroke-linecap','round');g.appendChild(sm)}
+    else if(mood==='listen'){head('LISTENING');eye(LX,CY-3,w+4,(h+8)*b);eye(RX,CY-3,w+4,(h+8)*b);const ph=Math.floor(now/200)%3;for(let i=0;i<3;i++)C(50+i*14,59,i===ph?3:2)}
+    else if(mood==='think'){head('THINKING');const sw=10*Math.sin(now/350);eye(LX+sw,CY-4,w,h*b);eye(RX+sw,CY-4,w,h*b);const d=Math.floor(now/350)%4;for(let i=0;i<d;i++)C(50+i*14,59,3)}
+    else if(mood==='speak'){head('TALKING');eye(LX,CY-5,w,h*b);eye(RX,CY-5,w,h*b);const mh=4+5+5*Math.sin(now/90+Math.random()*2);R(50,53,28,mh,4)}
+    else if(mood==='sleep'){head('ZZZ');R(LX-15,CY,30,4,2);R(RX-15,CY,30,4,2);T(100+4*Math.sin(now/400),38,'z',16)}
+    requestAnimationFrame(frame);
+  }
+  const mb=[...document.querySelectorAll('#moods .mood')];
+  const pick=b=>{mood=b.dataset.m;since=performance.now();mb.forEach(x=>x.classList.toggle('on',x===b))};
+  mb.forEach(b=>b.onclick=()=>{b.classList.remove('on');void b.offsetWidth;pick(b)});
+  pick(mb.find(x=>x.dataset.m==='happy'));
+  const tint=(top)=>{document.getElementById('tintTop').setAttribute('fill',top)};
+  const sw=[document.getElementById('cYB'),document.getElementById('cWB')];
+  const choose=(b,c)=>{tint(c);sw.forEach(x=>x.classList.toggle('on',x===b))};
+  sw[0].onclick=()=>choose(sw[0],'#ffd21f');sw[1].onclick=()=>choose(sw[1],'#ffffff');sw[0].classList.add('on');
+  requestAnimationFrame(frame);
+})();
+
+/* ---- Robot Maker ---- */
+(function(){
+  const $=id=>document.getElementById(id);
+  const clean=t=>t.replace(/["\\\r\n]+/g,' ').replace(/\s+/g,' ').replace(/[.!\s]+$/,'').trim();
+  function build(){
+    const name=clean($('mkName').value), who=clean($('mkWho').value)||'a friendly companion', loves=clean($('mkLoves').value), style=clean($('mkStyle').value);
+    const wname=($('mkName').value||'').replace(/[^A-Za-z ]/g,' ').replace(/\s+/g,' ').trim();
+    const phrase='Hi '+(wname||'ESP');
+    $('mkPhrase').textContent=$('mkPhraseHint').textContent='“'+phrase+'”';
+    let prompt=name?`Your name is ${name}. `:'';
+    prompt+=`You are ${who}.`;
+    if(loves)prompt+=` You love ${loves}.`;
+    if(style)prompt+=` ${style.charAt(0).toUpperCase()+style.slice(1)}.`;
+    prompt+=' Keep answers short, fun and kid-friendly.';
+    $('mkVolOut').textContent=$('mkVol').value;
+    const wake=$('mkWake').checked?1:0;
+    $('mkWakeNote').style.display=wake?'block':'none';
+    $('mkOut').textContent=`// 1) WHO is your robot? Change the words between the quotes.\n#define SYSTEM_PROMPT "${prompt}"\n// 2) What VOICE does it have? Try "Puck", "Kore", "Charon", "Fenrir" or "Aoede".\n#define GEMINI_VOICE "${$('mkVoice').value}"\n// 3) How LOUD is it? 0 = silent, 100 = very loud.\n#define SPK_VOLUME ${$('mkVol').value}\n// 4) Wake up when you say a phrase? 1 = yes, 0 = no (use the button).\n#define WAKEWORD_ENABLED ${wake}\n// 5) The wake-up phrase: "Hi" + your robot\'s name, like "Hi Jarvis". Use plain English\n//    words that sound the way they are spelled. "Hi ESP" works best.\n#define WAKE_PHRASE "${phrase}"`;
+  }
+  ['mkName','mkWho','mkLoves','mkStyle','mkVoice','mkVol'].forEach(id=>$(id).addEventListener('input',build));
+  $('mkWake').addEventListener('change',build);
+  document.querySelectorAll('#presets .preset').forEach(b=>b.onclick=()=>{
+    $('mkName').value=b.dataset.name;$('mkWho').value=b.dataset.who;$('mkLoves').value=b.dataset.loves;$('mkStyle').value=b.dataset.style;build();
+    document.querySelectorAll('#presets .preset').forEach(x=>x.classList.toggle('on',x===b));
+    $('mkOut').parentElement.animate([{transform:'scale(1.02)'},{transform:'scale(1)'}],{duration:300});
+  });
+  build();
+})();
+</script>
+</body>
+</html>

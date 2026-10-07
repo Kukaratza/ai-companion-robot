@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build a Desktop AI Companion — ESP32-S3 + Gemini Live</title>
+<style>
+:root{
+  --bg:#0b1020; --panel:#141b33; --panel2:#1b2444; --text:#e8ecff; --muted:#98a2cf;
+  --accent:#7c8cff; --accent2:#3ee6c3; --warn:#ffb454; --bad:#ff6b7d; --ok:#5be38f;
+  --border:#2a3560; --code:#0a0f20;
+}
+@media (prefers-color-scheme: light){
+  :root{--bg:#f5f7ff;--panel:#fff;--panel2:#eef1ff;--text:#161b33;--muted:#5a6390;--border:#d8def5;--code:#f0f3ff;--accent:#4a5cf0;--accent2:#07a386}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
+a{color:var(--accent)}
+.layout{display:flex;max-width:1280px;margin:0 auto}
+nav{position:sticky;top:0;height:100vh;width:260px;flex:none;padding:28px 20px;overflow:auto;border-right:1px solid var(--border)}
+nav h4{margin:0 0 14px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+nav a{display:block;padding:7px 10px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px}
+nav a:hover,nav a.active{background:var(--panel2);color:var(--text)}
+.progress{height:6px;background:var(--panel2);border-radius:9px;margin:16px 0;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s}
+main{flex:1;min-width:0;padding:0 40px 120px}
+.hero{padding:70px 0 40px}
+.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.08;margin:0 0 16px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:19px;color:var(--muted);max-width:720px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{padding:5px 12px;border:1px solid var(--border);border-radius:99px;background:var(--panel);font-size:13px;color:var(--muted)}
+section{padding-top:56px}
+h2{font-size:30px;margin:0 0 6px}
+h2 .n{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:18px;margin-right:12px;vertical-align:middle}
+h3{margin:30px 0 8px;font-size:19px}
+.lead{color:var(--muted);margin:0 0 20px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;margin:18px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.part{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px}
+.part svg{width:100%;height:84px;background:var(--panel2);border-radius:10px;margin-bottom:10px}
+.part b{display:block}
+.pimg{display:none;width:100%;height:130px;object-fit:contain;background:#fff;border-radius:10px;margin-bottom:10px}
+.part small{color:var(--muted)}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;margin-top:6px;font-weight:600}
+.tag.use{background:#1f5f44;color:#aaf5cc}.tag.opt{background:#5a4420;color:#ffd79a}.tag.no{background:#4a2630;color:#ffb3be}
+table{width:100%;border-collapse:collapse;font-size:14.5px;margin:12px 0}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.9em}
+p code,td code,li code{background:var(--panel2);padding:2px 6px;border-radius:6px}
+.codewrap{position:relative;margin:14px 0}
+.codewrap .fn{display:block;font:12px ui-monospace,Menlo,monospace;color:var(--muted);background:var(--panel2);padding:7px 14px;border:1px solid var(--border);border-bottom:0;border-radius:12px 12px 0 0}
+pre{margin:0;background:#0d1224;color:#e6eaff;border:1px solid var(--border);border-radius:0 0 12px 12px;padding:16px;overflow:auto;font-size:13.5px;line-height:1.55}
+.copy{position:absolute;right:8px;top:4px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:12px;padding:3px 10px;cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+.k{color:#d7a8ff}.s{color:#a6e27f}.c{color:#8a96c4;font-style:italic}.f{color:#8fb8ff}.n2{color:#ffb98a}
+pre code,pre code *{background:none!important}
+.callout{border-left:4px solid var(--accent);background:var(--panel);padding:14px 18px;border-radius:0 12px 12px 0;margin:16px 0}
+.callout.warn{border-color:var(--warn)}.callout.bad{border-color:var(--bad)}.callout.ok{border-color:var(--ok)}
+.callout b:first-child{display:block;margin-bottom:2px}
+.steps{list-style:none;padding:0;margin:0}
+.steps li{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);background:var(--panel);border-radius:12px;margin:8px 0}
+.steps input{margin-top:6px;width:18px;height:18px;accent-color:var(--accent2);flex:none}
+.steps li.done{opacity:.55}.steps li.done span{text-decoration:line-through}
+figure{margin:18px 0}
+figure svg{width:100%;height:auto;background:var(--panel);border:1px solid var(--border);border-radius:16px}
+figcaption{color:var(--muted);font-size:13.5px;text-align:center;margin-top:6px}
+.timeline{display:grid;gap:12px}
+.ms{display:grid;grid-template-columns:48px 1fr;gap:14px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px}
+.ms .b{width:48px;height:48px;border-radius:14px;background:var(--panel2);display:grid;place-items:center;font-weight:800;color:var(--accent2);font-size:20px}
+.ms p{margin:2px 0;color:var(--muted);font-size:14.5px}
+details{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}
+footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
+@media(max-width:900px){nav{display:none}main{padding:0 20px 80px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <h4>Build guide</h4>
+  <div class="progress"><i id="bar"></i></div>
+  <small id="pct" style="color:var(--muted)">0% complete</small>
+  <div style="height:12px"></div>
+  <a href="#overview">Overview</a>
+  <a href="#parts">1 · Parts</a>
+  <a href="#how">2 · How it works</a>
+  <a href="#wiring">3 · Wiring</a>
+  <a href="#setup">4 · Software setup</a>
+  <a href="#code">5 · The code</a>
+  <a href="#test">6 · Test step by step</a>
+  <a href="#wake">7 · Wake word</a>
+  <a href="#power">8 · Battery power</a>
+  <a href="#trouble">9 · Troubleshooting</a>
+  <a href="#next">10 · Next ideas</a>
+</nav>
+
+<main>
+<header class="hero" id="overview">
+  <h1>Build your own Desktop AI Companion</h1>
+  <p>A small talking gadget you build yourself. Press a button (or say a wake word), speak, and an ESP32-S3 streams your voice to Google's <b>Gemini Live API</b> and plays the spoken answer through a speaker. No laptop required once it is flashed.</p>
+  <div class="badges">
+    <span class="badge">⏱ ~3–4 hours</span><span class="badge">🧰 Beginner–Intermediate</span>
+    <span class="badge">💵 ~$25 in parts</span><span class="badge">⚙️ ESP32-S3 · I2S · WebSocket</span>
+  </div>
+
+  <figure style="margin-top:34px">
+  <svg viewBox="0 0 900 230" role="img" aria-label="You speak, device streams to Gemini, answer plays back">
+    <defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7c8cff"/></marker></defs>
+    <g font-family="sans-serif" font-size="14" text-anchor="middle" fill="#e8ecff">
+      <rect x="20" y="70" width="150" height="90" rx="16" fill="#1b2444" stroke="#3b4a8a"/><text x="95" y="108" font-size="30">🗣️</text><text x="95" y="140">You speak</text>
+      <rect x="250" y="70" width="170" height="90" rx="16" fill="#1b2444" stroke="#3ee6c3"/><text x="335" y="104" font-size="26">📟</text><text x="335" y="128">ESP32-S3</text><text x="335" y="146" fill="#98a2cf" font-size="12">mic → WiFi → speaker</text>
+      <rect x="500" y="70" width="170" height="90" rx="16" fill="#1b2444" stroke="#7c8cff"/><text x="585" y="104" font-size="26">☁️</text><text x="585" y="128">Gemini Live API</text><text x="585" y="146" fill="#98a2cf" font-size="12">speech in → speech out</text>
+      <rect x="750" y="70" width="130" height="90" rx="16" fill="#1b2444" stroke="#3b4a8a"/><text x="815" y="108" font-size="30">🔊</text><text x="815" y="140">You hear</text>
+      <path d="M170 105 H246" stroke="#7c8cff" stroke-width="2.5" marker-end="url(#ar)" fill="none"/>
+      <path d="M420 105 H496" stroke="#7c8cff" stroke-width="2.5" marker-end="url(#ar)" fill="none"/>
+      <path d="M500 130 H424" stroke="#3ee6c3" stroke-width="2.5" marker-end="url(#ar)" fill="none"/>
+      <path d="M335 160 V200 H815 V164" stroke="#3ee6c3" stroke-width="2.5" marker-end="url(#ar)" fill="none"/>
+      <text x="208" y="94" font-size="11" fill="#98a2cf">sound</text><text x="458" y="94" font-size="11" fill="#98a2cf">16 kHz audio</text><text x="458" y="150" font-size="11" fill="#98a2cf">24 kHz</text>
+    </g>
+  </svg>
+  <figcaption>The whole idea in one picture.</figcaption></figure>
+</header>
+
+<!-- PARTS -->
+<section id="parts">
+  <h2><span class="n">1</span>Parts</h2>
+  <p class="lead">Only six parts are required. The rest are optional extras for later.</p>
+  <div class="grid">
+    <div class="part"><img class="pimg" src="images/esp32.jpg" alt="ESP32-S3 board" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="55" y="8" width="90" height="68" rx="6" fill="#1a7f5a"/><rect x="78" y="14" width="44" height="26" fill="#333"/><g fill="#d8c36a"><circle cx="62" cy="16" r="2"/><circle cx="62" cy="30" r="2"/><circle cx="62" cy="44" r="2"/><circle cx="62" cy="58" r="2"/><circle cx="138" cy="16" r="2"/><circle cx="138" cy="30" r="2"/><circle cx="138" cy="44" r="2"/><circle cx="138" cy="58" r="2"/></g><rect x="88" y="66" width="24" height="10" fill="#888"/></svg><b>ESP32-S3-N16R8 board</b><small>The brain. 16 MB flash + 8 MB PSRAM (the <i>R8</i> matters!).</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/mic.jpg" alt="INMP441 microphone" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="70" y="10" width="60" height="64" rx="5" fill="#3b57c9"/><circle cx="100" cy="36" r="13" fill="#bbb"/><circle cx="100" cy="36" r="6" fill="#222"/><g fill="#d8c36a"><circle cx="78" cy="68" r="2"/><circle cx="90" cy="68" r="2"/><circle cx="102" cy="68" r="2"/><circle cx="114" cy="68" r="2"/><circle cx="124" cy="68" r="2"/></g></svg><b>INMP441 microphone</b><small>Digital I2S MEMS mic. Hears you.</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/amp.jpg" alt="MAX98357 amplifier" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="70" y="14" width="60" height="56" rx="5" fill="#c0392b"/><rect x="88" y="22" width="24" height="16" fill="#222"/><g fill="#d8c36a"><circle cx="78" cy="64" r="2"/><circle cx="90" cy="64" r="2"/><circle cx="102" cy="64" r="2"/><circle cx="114" cy="64" r="2"/><circle cx="124" cy="64" r="2"/></g></svg><b>MAX98357 amplifier</b><small>I2S → amplified audio for the speaker.</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/speaker.jpg" alt="3W speaker" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><circle cx="100" cy="42" r="34" fill="#222" stroke="#555" stroke-width="4"/><circle cx="100" cy="42" r="14" fill="#444"/><circle cx="100" cy="42" r="5" fill="#111"/></svg><b>3 W 4 Ω speaker</b><small>Your assistant's voice.</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/button.jpg" alt="Metal push button" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><circle cx="100" cy="42" r="30" fill="#aab" stroke="#667" stroke-width="4"/><circle cx="100" cy="42" r="20" fill="#3ee6c3"/></svg><b>Metal push button</b><small>Push-to-talk / cancel.</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/breadboard.jpg" alt="Breadboard and jumper wires" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="20" y="10" width="160" height="64" rx="5" fill="#eee"/><g fill="#999"><rect x="28" y="16" width="144" height="4"/><rect x="28" y="64" width="144" height="4"/></g><g stroke="#e74c3c" stroke-width="3"><path d="M50 30 Q80 10 110 42"/></g><g stroke="#3498db" stroke-width="3"><path d="M90 60 Q130 20 160 50"/></g></svg><b>Breadboard + jumper wires</b><small>Solder-free connections. Use the MB102 power module for 5 V.</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/oled.jpg" alt="0.96 inch OLED display" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="62" y="8" width="76" height="68" rx="6" fill="#1c3f9e"/><rect x="68" y="22" width="64" height="40" fill="#111"/><rect x="76" y="34" width="12" height="16" rx="5" fill="#5ec8ff"/><rect x="112" y="34" width="12" height="16" rx="5" fill="#5ec8ff"/></svg><b>0.96" OLED face (SSD1306)</b><small>128×64, I2C, pins GND VDD SCK SDA. Shows the robot's animated face.</small><br><span class="tag use">REQUIRED</span></div>
+    <div class="part"><img class="pimg" src="images/battery.jpg" alt="18650 battery and TP4056" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="40" y="20" width="120" height="44" rx="22" fill="#b8c2cc"/><rect x="48" y="26" width="20" height="32" fill="#f5c26b"/></svg><b>18650 + TP4056 charger</b><small>Battery power. Needs a 5 V boost converter (not in your kit).</small><br><span class="tag opt">LATER</span></div>
+    <div class="part"><img class="pimg" src="images/servo.jpg" alt="MG90S servo" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="60" y="22" width="80" height="44" rx="4" fill="#2457c5"/><rect x="92" y="8" width="16" height="16" fill="#eee"/></svg><b>MG90S servo</b><small>Head nod / ear wiggle. Phase 2.</small><br><span class="tag opt">LATER</span></div>
+    <div class="part"><img class="pimg" src="images/other.jpg" alt="N20 motor and TTP223" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><circle cx="100" cy="42" r="24" fill="#555"/><rect x="100" y="36" width="44" height="12" fill="#999"/></svg><b>N20 motor · TTP223</b><small>Not needed for this build.</small><br><span class="tag no">NOT USED</span></div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <h2><span class="n">2</span>How it works</h2>
+  <p class="lead">Three jobs run at once on the ESP32-S3's two CPU cores.</p>
+  <figure>
+  <svg viewBox="0 0 900 360">
+    <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#98a2cf"/></marker></defs>
+    <g font-family="sans-serif" font-size="14" text-anchor="middle" fill="#e8ecff">
+      <rect x="20" y="30" width="860" height="300" rx="18" fill="none" stroke="#3b4a8a" stroke-dasharray="6 6"/>
+      <text x="110" y="52" fill="#98a2cf" font-size="12">ESP32-S3</text>
+      <rect x="50" y="130" width="130" height="70" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="115" y="160">INMP441</text><text x="115" y="180" font-size="12" fill="#98a2cf">I2S0 · 16 kHz</text>
+      <rect x="250" y="130" width="150" height="70" rx="12" fill="#1b2444" stroke="#7c8cff"/><text x="325" y="160">Base64 + JSON</text><text x="325" y="180" font-size="12" fill="#98a2cf">100 ms chunks</text>
+      <rect x="470" y="60" width="180" height="70" rx="12" fill="#1b2444" stroke="#7c8cff"/><text x="560" y="90">WebSocket (TLS)</text><text x="560" y="110" font-size="12" fill="#98a2cf">Session task · core 0</text>
+      <rect x="470" y="230" width="180" height="70" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="560" y="260">PSRAM ring buffer</text><text x="560" y="280" font-size="12" fill="#98a2cf">20 s of 24 kHz audio</text>
+      <rect x="250" y="230" width="150" height="70" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="325" y="260">Playback task</text><text x="325" y="280" font-size="12" fill="#98a2cf">core 1</text>
+      <rect x="50" y="230" width="130" height="70" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="115" y="260">MAX98357</text><text x="115" y="280" font-size="12" fill="#98a2cf">I2S1 · 24 kHz</text>
+      <rect x="730" y="130" width="130" height="70" rx="12" fill="#2a2f66" stroke="#7c8cff"/><text x="795" y="160">Gemini Live</text><text x="795" y="180" font-size="12" fill="#98a2cf">in the cloud</text>
+      <g stroke="#98a2cf" stroke-width="2" fill="none" marker-end="url(#a2)">
+        <path d="M180 165 H246"/><path d="M400 150 L466 110"/><path d="M650 95 L726 145"/><path d="M730 185 L654 255"/><path d="M470 265 H404"/><path d="M250 265 H184"/>
+      </g>
+    </g>
+  </svg>
+  <figcaption>Audio flows in through the top path and back out through the bottom path.</figcaption></figure>
+
+  <h3>Conversation states</h3>
+  <figure>
+  <svg viewBox="0 0 900 190">
+    <defs><marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#98a2cf"/></marker></defs>
+    <g font-family="sans-serif" font-size="15" text-anchor="middle" fill="#e8ecff">
+      <circle cx="90" cy="80" r="55" fill="#1b2444" stroke="#98a2cf"/><text x="90" y="85">IDLE</text>
+      <circle cx="300" cy="80" r="55" fill="#1b2444" stroke="#3ee6c3"/><text x="300" y="76">CONNECT</text><text x="300" y="96" font-size="11" fill="#98a2cf">setup</text>
+      <circle cx="510" cy="80" r="55" fill="#1b2444" stroke="#7c8cff"/><text x="510" y="76">LISTEN</text><text x="510" y="96" font-size="11" fill="#98a2cf">stream mic</text>
+      <circle cx="720" cy="80" r="55" fill="#1b2444" stroke="#ffb454"/><text x="720" y="76">SPEAK</text><text x="720" y="96" font-size="11" fill="#98a2cf">mic muted</text>
+      <g stroke="#98a2cf" stroke-width="2" fill="none" marker-end="url(#a3)">
+        <path d="M146 80 H240"/><path d="M356 80 H450"/><path d="M566 80 H660"/>
+        <path d="M720 136 Q720 175 600 175 H200 Q90 175 90 138"/>
+        <path d="M660 50 Q610 10 560 40"/>
+      </g>
+      <text x="193" y="70" font-size="11" fill="#98a2cf">button</text><text x="403" y="70" font-size="11" fill="#98a2cf">ready</text><text x="613" y="70" font-size="11" fill="#98a2cf">you talk</text>
+      <text x="400" y="165" font-size="11" fill="#98a2cf">button again / timeout</text><text x="610" y="20" font-size="11" fill="#98a2cf">reply done</text>
+    </g>
+  </svg></figure>
+</section>
+
+<!-- WIRING -->
+<section id="wiring">
+  <h2><span class="n">3</span>Wiring</h2>
+  <p class="lead">Double-check every wire before plugging in USB. Swapped power pins can kill a module.</p>
+  <figure>
+  <svg viewBox="0 0 900 520">
+    <g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="#e8ecff">
+      <!-- ESP32 -->
+      <rect x="340" y="40" width="220" height="440" rx="14" fill="#14523c" stroke="#3ee6c3" stroke-width="2"/>
+      <text x="450" y="70" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="16">ESP32-S3</text>
+      <text x="450" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#aef">N16R8 · USB-C on bottom</text>
+      <g text-anchor="start">
+        <text x="352" y="135">GPIO42</text><text x="352" y="175">GPIO41</text><text x="352" y="215">GPIO40</text><text x="352" y="255">3V3</text><text x="352" y="295">GND</text>
+      </g>
+      <g text-anchor="end">
+        <text x="548" y="135">GPIO15</text><text x="548" y="175">GPIO16</text><text x="548" y="215">GPIO7</text><text x="548" y="255">5V</text><text x="548" y="295">GND</text><text x="548" y="375">GPIO4</text><text x="548" y="415">GND</text>
+      </g>
+      <!-- Mic -->
+      <rect x="40" y="100" width="160" height="230" rx="12" fill="#243a86" stroke="#7c8cff" stroke-width="2"/>
+      <text x="120" y="128" text-anchor="middle" font-family="sans-serif" font-weight="700">INMP441 Mic</text>
+      <g><text x="56" y="175">SCK</text><text x="56" y="205">WS</text><text x="56" y="235">SD</text><text x="56" y="265">L/R</text><text x="56" y="295">VDD</text><text x="130" y="295">GND</text></g>
+      <!-- Amp -->
+      <rect x="700" y="100" width="160" height="230" rx="12" fill="#8a2a22" stroke="#ff8b7d" stroke-width="2"/>
+      <text x="780" y="128" text-anchor="middle" font-family="sans-serif" font-weight="700">MAX98357 Amp</text>
+      <g text-anchor="end"><text x="844" y="175">BCLK</text><text x="844" y="205">LRC</text><text x="844" y="235">DIN</text><text x="844" y="265">VIN</text><text x="844" y="295">GND</text></g>
+      <text x="780" y="325" text-anchor="middle" font-size="11" fill="#ffd0c8">OUT+ / OUT− → speaker</text>
+      <!-- Speaker -->
+      <circle cx="780" cy="420" r="44" fill="#222" stroke="#777" stroke-width="4"/><circle cx="780" cy="420" r="14" fill="#444"/>
+      <text x="780" y="490" text-anchor="middle" font-family="sans-serif">Speaker</text>
+      <path d="M780 376 V335" stroke="#ffb454" stroke-width="3"/>
+      <!-- Button -->
+      <circle cx="120" cy="420" r="32" fill="#aab" stroke="#667" stroke-width="4"/><circle cx="120" cy="420" r="20" fill="#3ee6c3"/>
+      <text x="120" y="480" text-anchor="middle" font-family="sans-serif">Push button</text>
+      <!-- wires mic -->
+      <g fill="none" stroke-width="2.5">
+        <path d="M200 171 H300 V131 H340" stroke="#f7c948"/>
+        <path d="M200 201 H290 V171 H340" stroke="#4ea1ff"/>
+        <path d="M200 231 H280 V211 H340" stroke="#5be38f"/>
+        <path d="M150 265 V340 H300 V291 H340" stroke="#777" />
+        <path d="M200 291 H270 V251 H340" stroke="#ff6b7d"/>
+        <!-- amp -->
+        <path d="M700 171 H610 V131 H560" stroke="#f7c948"/>
+        <path d="M700 201 H620 V171 H560" stroke="#4ea1ff"/>
+        <path d="M700 231 H630 V211 H560" stroke="#5be38f"/>
+        <path d="M700 261 H640 V251 H560" stroke="#ff6b7d"/>
+        <path d="M700 291 H650 V291 H560" stroke="#777"/>
+        <!-- button -->
+        <path d="M152 420 H260 V371 H340 L560 371" stroke="#f7c948" opacity=".0"/>
+        <path d="M120 388 V365 H250 V371 " stroke="none"/>
+      </g>
+      <path d="M152 410 H300 V371 H340" fill="none" stroke="#f7c948" stroke-width="2.5"/>
+      <path d="M560 371 H600 V390" fill="none" stroke="#f7c948" stroke-width="2.5"/>
+      <text x="610" y="405" font-size="11" fill="#98a2cf" font-family="sans-serif">button → GPIO4</text>
+      <text x="200" y="445" font-size="11" fill="#98a2cf" font-family="sans-serif">other leg → GND</text>
+      <!-- legend -->
+      <g font-family="sans-serif" font-size="12">
+        <rect x="340" y="490" width="12" height="12" fill="#f7c948"/><text x="358" y="500">clock</text>
+        <rect x="400" y="490" width="12" height="12" fill="#4ea1ff"/><text x="418" y="500">word-select</text>
+        <rect x="490" y="490" width="12" height="12" fill="#5be38f"/><text x="508" y="500">data</text>
+        <rect x="550" y="490" width="12" height="12" fill="#ff6b7d"/><text x="568" y="500">power</text>
+        <rect x="610" y="490" width="12" height="12" fill="#777"/><text x="628" y="500">ground</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption>Schematic overview. Use the pin table below as the source of truth.</figcaption></figure>
+
+  <table>
+    <tr><th>Part pin</th><th>→ ESP32-S3</th><th>Notes</th></tr>
+    <tr><td>INMP441 <code>SCK</code></td><td>GPIO42</td><td>I2S bit clock</td></tr>
+    <tr><td>INMP441 <code>WS</code></td><td>GPIO41</td><td>Word select</td></tr>
+    <tr><td>INMP441 <code>SD</code></td><td>GPIO40</td><td>Data from mic</td></tr>
+    <tr><td>INMP441 <code>L/R</code></td><td>GND</td><td>Selects the left channel</td></tr>
+    <tr><td>INMP441 <code>VDD</code> / <code>GND</code></td><td>3V3 / GND</td><td><b>3.3 V only</b></td></tr>
+    <tr><td>MAX98357 <code>BCLK</code></td><td>GPIO15</td><td></td></tr>
+    <tr><td>MAX98357 <code>LRC</code></td><td>GPIO16</td><td></td></tr>
+    <tr><td>MAX98357 <code>DIN</code></td><td>GPIO7</td><td>Data to amp</td></tr>
+    <tr><td>MAX98357 <code>VIN</code> / <code>GND</code></td><td>5V / GND</td><td>Leave <code>SD</code> and <code>GAIN</code> unconnected</td></tr>
+    <tr><td>OLED face <code>SDA</code> / <code>SCK</code></td><td>GPIO2 / GPIO1</td><td>0.96" SSD1306, I2C address 0x3C (SCK = SCL)</td></tr>
+    <tr><td>OLED face <code>VDD</code> / <code>GND</code></td><td>3V3 / GND</td><td><b>3.3 V only</b></td></tr>
+    <tr><td>Button leg 1 / leg 2</td><td>GPIO4 / GND</td><td>Internal pull-up is used</td></tr>
+  </table>
+  <div class="callout warn"><b>Avoid GPIO 35, 36, 37</b>On the N16R8 these pins are used by the octal PSRAM. Using them crashes the board.</div>
+  <div class="callout"><b>Tip: keep the mic away from the speaker</b>Place them on opposite sides of the enclosure, or the assistant will hear itself.</div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <h2><span class="n">4</span>Software setup</h2>
+  <p class="lead">Tick the boxes as you go. Your progress is saved in the browser.</p>
+  <ul class="steps" id="checklist">
+    <li><input type="checkbox"><span><b>Get a Gemini API key.</b> Create one at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>. Treat it like a password.</span></li>
+    <li><input type="checkbox"><span><b>Install VS Code</b> and the <b>PlatformIO IDE</b> extension (or use the Arduino IDE path below).</span></li>
+    <li><input type="checkbox"><span><b>Open the project folder</b> <code>AI Companion</code> in VS Code. PlatformIO downloads the toolchain on first open (a few minutes).</span></li>
+    <li><input type="checkbox"><span><b>Create <code>include/secrets.h</code></b> from the example and fill in WiFi and key (see below).</span></li>
+    <li><input type="checkbox"><span><b>Wire the hardware</b> following section 3, with USB unplugged.</span></li>
+    <li><input type="checkbox"><span><b>Plug in USB-C</b> and click <i>Upload</i> (→ arrow in the status bar).</span></li>
+    <li><input type="checkbox"><span><b>Open Serial Monitor</b> at 115200 baud and check for <code>PSRAM: 8386308 bytes</code> (about 8 MB).</span></li>
+  </ul>
+
+  <div class="codewrap"><span class="fn">include/secrets.h</span><button class="copy">Copy</button>
+<pre><code><span class="k">#pragma once</span>
+<span class="k">#define</span> WIFI_SSID    <span class="s">"your-wifi"</span>
+<span class="k">#define</span> WIFI_PASS    <span class="s">"your-password"</span>
+<span class="k">#define</span> GEMINI_API_KEY <span class="s">"your-gemini-api-key"</span></code></pre></div>
+
+  <div class="callout bad"><b>Never share or commit <code>secrets.h</code></b>The project's <code>.gitignore</code> already excludes it. Since the key is stored on the device, create a key with a quota limit.</div>
+
+  <details open><summary>Using Arduino IDE (recommended for beginners)</summary>
+    <p>Ready-made sketches are in <code>arduino/AI_Companion</code> (full robot) and <code>arduino/Face_Demo</code> (screen only). Open the <code>.ino</code> file; the other files open as tabs. Edit <code>secrets.h</code> first.</p>
+    <ol>
+      <li>Add <code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code> to <i>Additional boards manager URLs</i>, then install <b>esp32 by Espressif Systems</b>, version <b>3.x</b>.</li>
+      <li>Install libraries: <b>WebSockets</b> (Markus Sattler), <b>Adafruit SSD1306</b>, <b>Adafruit GFX Library</b>.</li>
+      <li>Tools: Board <b>ESP32S3 Dev Module</b>, USB CDC On Boot <b>Disabled</b> (use the COM port), Flash Size <b>16MB</b>, PSRAM <b>OPI PSRAM</b>, Partition Scheme <b>16M Flash (3MB APP/9.9MB FATFS)</b>.</li>
+      <li>No build flags needed: the WebSocket library's default message size works because the code reassembles fragmented messages.</li>
+      <li>After editing <code>src/</code> or <code>include/</code>, regenerate the sketches with <code>sh tools/make_arduino_sketches.sh</code>.</li>
+    </ol>
+  </details>
+
+  <h3>platformio.ini</h3>
+  <div class="codewrap"><span class="fn">platformio.ini</span><button class="copy">Copy</button>
+<pre><code>[env:esp32s3]
+platform = https://github.com/pioarduino/platform-espressif32/releases/download/stable/platform-espressif32.zip
+board = esp32-s3-devkitc-1
+framework = arduino
+monitor_speed = 115200
+board_build.arduino.memory_type = qio_opi
+board_upload.flash_size = 16MB
+board_build.partitions = default_16MB.csv
+build_flags =
+    -DBOARD_HAS_PSRAM
+    -DARDUINO_USB_CDC_ON_BOOT=1
+    -DWEBSOCKETS_MAX_DATA_SIZE=65536
+lib_deps =
+    links2004/WebSockets@^2.6.1</code></pre></div>
+</section>
+
+<!-- CODE -->
+<section id="code">
+  <h2><span class="n">5</span>The code</h2>
+  <p class="lead">Five small files. The most important ideas are highlighted below.</p>
+  <table>
+    <tr><th>File</th><th>Job</th></tr>
+    <tr><td><code>include/config.h</code></td><td>Pins, audio rates, model name, voice, system prompt</td></tr>
+    <tr><td><code>src/audio_in.cpp</code></td><td>Reads the INMP441 and converts 24-bit samples to 16-bit</td></tr>
+    <tr><td><code>src/audio_out.cpp</code></td><td>Ring buffer in PSRAM + playback task to the MAX98357</td></tr>
+    <tr><td><code>src/gemini_live.cpp</code></td><td>WebSocket to Gemini, sends mic audio, decodes reply audio</td></tr>
+    <tr><td><code>src/main.cpp</code></td><td>WiFi, button, and the main loop</td></tr>
+  </table>
+
+  <h3>Make it yours: <code>config.h</code></h3>
+  <div class="codewrap"><span class="fn">include/config.h (excerpt)</span><button class="copy">Copy</button>
+<pre><code><span class="c">// Verify against Google's current Live API docs</span>
+<span class="k">#define</span> GEMINI_MODEL <span class="s">"models/gemini-2.5-flash-native-audio-preview-09-2025"</span>
+<span class="k">#define</span> GEMINI_VOICE <span class="s">"Puck"</span>
+<span class="k">#define</span> SYSTEM_PROMPT \
+    <span class="s">"You are a friendly desktop companion. Keep answers short and conversational."</span>
+
+<span class="c">// Mic too quiet? Lower MIC_SHIFT (e.g. 12). Clipping? Raise it (e.g. 16).</span>
+<span class="k">#define</span> MIC_SHIFT <span class="n2">14</span>
+<span class="c">// Speaker volume 0..100</span>
+<span class="k">#define</span> SPK_VOLUME <span class="n2">60</span></code></pre></div>
+
+  <h3>The mic: 24-bit → 16-bit</h3>
+  <p>The INMP441 delivers 24-bit samples inside 32-bit slots. Gemini expects 16-bit, so we shift the bits down.</p>
+  <div class="codewrap"><span class="fn">src/audio_in.cpp</span><button class="copy">Copy</button>
+<pre><code><span class="k">size_t</span> <span class="f">audioInRead</span>(<span class="k">int16_t</span> *out, <span class="k">size_t</span> count) {
+    <span class="k">static</span> <span class="k">int32_t</span> raw[MIC_CHUNK_SAMPLES];
+    <span class="k">size_t</span> got = mic.<span class="f">readBytes</span>((<span class="k">char</span> *)raw, count * <span class="k">sizeof</span>(<span class="k">int32_t</span>)) / <span class="k">sizeof</span>(<span class="k">int32_t</span>);
+    <span class="k">for</span> (<span class="k">size_t</span> i = <span class="n2">0</span>; i &lt; got; i++) {
+        <span class="k">int32_t</span> s = raw[i] &gt;&gt; MIC_SHIFT;
+        out[i] = (<span class="k">int16_t</span>)<span class="f">constrain</span>(s, -<span class="n2">32768</span>, <span class="n2">32767</span>);
+    }
+    <span class="k">return</span> got;
+}</code></pre></div>
+
+  <h3>Talking to Gemini</h3>
+  <p>Gemini Live is a WebSocket. First you send a <code>setup</code> message; then you stream audio as base64 JSON; replies arrive as JSON with base64 audio.</p>
+  <div class="codewrap"><span class="fn">What travels over the wire</span><button class="copy">Copy</button>
+<pre><code><span class="c">// 1) ESP32 → Gemini (once)</span>
+{ <span class="s">"setup"</span>: { <span class="s">"model"</span>: <span class="s">"models/…"</span>,
+    <span class="s">"generationConfig"</span>: { <span class="s">"responseModalities"</span>: [<span class="s">"AUDIO"</span>] },
+    <span class="s">"systemInstruction"</span>: { <span class="s">"parts"</span>: [{ <span class="s">"text"</span>: <span class="s">"You are a friendly…"</span> }] } } }
+
+<span class="c">// 2) ESP32 → Gemini (every 100 ms)</span>
+{ <span class="s">"realtimeInput"</span>: { <span class="s">"audio"</span>: { <span class="s">"mimeType"</span>: <span class="s">"audio/pcm;rate=16000"</span>, <span class="s">"data"</span>: <span class="s">"&lt;base64&gt;"</span> } } }
+
+<span class="c">// 3) Gemini → ESP32 (as it speaks)</span>
+{ <span class="s">"serverContent"</span>: { <span class="s">"modelTurn"</span>: { <span class="s">"parts"</span>: [{ <span class="s">"inlineData"</span>: { <span class="s">"data"</span>: <span class="s">"&lt;base64 24 kHz PCM&gt;"</span> } }] } } }
+{ <span class="s">"serverContent"</span>: { <span class="s">"turnComplete"</span>: <span class="k">true</span> } }</code></pre></div>
+
+  <h3>The main loop</h3>
+  <div class="codewrap"><span class="fn">src/main.cpp (loop)</span><button class="copy">Copy</button>
+<pre><code><span class="k">void</span> <span class="f">loop</span>() {
+    <span class="k">if</span> (<span class="f">buttonPressed</span>()) {
+        <span class="k">if</span> (<span class="f">geminiActive</span>()) <span class="f">geminiEnd</span>();   <span class="c">// second press stops</span>
+        <span class="k">else</span>                  <span class="f">geminiBegin</span>(); <span class="c">// first press starts</span>
+    }
+    <span class="f">geminiLoop</span>();
+
+    <span class="k">if</span> (<span class="f">geminiReady</span>()) {
+        <span class="k">static</span> <span class="k">int16_t</span> chunk[MIC_CHUNK_SAMPLES];
+        <span class="k">size_t</span> n = <span class="f">audioInRead</span>(chunk, MIC_CHUNK_SAMPLES);
+        <span class="c">// Don't feed the speaker's own output back to the model</span>
+        <span class="k">if</span> (n &amp;&amp; <span class="f">audioOutPending</span>() == <span class="n2">0</span>) <span class="f">geminiSendAudio</span>(chunk, n);
+    } <span class="k">else</span> <span class="f">delay</span>(<span class="n2">5</span>);
+}</code></pre></div>
+  <div class="callout"><b>Full source</b>All files live in the project folder next to this page: <code>src/</code> and <code>include/</code>.</div>
+</section>
+
+<!-- TEST -->
+<section id="test">
+  <h2><span class="n">6</span>Test step by step</h2>
+  <p class="lead">Prove each piece works before combining them. This saves hours of debugging.</p>
+  <div class="timeline">
+    <div class="ms"><div class="b">1</div><div><b>Board alive</b><p>Serial Monitor prints <code>PSRAM: ~8000000 bytes</code> and <code>WiFi OK: 192.168…</code>.</p></div></div>
+    <div class="ms"><div class="b">2</div><div><b>Microphone works</b><p>Print the loudness of each 100 ms chunk. Silence should be low; clapping should jump by 10× or more.</p></div></div>
+    <div class="ms"><div class="b">3</div><div><b>Speaker works</b><p>Play a short beep through the amp. If you hear nothing, recheck VIN, GND and the three I2S wires.</p></div></div>
+    <div class="ms"><div class="b">4</div><div><b>Talk to Gemini</b><p>Press the button, wait for <code>Gemini ready</code>, ask “What's the capital of France?” and hear the answer.</p></div></div>
+    <div class="ms"><div class="b">5</div><div><b>Stress test</b><p>Have 10 conversations in a row. Free memory should stay roughly stable.</p></div></div>
+  </div>
+
+  <h3>Expected serial output</h3>
+  <div class="codewrap"><span class="fn">Serial Monitor</span><button class="copy">Copy</button>
+<pre><code>PSRAM: 8386308 bytes
+.....
+WiFi OK: 192.168.1.42
+Press the button to talk
+Session starting
+WS connected
+Gemini ready
+turn complete</code></pre></div>
+</section>
+
+<!-- WAKE -->
+<section id="wake">
+  <h2><span class="n">7</span>Wake word: say its name</h2>
+  <p class="lead">Implemented but <b>not yet tested on hardware</b>. Off by default (<code>WAKEWORD_ENABLED 0</code> in <code>config.h</code>). The microphone listens locally and only connects to Gemini after it hears the phrase.</p>
+  <div class="card">
+    <ul>
+      <li>Uses Espressif's <b>ESP-SR / WakeNet</b> through the Arduino <code>ESP_SR</code> library (included with the esp32 core 3.x). The built-in phrase is <b>“Hi, ESP”</b>. A custom phrase needs a trained model (Espressif service or Edge Impulse) and is not implemented.</li>
+      <li><b>To enable:</b> set <code>WAKEWORD_ENABLED 1</code>, and choose the partition scheme <b>ESP SR 16M (3MB APP/7MB SPIFFS/2.9MB MODEL)</b> (PlatformIO: <code>esp_sr_16.csv</code>). Without the model partition, <code>wakeBegin()</code> fails and the robot falls back to the button.</li>
+      <li><b>Flow:</b> sleeping (face shows ZZZ) → name heard → <code>geminiBegin()</code>. The listener pauses while a session is active and resumes when it ends. After <code>SESSION_IDLE_SECONDS</code> (15) of silence the robot hangs up and goes back to sleep. The button still works.</li>
+      <li><b>Microphone:</b> now configured as 32-bit stereo (INMP441 on the left slot) so the listener and the audio streamer share one I2S port; <code>audioInRead()</code> keeps the left samples.</li>
+      <li><b>Engines:</b> <code>WAKE_ENGINE 1</code> = ESP-SR “Hi ESP”. <code>WAKE_ENGINE 2</code> = empty slot for a custom model (Picovoice Porcupine or an Edge Impulse Arduino library): implement <code>wakeBegin/wakeHeard/wakePause/wakeResume</code> in <code>wakeword.cpp</code>. Not implemented or tested.</li>
+      <li>Files: <code>src/wakeword.{h,cpp}</code>, changes in <code>main.cpp</code> and <code>audio_in.cpp</code>. API calls (<code>ESP_SR.begin/pause/resume</code>, <code>sr_cmd_t</code>) are written from memory of the library; verify against the installed core.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- POWER -->
+<section id="power">
+  <h2><span class="n">8</span>Battery power (optional)</h2>
+  <div class="callout warn"><b>Don't connect the TP4056 output straight to the 5V pin</b>A lithium cell is 3.0–4.2 V. The board's regulator needs about 5 V and will brown out. Add a small <b>5 V boost converter</b> (e.g. MT3608 or a 18650 "power bank" module) between the battery and the board.</div>
+  <figure>
+  <svg viewBox="0 0 900 150">
+    <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#98a2cf"/></marker></defs>
+    <g font-family="sans-serif" font-size="14" text-anchor="middle" fill="#e8ecff">
+      <rect x="20" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#98a2cf"/><text x="85" y="80">USB-C charger</text>
+      <rect x="200" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="265" y="80">TP4056</text>
+      <rect x="380" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#ffb454"/><text x="445" y="80">18650 cell</text>
+      <rect x="560" y="45" width="140" height="60" rx="12" fill="#1b2444" stroke="#ff6b7d"/><text x="630" y="72">5 V boost</text><text x="630" y="92" font-size="11" fill="#98a2cf">(buy separately)</text>
+      <rect x="750" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#7c8cff"/><text x="815" y="80">ESP32 + amp</text>
+      <g stroke="#98a2cf" stroke-width="2" marker-end="url(#a4)"><path d="M150 75 H196"/><path d="M330 75 H376"/><path d="M510 75 H556"/><path d="M700 75 H746"/></g>
+    </g>
+  </svg></figure>
+</section>
+
+<!-- TROUBLE -->
+<section id="trouble">
+  <h2><span class="n">9</span>Troubleshooting</h2>
+  <details><summary>Upload fails / board not detected</summary>Hold <b>BOOT</b>, tap <b>RST</b>, release BOOT, then upload. Make sure the cable supports data, not just charging, and try the other USB-C port on the board.</details>
+  <details><summary>Board reboots in a loop (<code>Guru Meditation</code>)</summary>Check the PSRAM settings (<code>qio_opi</code>) and that you bought the <b>N16R8</b> variant. Also make sure nothing is wired to GPIO 35–37.</details>
+  <details><summary>Mic readings are always 0 or constant</summary>Check <code>L/R</code> is on GND, and that SCK/WS/SD aren't swapped. Power must be 3.3 V.</details>
+  <details><summary>Speaker silent</summary>MAX98357 needs 5 V on VIN and common GND. Confirm BCLK/LRC/DIN. The amp's <code>SD</code> pin must not be grounded.</details>
+  <details><summary>Speaker is very quiet or distorted</summary>Raise <code>SPK_VOLUME</code>. Make sure your supply can deliver current: USB from a laptop port may sag at high volume.</details>
+  <details><summary>Stuck on “WS connected” but never “Gemini ready”</summary>Usually a wrong model name or invalid API key. Check the model ID in Google's current Live API docs and regenerate the key if needed.</details>
+  <details><summary>The assistant hears itself and loops</summary>Move the mic away from the speaker, reduce volume, and keep the mic muted while playing (already done in <code>loop()</code>).</details>
+  <details><summary>Audio stutters</summary>Weak WiFi or heap pressure. Move closer to the router and watch free heap/PSRAM in the serial log.</details>
+</section>
+
+<!-- NEXT -->
+<section id="next">
+  <h2><span class="n">10</span>Next ideas</h2>
+  <div class="grid">
+    <div class="card"><b>🤖 Personality</b><br><small>Rewrite <code>SYSTEM_PROMPT</code> and pick another voice.</small></div>
+    <div class="card"><b>🎚 Servo head</b><br><small>MG90S nods while it listens and speaks.</small></div>
+    <div class="card"><b>💡 Status LED</b><br><small>Use the button's LED ring: idle, listening, speaking.</small></div>
+    <div class="card"><b>🔋 Go portable</b><br><small>Add the boost converter and a 3D-printed case.</small></div>
+  </div>
+  <footer>Desktop AI Companion · ESP32-S3 + Gemini Live · Model names and APIs change; always check Google's current documentation.</footer>
+</section>
+</main>
+</div>
+
+<script>
+// copy buttons
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>{
+  const t=b.parentElement.querySelector('pre').innerText;
+  navigator.clipboard.writeText(t);b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',1400);
+}));
+// checklist progress
+const boxes=[...document.querySelectorAll('#checklist input')];
+const saved=JSON.parse(localStorage.getItem('aic-steps')||'[]');
+function upd(){
+  const done=boxes.filter(b=>b.checked).length;
+  const p=Math.round(done/boxes.length*100);
+  document.getElementById('bar').style.width=p+'%';
+  document.getElementById('pct').textContent=p+'% complete';
+  boxes.forEach(b=>b.closest('li').classList.toggle('done',b.checked));
+  localStorage.setItem('aic-steps',JSON.stringify(boxes.map(b=>b.checked)));
+}
+boxes.forEach((b,i)=>{b.checked=!!saved[i];b.addEventListener('change',upd)});upd();
+// active nav link
+const links=[...document.querySelectorAll('nav a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+}),{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('main section, header.hero').forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

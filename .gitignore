@@ -1,0 +1,11 @@
+.pio/
+.DS_Store
+# real WiFi/API key file for PlatformIO users (a placeholder example is committed instead)
+include/secrets.h
+# raw photo originals (the guides use the cleaned-up .jpg files)
+images/MAX98357
+images/speaker
+images/esp32
+images/screen.avif
+images/charger.jpeg
+images/breadboard.png

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breadboard Buddy — learn where every wire goes! 🧵</title>
+<style>
+:root{--bg:#fff8ec;--panel:#fff;--text:#2b2350;--muted:#6b6494;--pink:#ff5fa2;--blue:#4b7bff;--green:#2fc98b;--yellow:#ffc93c;--purple:#8a5cff;--border:#eadfc8;--red:#ff5a6a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:19px/1.65 "Trebuchet MS",system-ui,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px 100px}
+.topbar{position:sticky;top:0;z-index:9;background:#fffdf8ee;backdrop-filter:blur(6px);border-bottom:3px solid var(--yellow);padding:8px 14px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.topbar a{text-decoration:none;color:var(--text);font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px;background:#fff;border:2px solid var(--border)}
+.topbar a:hover{background:var(--yellow)}
+.hero{text-align:center;padding:44px 0 10px}
+.hero .big{font-size:80px;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px) rotate(4deg)}}
+.hero h1{margin:6px 0;font-size:clamp(32px,6vw,52px);color:var(--purple);line-height:1.1}
+.hero p{color:var(--muted);font-size:21px}
+section{margin-top:54px}
+h2{font-size:32px;margin:0 0 6px;color:var(--blue)}
+h2 .n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--pink);color:#fff;margin-right:10px;font-size:23px}
+h3{color:var(--purple);margin:22px 0 6px}
+.card{background:#fff;border:4px solid var(--border);border-radius:24px;padding:16px 22px;margin:16px 0;box-shadow:0 6px 0 var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.grid .card{margin:0}
+.rule .big{font-size:42px;line-height:1.1}
+.tip,.safe,.grownup{border-radius:20px;padding:12px 18px;margin:16px 0;border:4px solid}
+.tip{background:#eaf2ff;border-color:var(--blue)}.safe{background:#ffeaea;border-color:#ff6b6b}.grownup{background:#fff3cf;border-color:var(--yellow)}
+.tip b,.safe b,.grownup b{display:block}
+.board{width:100%;aspect-ratio:1.6;background:#fff;border:4px solid var(--border);border-radius:24px;display:block}
+.boardsm{width:100%;background:#fff;border:4px solid var(--border);border-radius:24px;display:block}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+button.btn{font:700 18px "Trebuchet MS",sans-serif;border:0;border-radius:99px;padding:10px 22px;cursor:pointer;background:var(--blue);color:#fff;box-shadow:0 4px 0 #2e55c9}
+button.btn:active{transform:translateY(3px);box-shadow:none}
+button.btn.alt{background:#fff;color:var(--text);border:3px solid var(--border);box-shadow:0 4px 0 var(--border)}
+button.btn.pink{background:var(--pink);box-shadow:0 4px 0 #cc3d80}
+button.btn:disabled{opacity:.4;cursor:not-allowed}
+.toggle{font-weight:700;cursor:pointer;user-select:none}
+.toggle input{width:20px;height:20px;accent-color:var(--purple);vertical-align:middle}
+.msg{min-height:3.4em;background:#f1ebff;border-radius:16px;padding:10px 16px;font-weight:700}
+.msg.good{background:#dcfbe9}.msg.bad{background:#ffe3e3}
+.dots{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+.dots button{font:700 14px "Trebuchet MS",sans-serif;display:flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:99px;border:3px solid var(--border);background:#fff;color:var(--muted);cursor:pointer}
+.dots button b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--border);color:var(--text);font-size:14px}
+.dots button.on{border-color:var(--green);color:var(--text)}
+.dots button.on b{background:var(--green);color:#fff}
+.dots button.now{border-color:var(--pink);background:#fff0f7;color:var(--text);transform:scale(1.06)}
+.dots button.now b{background:var(--pink);color:#fff}
+.pbar{height:14px;background:#fff;border:3px solid var(--border);border-radius:99px;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--yellow),var(--green));transition:width .4s}
+.stepcard h3{margin:0;font-size:26px;color:var(--pink)}
+.where{list-style:none;padding:0;margin:8px 0}
+.where li{display:flex;gap:10px;align-items:center;padding:5px 0;border-top:2px dashed var(--border)}
+.where .sw{width:26px;height:10px;border-radius:9px;flex:none}
+code,.hole{font-family:ui-monospace,Menlo,monospace;background:#f1ebff;padding:1px 7px;border-radius:8px;font-size:.88em;white-space:nowrap}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:15px;margin:8px 0;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:22px;height:8px;border-radius:9px;margin-right:6px;background:var(--c)}
+/* svg animation */
+.drop{animation:drop .9s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes drop{from{transform:translateY(-70px);opacity:0}to{transform:none;opacity:1}}
+.wire{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s ease-in-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.plug{opacity:0;animation:fade .3s forwards}
+@keyframes fade{to{opacity:1}}
+.ring{fill:none;stroke:#ff5fa2;stroke-width:3;transform-box:fill-box;transform-origin:center;animation:pulse 1.1s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(2.2);opacity:0}}
+.hole{}
+circle.h{fill:#3a3550;transition:fill .12s}
+circle.h.lit{fill:#ffc93c;stroke:#e59b00;stroke-width:2}
+circle.h.star{fill:#ff5fa2}
+.xray{opacity:0;transition:opacity .3s;pointer-events:none}
+.showx .xray{opacity:1}
+.strip.glow{animation:glow .5s infinite alternate}
+@keyframes glow{to{fill:#ff5a6a;opacity:.9}}
+.zap{animation:zap .35s infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes zap{to{transform:scale(1.4) rotate(12deg)}}
+.flipdrop{animation:flipdrop 1.3s cubic-bezier(.3,1.2,.5,1) both}
+@keyframes flipdrop{0%{transform:translateY(-70px) rotate(-180deg);opacity:0}30%{opacity:1}100%{transform:none;opacity:1}}
+.old{opacity:.4}.ghost{opacity:.07}
+.fltbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.fltbar b{margin-right:4px}
+.fltbar button{font:700 15px "Trebuchet MS",sans-serif;padding:6px 14px;border-radius:99px;border:3px solid var(--border);background:#fff;cursor:pointer}
+.fltbar button.on{background:#ffd23f;border-color:#1d1b4b}
+ .dot{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:middle;margin-right:8px;border:2px solid #0003}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;border:4px solid var(--border);font-size:17px;margin:10px 0}
+th{background:var(--yellow);text-align:left;padding:10px 12px}
+td{padding:9px 12px;border-top:2px solid var(--border)}
+input.c{width:22px;height:22px;accent-color:var(--green)}
+.boardwrap{position:relative}
+.zoombar{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:6px}
+.zoombar button{width:40px;height:40px;border-radius:12px;border:3px solid #1d1b4b;background:#fff;font:900 20px "Trebuchet MS",sans-serif;cursor:pointer;box-shadow:0 3px 0 #1d1b4b;padding:0;line-height:1}
+.zoombar button:hover{background:#ffd23f}.zoombar button:active{transform:translateY(2px);box-shadow:none}
+#buildBoard{touch-action:none;cursor:grab;user-select:none}#buildBoard.grab{cursor:grabbing}
+.hint{font-size:14px;font-weight:700;color:var(--muted);margin:6px 0 0}
+.buildgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:22px;align-items:start}
+.bleft{position:sticky;top:60px;align-self:start}
+.bleft .board{width:100%;max-height:calc(100vh - 210px)}
+.bleft .controls{margin:10px 0 4px}
+.bleft .legend{margin:4px 0 0}
+.stepcard{margin-top:0}
+.boardsm{max-height:68vh;margin:0 auto}
+@media(max-width:1000px){
+  .buildgrid{grid-template-columns:1fr}
+  .bleft{top:50px;z-index:6;background:var(--bg);padding:6px 0 4px}
+  .bleft .board{max-height:40vh}
+}
+footer{text-align:center;color:var(--muted);margin-top:60px}
+</style>
+<link rel="stylesheet" href="kids-theme.css">
+</head>
+<body>
+<div class="topbar">
+  <a href="#learn">1 · Meet the board</a><a href="#rules">2 · Golden rules</a><a href="#oops">3 · Classic mistake</a><a href="#build">4 · Build it, step by step</a><a href="#wires">5 · Wiring checklist</a><a class="hot" href="guide-kids.html">🤖 Back to robot guide</a>
+</div>
+<div class="wrap">
+
+<header class="hero">
+  <div class="big">🧵</div>
+  <h1>Breadboard Buddy</h1>
+  <p>A breadboard has <b>secret metal strips</b> hiding inside.<br>Learn where they are, and you'll never mix up a wire again!</p>
+</header>
+<div class="ticker"><span>★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN </span></div>
+
+<!-- LEARN -->
+<section id="learn">
+  <h2><span class="n">1</span>Meet your breadboard</h2>
+  <p>A breadboard is a board full of little holes. You push parts and wires into the holes. <b>No glue, no soldering.</b> But underneath, some holes are <b>secretly joined</b> by metal. Point at a hole (or tap it) to find out which ones!</p>
+  <svg id="learnBoard" class="boardsm" viewBox="0 100 500 450"></svg>
+  <div class="controls">
+    <label class="toggle"><input type="checkbox" id="xr"> 🔍 X-ray: show the hidden metal</label>
+    <button class="btn pink" id="chBtn">🎯 Play the challenge</button>
+    <span id="score" style="font-weight:700"></span>
+  </div>
+  <div class="msg" id="learnMsg">👆 Point at any hole!</div>
+  <div class="tip"><b>🧠 Remember</b>Holes in the <b>same column</b> on the <b>same side</b> of the middle groove are joined. The <b>long rails</b> at the top and bottom are joined all the way along.</div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+  <h2><span class="n">2</span>The 5 golden rules</h2>
+  <div class="grid">
+    <div class="card rule"><div class="big">1️⃣</div><b>Columns are joined.</b> Holes <code>a b c d e</code> in one column are one wire. Holes <code>f g h i j</code> are another.</div>
+    <div class="card rule"><div class="big">2️⃣</div><b>The groove is a wall.</b> The top half and bottom half are NOT joined. That's why chips straddle the groove.</div>
+    <div class="card rule"><div class="big">3️⃣</div><b>Rails run far.</b> The red and blue lines are joined along their whole length. We use the blue one as the <b>ground highway</b>.</div>
+    <div class="card rule"><div class="big">4️⃣</div><b>One pin, one column.</b> Two different pins must <u>never</u> share a column, or they get stuck together (a short circuit).</div>
+    <div class="card rule"><div class="big">5️⃣</div><b>Unplug first!</b> Pull out the USB cable before you move any wire.</div>
+    <div class="card rule"><div class="big">🧩</div><b>To connect two things:</b> put the ends in <u>different parts</u> of the board, and join them with a wire. Never put two pins side-by-side in the same column.</div>
+  </div>
+</section>
+
+<!-- OOPS -->
+<section id="oops">
+  <h2><span class="n">3</span>The classic mistake 😱</h2>
+  <p>Here are two wires. One carries the <b>GPIO1</b> signal and the other carries <b>GPIO2</b>. Switch between the wrong way and the right way.</p>
+  <svg id="oopsBoard" class="boardsm" viewBox="0 20 380 520"></svg>
+  <div class="controls">
+    <button class="btn pink" id="bad">❌ Wrong way</button>
+    <button class="btn" id="good">✅ Right way</button>
+  </div>
+  <div class="msg" id="oopsMsg"></div>
+  <div class="tip"><b>🔎 Do a "strip check"</b>Before plugging in, look at every column that has a wire or pin. Ask: <i>"Is there exactly one job in this column?"</i> Side-by-side columns are fine, because each column is its own strip.</div>
+  <div class="card" style="text-align:center"><div style="font-size:56px">🧠</div><b>Now you know the #1 mistake!</b><br>Time to build. <a href="#build">Start the step-by-step build ➜</a></div>
+</section>
+
+<!-- BUILD -->
+<section id="build">
+  <h2><span class="n">4</span>Build it, step by step</h2>
+  <p>Press <b>Next</b> and watch each part and wire get placed. The <span style="color:var(--pink);font-weight:800">pink pulsing circles</span> show exactly which holes to use. Copy what you see!</p>
+  <div class="grownup"><b>👩‍👧 Good to know</b>This picture matches the common ESP32-S3-DevKitC-1 layout (pin names <code>3V3 … 5V G</code> along one edge). <b>Always trust the labels printed on your own parts.</b> Pin order on the mic and amplifier can be different between brands. Column numbers here are counted from the left edge of the picture. You don't need the MB102 power module: the USB cable powers everything through the ESP32.</div>
+
+  <div class="buildgrid">
+    <div class="bleft">
+      <div class="boardwrap">
+        <svg id="buildBoard" class="board" viewBox="0 0 1320 800"></svg>
+        <div class="zoombar">
+          <button id="zin" title="Zoom in">＋</button><button id="zout" title="Zoom out">－</button>
+          <button id="zstep" title="Focus on this step">🎯</button><button id="zall" title="Show the whole board">🏠</button>
+        </div>
+      </div>
+      <div class="hint">🖱️ Drag to move · scroll or pinch to zoom · double-click to focus</div>
+      <div class="controls">
+        <button class="btn alt" id="prev">⬅ Back</button>
+        <button class="btn" id="next">Next ➡</button>
+        <button class="btn alt" id="replay">🔁 Replay</button>
+        <label class="toggle"><input type="checkbox" id="auto"> ▶ Auto-play</label>
+        <label class="toggle"><input type="checkbox" id="zoomc" checked> 🔍 Close-ups</label>
+      </div>
+      <div class="legend">
+        <span style="--c:#f7c948">clock</span><span style="--c:#4ea1ff">word select</span><span style="--c:#38d27b">data</span><span style="--c:#ff5a6a">power</span><span style="--c:#555">ground</span><span style="--c:#a56bff">button</span>
+      </div>
+    </div>
+    <div class="bright">
+      <div class="card stepcard">
+        <div id="stepNum" style="color:var(--muted);font-weight:700"></div>
+        <h3 id="stepTitle"></h3>
+        <p id="stepSay"></p>
+        <ul class="where" id="stepWhere"></ul>
+        <div class="safe" id="stepOops" style="display:none"></div>
+      </div>
+      <div style="font-weight:800;margin-top:10px">👇 The 13 steps (tap any one to jump):</div>
+      <div class="pbar"><i id="pfill"></i></div>
+      <div class="dots" id="dots"></div>
+      <div class="fltbar" id="flt"><b>👀 Too many wires? Show only:</b>
+        <button class="on" data-f="all">All</button><button data-f="power">⚡ Power</button><button data-f="face">😀 Face</button><button data-f="ear">👂 Ear</button><button data-f="voice">📣 Voice</button><button data-f="button">🔘 Button</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WIRE LIST -->
+<section id="wires">
+  <h2><span class="n">5</span>Wiring checklist</h2>
+  <p class="lead">Every wire in one place. Tick each one off as you plug it in. Wires are matched by <b>name</b>, like a matching game!</p>
+  <div class="safe"><b>⚠️ Safety first!</b>Always <b>unplug the USB cable</b> before changing any wire. Ask a grown-up to check your wires before you plug in. A wire in the wrong place can break a part.</div>
+  <div class="tip"><b>🙌 The brain has pins on BOTH sides!</b>We use both, so the wires don't get tangled. <b>Top half of the board:</b> the amplifier and the button, plus the 5V power. <b>Bottom half:</b> the microphone and the face screen, plus the 3.3V power. The bottom parts are <b>flipped over like a pancake 🥞</b>, so their names read backwards.</div>
+
+  <h3>⚡ Power and ground</h3>
+  <table>
+    <tr><th>Wire</th><th>Goes to</th><th>Done?</th></tr>
+    <tr><td><span class="dot" style="background:#555"></span>Brain top G pin</td><td>top blue rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>Brain bottom G pin</td><td>bottom blue rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain 5V pin</td><td>top red rail (5V)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain 3V3 pin</td><td>around the left end to the bottom red rail (3.3V)</td><td><input type="checkbox" class="c"></td></tr>
+  </table>
+
+  <h3>😀 The face screen (4 wires, bottom half)</h3>
+  <table>
+    <tr><th>Screen pin</th><th>Goes to</th><th>Done?</th></tr>
+    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the <b>bottom</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VDD</td><td>the <b>bottom</b> red rail (3V3) ⚠️ not 5V!</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#f7c948"></span>SCK</td><td><b>GPIO1</b> (bottom row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#5be38f"></span>SDA</td><td><b>GPIO2</b> (bottom row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+  </table>
+  <div class="tip"><b>👀 Read the tiny labels</b>Hold the screen with the 4 pins at the top. Left to right they say <code>GND</code> <code>VDD</code> <code>SCK</code> <code>SDA</code>. (<code>SCK</code> is the clock wire. Some people call it SCL.) Flipped over, they read backwards. Match the <b>words</b>!</div>
+
+  <h3>👂 The microphone (6 wires, bottom half)</h3>
+  <table>
+    <tr><th>Microphone pin</th><th>Goes to</th><th>Done?</th></tr>
+    <tr><td><span class="dot" style="background:#f7c948"></span>SCK</td><td><b>GPIO42</b> (bottom row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#4ea1ff"></span>WS</td><td><b>GPIO41</b> (bottom row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#5be38f"></span>SD</td><td><b>GPIO40</b> (bottom row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>L/R</td><td>the <b>bottom</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the <b>bottom</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VDD</td><td>the <b>bottom</b> red rail (3V3) ⚠️ not 5V!</td><td><input type="checkbox" class="c"></td></tr>
+  </table>
+
+  <h3>📣 The amplifier and speaker (top half)</h3>
+  <table>
+    <tr><th>Amplifier pin</th><th>Goes to</th><th>Done?</th></tr>
+    <tr><td><span class="dot" style="background:#f7c948"></span>BCLK</td><td><b>GPIO15</b> (top row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#4ea1ff"></span>LRC</td><td><b>GPIO16</b> (top row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#5be38f"></span>DIN</td><td><b>GPIO7</b> (top row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VIN</td><td>the <b>top</b> red rail (5V)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the <b>top</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td>Speaker wires (2)</td><td>Amplifier <b>+</b> and <b>−</b> screw terminals (ask a grown-up to help attach them)</td><td><input type="checkbox" class="c"></td></tr>
+  </table>
+
+  <h3>🔘 The button (top half)</h3>
+  <table>
+    <tr><th>Button leg</th><th>Goes to</th><th>Done?</th></tr>
+    <tr><td><span class="dot" style="background:#a56bff"></span>Leg 1</td><td><b>GPIO4</b> (top row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>Leg 2</td><td>the <b>top</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+  </table>
+
+  <div class="fltbar" style="margin-top:14px"><b id="wcount">0 of 0 wires ticked</b></div>
+
+  <figure>
+    <svg viewBox="0 0 900 360">
+      <g font-family="Trebuchet MS,sans-serif" font-size="18" text-anchor="middle" fill="#2b2350">
+        <rect x="60" y="40" width="190" height="130" rx="20" fill="#dbe6ff" stroke="#4b7bff" stroke-width="4"/><text x="155" y="90" font-size="44">👂</text><text x="155" y="130" font-weight="700">Microphone</text><text x="155" y="152" font-size="14">(ear)</text>
+        <rect x="355" y="30" width="190" height="300" rx="24" fill="#d9f7e8" stroke="#2fc98b" stroke-width="4"/><text x="450" y="110" font-size="60">🧠</text><text x="450" y="160" font-weight="700">ESP32-S3</text><text x="450" y="184" font-size="14">(brain)</text><text x="450" y="240" font-size="14">USB cable ⟶ power</text>
+        <rect x="650" y="40" width="190" height="130" rx="20" fill="#ffe3ee" stroke="#ff5fa2" stroke-width="4"/><text x="745" y="90" font-size="44">📣</text><text x="745" y="130" font-weight="700">Amplifier</text><text x="745" y="152" font-size="14">(voice box)</text>
+        <rect x="650" y="220" width="190" height="110" rx="20" fill="#fff3cf" stroke="#ffc93c" stroke-width="4"/><text x="745" y="275" font-size="44">🔊</text><text x="745" y="315" font-weight="700">Speaker</text>
+        <rect x="60" y="220" width="190" height="110" rx="20" fill="#f1ebff" stroke="#8a5cff" stroke-width="4"/><text x="155" y="275" font-size="44">🔘</text><text x="155" y="315" font-weight="700">Button</text>
+        <g stroke-width="6" fill="none" stroke-linecap="round"><path d="M250 105 H355" stroke="#5be38f"/><path d="M545 105 H650" stroke="#ff5fa2"/><path d="M745 170 V220" stroke="#ffc93c"/><path d="M250 275 H355" stroke="#8a5cff"/></g>
+        <text x="302" y="92" font-size="14">sound in</text><text x="598" y="92" font-size="14">sound out</text>
+      </g>
+    </svg>
+    <figcaption>The big picture. Use the tables above for the exact pins.</figcaption>
+  </figure>
+  <div class="safe"><b>🚫 Never use the dark red pins</b>On the brain's picture, pins like 35, 36, 37, 0, 45, 46, TX, RX, 19 and 20 are special. Pins 35, 36 and 37 are used by the brain's memory, and using them makes the robot crash!</div>
+  <div class="card" style="text-align:center"><div style="font-size:56px">🏆</div><b>Now you're a breadboard pro!</b><br>Go back to the <a href="guide-kids.html">robot guide</a> and finish your talking friend.</div>
+</section>
+
+<footer>Breadboard Buddy · part of the Talking Robot Friend project</footer>
+</div>
+
+<script>
+/* ---------- geometry ---------- */
+const NS='http://www.w3.org/2000/svg', P=22;
+const YO=110;  // extra room above the board for wire lanes
+const Y={};Object.entries({bt:146,rt:168,a:214,b:236,c:258,d:280,e:302,f:356,g:378,h:400,i:422,j:444,rb:490,bb:512}).forEach(([k,v])=>Y[k]=v+YO);
+const TOP=['a','b','c','d','e'], BOT=['f','g','h','i','j'], RAILS=['bt','rt','rb','bb'];
+const COL={yellow:'#f7c948',blue:'#4ea1ff',green:'#38d27b',red:'#ff5a6a',gray:'#555',purple:'#a56bff',black:'#222'};
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs||{})e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function txt(parent,x,y,s,size,fill,anchor,extra){return el('text',Object.assign({x,y,'font-size':size||10,fill:fill||'#2b2350','text-anchor':anchor||'middle','font-family':'Trebuchet MS,sans-serif','font-weight':700},extra||{}),parent).appendChild(document.createTextNode(s)).parentNode}
+
+function makeBoard(svg,c0,c1,opts={}){
+  const X=c=>70+(c-c0)*P, pos=(c,r)=>[X(c),Y[r]];
+  const L=X(c0)-42,R=X(c1)+42;
+  el('rect',{x:L,y:Y.bt-28,width:R-L,height:418,rx:18,fill:'#f4efe2',stroke:'#cfc5a8','stroke-width':3},svg);
+  el('rect',{x:L+12,y:Y.e+16,width:R-L-24,height:24,rx:6,fill:'#dcd3b8'},svg);
+  // rail stripes
+  [['bt',-11,'#4b7bff'],['rt',11,'#ff5a6a'],['rb',-11,'#ff5a6a'],['bb',11,'#4b7bff']].forEach(([r,o,c])=>el('line',{x1:L+14,x2:R-14,y1:Y[r]+o,y2:Y[r]+o,stroke:c,'stroke-width':2.5,opacity:.7},svg));
+  [['bt','−'],['rt','+'],['rb','+'],['bb','−']].forEach(([r,s])=>txt(svg,L+16,Y[r]+4,s,13,s=='+'?'#ff5a6a':'#4b7bff'));
+  // x-ray strips
+  const xr=el('g',{class:'xray'},svg);
+  for(let c=c0;c<=c1;c++){
+    el('rect',{class:'strip',x:X(c)-6,y:Y.a-8,width:12,height:Y.e-Y.a+16,rx:5,fill:'#b7bcc8',opacity:.85},xr);
+    el('rect',{class:'strip',x:X(c)-6,y:Y.f-8,width:12,height:Y.j-Y.f+16,rx:5,fill:'#b7bcc8',opacity:.85},xr);
+  }
+  RAILS.forEach(r=>el('rect',{x:X(c0)-8,y:Y[r]-6,width:X(c1)-X(c0)+16,height:12,rx:5,fill:r[0]=='b'&&r!='bt'||r=='bt'?'#9db8ff':'#ffb0b8',opacity:.85},xr));
+  // labels
+  if(opts.labels!==false){
+    for(let c=c0;c<=c1;c++){txt(svg,X(c),Y.a-16,c,8,'#8a8470');txt(svg,X(c),Y.j+20,c,8,'#8a8470')}
+    [...TOP,...BOT].forEach(r=>{txt(svg,L+16,Y[r]+4,r,11,'#8a8470')});
+  }
+  // holes
+  const holes=el('g',{},svg);
+  for(let c=c0;c<=c1;c++)[...TOP,...BOT,...RAILS].forEach(r=>{
+    const h=el('circle',{class:'h',cx:X(c),cy:Y[r],r:opts.big?5:4.2,'data-c':c,'data-r':r},holes);
+  });
+  return {X,pos,holes};
+}
+function connected(c,r){ // list of [c,r] joined to this hole
+  if(RAILS.includes(r)) return null; // handled separately
+  const grp=TOP.includes(r)?TOP:BOT; return grp.map(x=>[c,x]);
+}
+function sameNet(h1,h2){
+  const r1=h1.r,r2=h2.r;
+  if(RAILS.includes(r1)||RAILS.includes(r2)) return r1==r2;
+  return h1.c==h2.c && (TOP.includes(r1)==TOP.includes(r2));
+}
+
+/* ---------- wires ---------- */
+function lanePath(x1,y1,x2,y2,ly){
+  const dx=x2-x1, r=Math.min(7,Math.abs(dx)/2-1);
+  if(r<2) return `M${x1} ${y1} V${ly} H${x2} V${y2}`;
+  const d=Math.sign(dx), s1=Math.sign(ly-y1)||1, e1=Math.sign(y2-ly)||1;
+  return `M${x1} ${y1} V${ly-s1*r} Q${x1} ${ly} ${x1+d*r} ${ly} H${x2-d*r} Q${x2} ${ly} ${x2} ${ly+e1*r} V${y2}`;
+}
+function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,dOverride=null){
+  const [x1,y1]=p1,[x2,y2]=p2;
+  const g=el('g',{},parent);
+  let d;
+  if(dOverride) d=dOverride;
+  else if(lane!=null) d=lanePath(x1,y1,x2,y2,lane);
+  else{const mx=(x1+x2)/2+dx, my=(y1+y2)/2-lift*2; d=`M${x1} ${y1} Q${mx} ${my} ${x2} ${y2}`}
+  const base={fill:'none','stroke-linecap':'round','stroke-linejoin':'round',pathLength:1};
+  const anm=anim?{class:'wire',style:`animation-delay:${delay}s`}:{'stroke-dasharray':'none'};
+  // light outline: where wires cross, the top wire is clearly separated from the one below
+  if(lane!=null||dOverride)el('path',Object.assign({d,stroke:'#f4efe2','stroke-width':12},base,anm),g);
+  el('path',Object.assign({d,stroke:'#0003','stroke-width':8,transform:'translate(1.5,2.5)'},base,anm),g);
+  el('path',Object.assign({d,stroke:color,'stroke-width':6},base,anm),g);
+  [p1,p2].forEach(p=>el('circle',{cx:p[0],cy:p[1],r:6.5,fill:color,stroke:'#0006','stroke-width':2,class:anim?'plug':'',style:anim?`animation-delay:${delay+1.6}s`:''},g));
+  return g;
+}
+
+/* ================= LESSON 1: explore ================= */
+(function(){
+  const svg=document.getElementById('learnBoard');
+  const b=makeBoard(svg,1,16,{big:true});
+  svg.setAttribute('viewBox',`0 ${100+YO} ${b.X(16)+60} 450`);
+  const msg=document.getElementById('learnMsg'), score=document.getElementById('score');
+  const holes=[...svg.querySelectorAll('circle.h')];
+  let mode='explore', target=null, wins=0, tries=0;
+  const info=h=>({c:+h.dataset.c,r:h.dataset.r});
+  const railName={bt:'the top blue (−) rail',rt:'the top red (+) rail',rb:'the bottom red (+) rail',bb:'the bottom blue (−) rail'};
+  function clear(){holes.forEach(h=>h.classList.remove('lit'))}
+  function light(a){clear();holes.forEach(h=>{if(sameNet(info(h),a))h.classList.add('lit')})}
+  function explore(h){
+    const a=info(h); light(a);
+    if(RAILS.includes(a.r)) msg.innerHTML=`🚂 You're on ${railName[a.r]}. <u>Every hole</u> along this whole line is joined. Perfect for sharing ground!`;
+    else{const grp=TOP.includes(a.r)?TOP:BOT;
+      msg.innerHTML=`📍 Column <b>${a.c}</b>, row <b>${a.r}</b>. The hidden strip joins these 5 holes: <b>${grp.map(r=>a.c+r).join(', ')}</b>. Nothing else!`;}
+  }
+  function newTarget(){
+    clear(); holes.forEach(h=>h.classList.remove('star'));
+    const cand=holes.filter(h=>!RAILS.includes(h.dataset.r));
+    target=cand[Math.floor(Math.random()*cand.length)]; target.classList.add('star');
+    msg.className='msg'; msg.innerHTML='🎯 Click <b>any other hole</b> that is joined to the ⭐ pink hole!';
+  }
+  holes.forEach(h=>{
+    h.addEventListener('mouseenter',()=>{if(mode=='explore')explore(h)});
+    h.addEventListener('click',()=>{
+      if(mode=='explore'){explore(h);return}
+      const a=info(h), t=info(target);
+      if(h===target){msg.className='msg bad';msg.innerHTML='That IS the ⭐ hole! Pick a different one.';return}
+      tries++;
+      if(sameNet(a,t)){wins++;light(t);msg.className='msg good';msg.innerHTML='✅ Yes! Same column, same side. The hidden metal joins them! Tap a hole for a new round…';setTimeout(()=>{newTarget()},1800)}
+      else{
+        const why=a.c!=t.c?'different columns':'the other side of the groove';
+        msg.className='msg bad';msg.innerHTML=`❌ Not joined — that's ${why}. Look for the same column number on the same side of the groove.`}
+      score.textContent=`Score: ${wins} / ${tries}`;
+    });
+  });
+  svg.addEventListener('mouseleave',()=>{if(mode=='explore'){clear()}});
+  document.getElementById('xr').addEventListener('change',e=>svg.classList.toggle('showx',e.target.checked));
+  document.getElementById('chBtn').addEventListener('click',e=>{
+    if(mode=='explore'){mode='challenge';e.target.textContent='🧭 Back to exploring';wins=tries=0;score.textContent='Score: 0 / 0';newTarget()}
+    else{mode='explore';e.target.textContent='🎯 Play the challenge';holes.forEach(h=>h.classList.remove('star'));score.textContent='';msg.className='msg';msg.textContent='👆 Point at any hole!';clear()}
+  });
+})();
+
+/* ================= BUILD STEPPER ================= */
+(function(){
+  const svg=document.getElementById('buildBoard');
+  const B=makeBoard(svg,1,54), X=B.X, pos=B.pos;
+  // what each rail carries (so kids never mix them up)
+  [['rt','5V',COL.red],['rb','3V3',COL.red],['bt','GND','#4b7bff'],['bb','GND','#4b7bff']].forEach(([r,t,c])=>{
+    el('rect',{x:X(54)+2,y:Y[r]-9,width:38,height:18,rx:6,fill:c},svg);txt(svg,X(54)+21,Y[r]+4,t,10,'#fff')});
+  const gP=el('g',{},svg), gW=el('g',{},svg), gR=el('g',{},svg);
+
+  /* ---- the ESP32 has pins on BOTH sides: top row (col 2..23) and bottom row ---- */
+  const J1=['3V3','3V3','RST','4','5','6','7','15','16','17','18','8','3','46','9','10','11','12','13','14','5V','G'];
+  const J3=['G','TX','RX','1','2','42','41','40','39','38','37','36','35','0','45','48','47','21','20','19','G','G'];
+  const used1={2:COL.red,5:COL.purple,8:COL.green,9:COL.yellow,10:COL.blue,22:COL.red,23:COL.gray};
+  const used3={5:COL.yellow,6:COL.green,7:COL.yellow,8:COL.blue,9:COL.green,22:COL.gray};
+  const danger1=['RST','3','46'], danger3=['TX','RX','0','45','35','36','37','19','20'];
+
+  /* ---- where the parts go ---- */
+  // Top half (upright): amplifier + button.  Bottom half (flipped over): microphone + face screen.
+  const AMP=['LRC','BCLK','DIN','GAIN','SD','GND','VIN'], AMP0=47;
+  const MIC_UP=['SCK','WS','SD','L/R','VDD','GND'], MIC0=26;      // as printed on the part
+  const OLED_UP=['GND','VDD','SCK','SDA'], OLED0=36;
+  const MIC_FL=MIC_UP.slice().reverse(), OLED_FL=OLED_UP.slice().reverse(); // left-to-right once flipped over
+  const sig={SCK:COL.yellow,BCLK:COL.yellow,WS:COL.blue,LRC:COL.blue,SD:COL.green,SDA:COL.green,DIN:COL.green,VDD:COL.red,VIN:COL.red,GND:COL.gray,'L/R':COL.gray};
+  const ampC=n=>AMP0+AMP.indexOf(n), micC=n=>MIC0+MIC_FL.indexOf(n), oledC=n=>OLED0+OLED_FL.indexOf(n);
+  const top={'3V3':2,'4':5,'7':8,'15':9,'16':10,'5V':22,'G':23};
+  const bot={'1':5,'2':6,'42':7,'41':8,'40':9,'G':22};
+  const T=n=>[top[n],'a'], Bt=n=>[bot[n],'j'];
+  const BTN=[X(6),58], SPK=[X(49),612+YO];
+  const AMP_T1=[X(48),460+YO], AMP_T2=[X(50),460+YO];
+
+  /* ---- part drawers ---- */
+  function partGroup(anim){return el('g',{class:anim?'drop':''},gP)}
+  function pinRow(g,c0,labels,row){labels.forEach((n,i)=>{const [x,y]=pos(c0+i,row);el('circle',{cx:x,cy:y,r:4.4,fill:'#d9b44a'},g);
+    el('rect',{x:x-11,y:y+8,width:22,height:14,rx:4,fill:sig[n]||'#8a8a8a'},g);txt(g,x,y+19,n,n.length>3?7:8.2,'#fff')})}
+  // a part that is flipped over: starts the right way up, then spins 180 degrees into place
+  function flipGroup(anim,cx,py,drawBody){
+    const outer=el('g',{class:anim?'flipdrop':'',style:`transform-origin:${cx}px ${py}px;transform-box:view-box`},gP);
+    drawBody(el('g',{transform:`rotate(180 ${cx} ${py})`},outer));
+    return outer;
+  }
+  const draw={
+    esp(anim){const g=partGroup(anim);
+      const x1=X(2)-13,x2=X(23)+13,y1=Y.b-13,y2=Y.i+13;
+      el('rect',{x:x2-2,y:(y1+y2)/2-26,width:30,height:52,rx:8,fill:'#9aa0ad',stroke:'#6d7380','stroke-width':2},g);
+      txt(g,x2+14,(y1+y2)/2+4,'USB-C',8,'#fff');
+      el('rect',{x:x1,y:y1,width:x2-x1,height:y2-y1,rx:10,fill:'#1f3b57',stroke:'#0f2236','stroke-width':3},g);
+      el('rect',{x:X(9),y:(y1+y2)/2-34,width:X(17)-X(9),height:68,rx:6,fill:'#141922'},g);
+      txt(g,(X(9)+X(17))/2,(y1+y2)/2-4,'ESP32-S3',16,'#fff');txt(g,(X(9)+X(17))/2,(y1+y2)/2+16,'the brain 🧠',11,'#9fd8ff');
+      const chip=(x,y,n,fill)=>{el('rect',{x:x-10,y,width:20,height:14,rx:4,fill},g);txt(g,x,y+11,n,n.length>2?7.5:9,'#fff')};
+      J1.forEach((n,i)=>{const c=2+i,[x,y]=pos(c,'b');el('circle',{cx:x,cy:y,r:4.4,fill:'#d9b44a'},g);
+        chip(x,y+7,n,used1[c]||(danger1.includes(n)?'#7a2a2a':'#2f5478'))});
+      J3.forEach((n,i)=>{const c=2+i,[x,y]=pos(c,'i');el('circle',{cx:x,cy:y,r:4.4,fill:'#d9b44a'},g);
+        chip(x,y-21,n,used3[c]||(danger3.includes(n)?'#7a2a2a':'#2f5478'))});
+      txt(g,X(2)-8,Y.a-28,'⬆ top pins',10,'#2b2350','start');
+      txt(g,X(2)-8,Y.j+22,'⬇ bottom pins',10,'#2b2350','start');
+    },
+    amp(anim){const g=partGroup(anim);
+      const x1=X(AMP0)-13,x2=X(AMP0+6)+13;
+      el('rect',{x:x1,y:Y.e-8,width:x2-x1,height:170,rx:8,fill:'#b8322a',stroke:'#7d1f19','stroke-width':3},g);
+      el('rect',{x:(x1+x2)/2-26,y:Y.g+6,width:52,height:36,rx:4,fill:'#141922'},g);txt(g,(x1+x2)/2,Y.g+28,'chip',10,'#fff');
+      txt(g,(x1+x2)/2,Y.h+22,'Amplifier 📣',10,'#fff');
+      pinRow(g,AMP0,AMP,'e');
+      [[48,'+'],[50,'−']].forEach(([c,s])=>{const x=X(c);el('rect',{x:x-14,y:438+YO,width:28,height:22,rx:3,fill:'#2fa66a',stroke:'#1b6e45','stroke-width':2},g);txt(g,x,454+YO,s,13,'#fff')});
+      txt(g,X(49),474+YO,'OUT+ / OUT−',9,'#fff');
+    },
+    mic(anim){
+      const cx=(X(MIC0)+X(MIC0+5))/2, py=Y.f, x1=X(MIC0)-13, x2=X(MIC0+5)+13;
+      const g=flipGroup(anim,cx,py,b=>{
+        el('rect',{x:x1,y:py-8,width:x2-x1,height:118,rx:8,fill:'#2a4fb5',stroke:'#1b3580','stroke-width':3},b);
+        el('circle',{cx,cy:py+52,r:17,fill:'#c9ced8',stroke:'#7b8190','stroke-width':3},b);el('circle',{cx,cy:py+52,r:6,fill:'#222'},b)});
+      txt(g,cx,py-26,'Microphone 👂',10,'#fff');
+      pinRow(g,MIC0,MIC_FL,'f');
+      txt(g,cx,py-128,'🥞 flipped over',11,'#2b2350');
+    },
+    oled(anim){
+      const cx=(X(OLED0)+X(OLED0+3))/2, py=Y.f, x1=cx-112, x2=cx+112;
+      const g=flipGroup(anim,cx,py,b=>{
+        el('rect',{x:x1,y:py-8,width:x2-x1,height:214,rx:10,fill:'#1c3f9e',stroke:'#0e2466','stroke-width':3},b);
+        [[x1+16,py+190],[x2-16,py+190]].forEach(([mx,my])=>{el('circle',{cx:mx,cy:my,r:9,fill:'#dfe3ea',stroke:'#8b93a3','stroke-width':2},b);el('circle',{cx:mx,cy:my,r:4,fill:'#1c3f9e'},b)});
+        el('rect',{x:x1+8,y:py+50,width:x2-x1-16,height:116,rx:4,fill:'#111',stroke:'#000','stroke-width':2},b);
+        el('rect',{x:x1+8,y:py+50,width:x2-x1-16,height:28,rx:3,fill:'#1a1a12'},b);
+        el('rect',{x:cx-62,y:py+92,width:30,height:44,rx:12,fill:'#5ec8ff'},b);el('rect',{x:cx+32,y:py+92,width:30,height:44,rx:12,fill:'#5ec8ff'},b);
+        txt(b,cx-70,py+70,'READY',10,'#ffd84a')});
+      txt(g,cx,py-22,'Face screen 😀',10,'#fff');
+      pinRow(g,OLED0,OLED_FL,'f');
+      txt(g,cx,py-232,'🥞 flipped over (upside down is OK!)',11,'#2b2350');
+    },
+    btn(anim){const g=partGroup(anim);
+      el('circle',{cx:BTN[0],cy:BTN[1],r:30,fill:'#b7bcc8',stroke:'#7b8190','stroke-width':4},g);
+      el('circle',{cx:BTN[0],cy:BTN[1],r:19,fill:'#a56bff'},g);txt(g,BTN[0],BTN[1]+4,'PUSH',9,'#fff');
+      txt(g,BTN[0]+44,BTN[1]+4,'Button 🔘',12,'#2b2350','start');
+    },
+    spk(anim){const g=partGroup(anim);
+      el('circle',{cx:SPK[0],cy:SPK[1],r:42,fill:'#222',stroke:'#666','stroke-width':5},g);
+      el('circle',{cx:SPK[0],cy:SPK[1],r:16,fill:'#444'},g);el('circle',{cx:SPK[0],cy:SPK[1],r:5,fill:'#111'},g);
+      txt(g,SPK[0]+60,SPK[1]+4,'Speaker 🔊',12,'#2b2350','start');
+    }
+  };
+
+  /* ---- wires ---- */
+  // straight short wire / lane wire (own straight line above or below the board) / feed wire around the left end
+  const W=(a,b,color,grp)=>({k:'w',a,b,color,lift:0,dx:0,grp});
+  const LT=n=>Y.bt-70+n*10, LB=n=>Y.bt-28+418+16+n*10;     // top lanes / bottom lanes (0 = closest to the board)
+  const L=(a,b,color,lane,grp)=>({k:'w',a,b,color,lift:0,dx:0,lane,grp});
+  const FEED=(a,b,color,grp)=>({k:'w',a,b,color,lift:0,dx:0,grp,feed:true});
+  const feedPath=(p1,p2)=>{const [x1,y1]=p1,[x2,y2]=p2,yT=Y.a-16;
+    return `M${x1} ${y1} V${yT+7} Q${x1} ${yT} ${x1-7} ${yT} H${x2+7} Q${x2} ${yT} ${x2} ${yT+7} V${y2}`};
+
+  const STEPS=[
+   {t:'Put the brain on the board 🧠',
+    say:'Hold the ESP32 with the <b>USB-C port on the right</b>. Make it <b>straddle the middle groove</b>, like sitting on a horse. One row of pins goes above the groove and one row below. Push down gently and evenly. <b>The brain has pins on BOTH sides, and we will use both to keep the wires tidy!</b>',
+    where:[['The left pin end goes in column 2',COL.red],['The right pin end goes in column 23',COL.gray]],
+    oops:'Don\'t put anything else in columns 2 to 23! Those columns now belong to the brain. The dark red labels (RST, TX, RX, 0…) are special pins. Never use them.',
+    items:[{k:'part',n:'esp'}], rings:[[2,'b'],[23,'b'],[2,'i'],[23,'i']]},
+   {t:'Make two ground highways 🛣️',
+    say:'Ground (GND) is the "return road" for electricity. Everything needs to reach it. Make <b>two</b> highways: a <b>top</b> one from the brain\'s top <b>G</b> pin to the top blue rail, and a <b>bottom</b> one from the bottom <b>G</b> pin to the bottom blue rail.',
+    where:[['Top: G pin (col 23, row a) → top blue rail',COL.gray],['Bottom: G pin (col 22, row j) → bottom blue rail',COL.gray]],
+    oops:'Blue rail = ground only. Some long boards have rails that are <b>split in the middle</b>. Ask a grown-up to check with a multimeter (continuity mode) that the top blue rail is joined from column 7 to column 52, and the bottom blue rail from column 22 to column 39. If not, add one extra bridging wire.',
+    items:[W([23,'a'],[23,'bt'],COL.gray,'power'),W([22,'j'],[22,'bb'],COL.gray,'power')]},
+   {t:'Make two power highways ⚡',
+    say:'The <b>top red rail is 5V</b> (strong power for the loud amplifier). The <b>bottom red rail is 3.3V</b> (gentle power for the microphone and face screen). The 3V3 wire goes around the left end of the brain to reach the bottom.',
+    where:[['Red: 5V pin (col 22, row a) → top red rail',COL.red],['Red: 3V3 pin (col 2, row a) → around the left end → bottom red rail (col 1)',COL.red]],
+    oops:'The two red rails are <b>different</b>! Top = 5V, bottom = 3.3V. Never join them, and never put 5V on the mic or face screen.',
+    items:[W([22,'a'],[22,'rt'],COL.red,'power'),FEED([2,'a'],[1,'rb'],COL.red,'power')]},
+   {t:'Give it a face! 😀',
+    say:'The little OLED screen is your robot\'s <b>face</b>. It goes on the <b>bottom half</b>. <b>Flip it over like a pancake 🥞</b> so its pins point up toward the groove, then push the 4 pins into row <b>f</b>, columns <b>36 to 39</b>. The screen will be upside down and that\'s OK. The robot\'s software turns the picture around!',
+    where:[['Pins → row f, columns 36 to 39. Left to right they now say SDA, SCK, VDD, GND',COL.green],['Red: bottom red rail → VDD (col 38, row j)',COL.red],['Gray: GND (col 39, row j) → bottom blue rail',COL.gray],['Green: bottom pin 2 (col 6, row j) → SDA (col 36, row j)',COL.green],['Yellow: bottom pin 1 (col 5, row j) → SCK (col 37, row j)',COL.yellow]],
+    oops:'Flipped over, the pin order is backwards from the photo: <b>SDA, SCK, VDD, GND</b>. Read the words on YOUR screen. Swapping VDD and GND can break it!',
+    items:[{k:'part',n:'oled'},W([oledC('VDD'),'rb'],[oledC('VDD'),'j'],COL.red,'face'),W([oledC('GND'),'j'],[oledC('GND'),'bb'],COL.gray,'face'),
+           L(Bt('2'),[oledC('SDA'),'j'],COL.green,LB(3),'face'),L(Bt('1'),[oledC('SCK'),'j'],COL.yellow,LB(4),'face')],
+    rings:[[36,'f'],[39,'f']]},
+   {t:'Add the ear 👂 (microphone)',
+    say:'Also on the <b>bottom half</b>. <b>Flip it over like a pancake 🥞</b> and push its 6 pins into row <b>f</b>, columns <b>26 to 31</b>. It is far from the face screen, so no column is shared.',
+    where:[['Pins → row f, columns 26 to 31. Left to right they now say GND, VDD, L/R, SD, WS, SCK',COL.green]],
+    oops:'Check: the mic must NOT be in the same columns as the brain (2–23) or the face (36–39).',
+    items:[{k:'part',n:'mic'}], rings:[[26,'f'],[31,'f']]},
+   {t:'Power the microphone ⚡',
+    say:'The mic drinks <b>3.3 volts</b>. Connect its <b>VDD</b> to the bottom red rail (red wire). Ground it: <b>GND</b> to the bottom blue rail. Then tie <b>L/R</b> to the bottom blue rail too, to say "use the left channel".',
+    where:[['Red: bottom red rail → VDD (col 27, row j)',COL.red],['Gray: GND (col 26, row j) → bottom blue rail',COL.gray],['Gray: L/R (col 28, row j) → bottom blue rail',COL.gray]],
+    oops:'VDD must go to the <b>bottom</b> red rail (3.3V). The top one is 5V and can damage the mic!',
+    items:[W([micC('VDD'),'rb'],[micC('VDD'),'j'],COL.red,'ear'),W([micC('GND'),'j'],[micC('GND'),'bb'],COL.gray,'ear'),W([micC('L/R'),'j'],[micC('L/R'),'bb'],COL.gray,'ear')]},
+   {t:'Hook up the microphone\'s signals 🎤',
+    say:'Three thin wires carry sound data from the mic to the brain\'s <b>bottom</b> pins: <b>pin 42 → SCK</b>, <b>pin 41 → WS</b>, <b>pin 40 → SD</b>. They run along their own lanes under the board.',
+    where:[['Yellow: pin 42 (col 7, row j) → SCK (col 31, row j)',COL.yellow],['Blue: pin 41 (col 8, row j) → WS (col 30, row j)',COL.blue],['Green: pin 40 (col 9, row j) → SD (col 29, row j)',COL.green]],
+    oops:'Match the <b>words</b> on the mic, not the order. Wires never touch where they run in lanes.',
+    items:[L(Bt('42'),[micC('SCK'),'j'],COL.yellow,LB(2),'ear'),L(Bt('41'),[micC('WS'),'j'],COL.blue,LB(1),'ear'),L(Bt('40'),[micC('SD'),'j'],COL.green,LB(0),'ear')]},
+   {t:'Add the voice box 📣 (amplifier)',
+    say:'The amplifier goes on the <b>top half</b>, right way up. Push its 7 pins into row <b>e</b>, columns <b>47 to 53</b>. The speaker wires will come out of its green screw blocks.',
+    where:[['First pin (LRC) → column 47, row e',COL.blue],['Last pin (VIN) → column 53, row e',COL.red]],
+    oops:'The <code>GAIN</code> and <code>SD</code> pins stay empty. No wires there!',
+    items:[{k:'part',n:'amp'}], rings:[[47,'e'],[53,'e']]},
+   {t:'Power the amplifier ⚡',
+    say:'The amplifier needs the strong <b>5V</b>. Connect its <b>VIN</b> to the <b>top</b> red rail, and its <b>GND</b> to the top blue rail.',
+    where:[['Red: top red rail (5V) → VIN (col 53, row b)',COL.red],['Gray: GND (col 52, row b) → top blue rail',COL.gray]],
+    oops:'Mixing up VIN and GND can break the amplifier. Red = power, gray = ground. Double check with a grown-up!',
+    items:[W([ampC('VIN'),'rt'],[ampC('VIN'),'b'],COL.red,'voice'),W([ampC('GND'),'b'],[ampC('GND'),'bt'],COL.gray,'voice')]},
+   {t:'Hook up the amplifier\'s signals 📡',
+    say:'Three data wires take the voice from the brain\'s <b>top</b> pins to the amp: <b>pin 16 → LRC</b>, <b>pin 15 → BCLK</b>, <b>pin 7 → DIN</b>.',
+    where:[['Blue: pin 16 (col 10, row a) → LRC (col 47, row b)',COL.blue],['Yellow: pin 15 (col 9, row a) → BCLK (col 48, row b)',COL.yellow],['Green: pin 7 (col 8, row a) → DIN (col 49, row b)',COL.green]],
+    oops:'Careful! LRC and BCLK sit next to each other. Read the little labels on the amp before you plug in.',
+    items:[L(T('16'),[ampC('LRC'),'b'],COL.blue,LT(2),'voice'),L(T('15'),[ampC('BCLK'),'b'],COL.yellow,LT(1),'voice'),L(T('7'),[ampC('DIN'),'b'],COL.green,LT(0),'voice')]},
+   {t:'Add the big button 🔘',
+    say:'The button has two legs. One goes to brain pin <b>4</b> and the other goes to the <b>top blue ground rail</b>. When you push it, pin 4 touches ground, and the brain knows you want to talk!',
+    where:[['Purple: leg 1 → pin 4 (col 5, row a)',COL.purple],['Gray: leg 2 → top blue rail (col 7)',COL.gray]],
+    oops:'The button is not on the breadboard. Only its two wires are.',
+    items:[{k:'part',n:'btn'},W([BTN[0]-22,BTN[1]+30],T('4'),COL.purple,'button'),W([BTN[0]+22,BTN[1]+30],[7,'bt'],COL.gray,'button')]},
+   {t:'Connect the speaker 🔊',
+    say:'The speaker has 2 wires. Ask a grown-up to help you screw them into the green <b>OUT+</b> and <b>OUT−</b> blocks on the amplifier. Turn the little screw to the left to open, slide the bare wire in, and tighten to the right.',
+    where:[['Red wire: speaker + → amp OUT+',COL.red],['Black wire: speaker − → amp OUT−',COL.black]],
+    oops:'If the sound is weird, swap the two speaker wires. It cannot hurt anything.',
+    items:[{k:'part',n:'spk'},W([SPK[0]-16,SPK[1]-40],AMP_T1,COL.red,'voice'),W([SPK[0]+16,SPK[1]-40],AMP_T2,COL.black,'voice')]},
+   {t:'Final strip check ✅',
+    say:'Look at your board. <b>Every column should have ONE job.</b> Too many wires? Use the buttons under the picture to show just one part\'s wires. Then ask a grown-up to double-check before plugging in the USB cable!',
+    where:[['Brain in columns 2–23. Face in 36–39 and mic in 26–31, both on the BOTTOM and flipped over',COL.green],['Amplifier in 47–53 on the TOP, right way up',COL.green],['Top red rail = 5V (amp only). Bottom red rail = 3.3V (mic and face)',COL.red],['Blue rails: 2 on the brain, plus face, mic ×2, amp, button',COL.gray]],
+    oops:'',
+    items:[], rings:[]}
+  ];
+
+  /* ---------- rendering ---------- */
+  const dots=document.getElementById('dots');
+  const SHORT=['Brain','Ground','Power','Face','Ear','Ear power','Ear data','Voice box','Voice power','Voice data','Button','Speaker','Check'];
+  STEPS.forEach((s,i)=>{const d=document.createElement('button');d.title=s.t;d.innerHTML=`<b>${i+1}</b>${SHORT[i]}`;d.onclick=()=>go(i);dots.appendChild(d)});
+  let cur=0, flt='all', closeUp=true, vb=[0,0,1320,800], tvb=[0,0,1320,800], raf=null;
+  const LAST=STEPS.length-1;
+  const pt=p=>Array.isArray(p)?(typeof p[1]==='string'?pos(p[0],p[1]):p):p;
+
+  function drawItem(it,anim,delay,old){
+    if(it.k=='part'){draw[it.n](anim);return}
+    const p1=pt(it.a),p2=pt(it.b);
+    const g=drawWire(gW,p1,p2,it.color,it.lift,it.dx,anim,delay,it.lane==null?null:it.lane,it.feed?feedPath(p1,p2):null);
+    const cls=[];
+    if(flt!=='all'&&it.grp!==flt)cls.push('ghost'); else if(old&&flt==='all')cls.push('old');
+    if(cls.length)g.setAttribute('class',cls.join(' '));
+  }
+  function stepPoints(s){
+    const pts=[], cxo=(X(OLED0)+X(OLED0+3))/2;
+    s.items.forEach(it=>{
+      if(it.k=='part'){
+        const r={esp:[X(2)-20,Y.b-20,X(23)+50,Y.i+20],mic:[X(MIC0)-20,Y.f-150,X(MIC0+5)+20,Y.f+90],amp:[X(AMP0)-20,Y.e-20,X(AMP0+6)+20,480+YO],oled:[cxo-130,Y.f-250,cxo+130,Y.f+90],btn:[BTN[0]-70,BTN[1]-40,BTN[0]+140,BTN[1]+40],spk:[SPK[0]-60,SPK[1]-60,SPK[0]+140,SPK[1]+60]}[it.n];
+        pts.push([r[0],r[1]],[r[2],r[3]]);
+      }else{const a=pt(it.a),b=pt(it.b);pts.push(a,b);if(it.lane!=null)pts.push([a[0],it.lane],[b[0],it.lane]);else if(it.feed)pts.push([X(1),Y.a-16]);}
+    });
+    return pts;
+  }
+  function fit(pts,minW=420,margin=70){
+    if(!pts.length)return[0,30,1320,800];
+    let x1=Math.min(...pts.map(p=>p[0]))-margin,x2=Math.max(...pts.map(p=>p[0]))+margin,y1=Math.min(...pts.map(p=>p[1]))-margin,y2=Math.max(...pts.map(p=>p[1]))+margin;
+    let w=Math.max(x2-x1,minW),h=Math.max(y2-y1,w/1.6);
+    if(w/h<1.6)w=h*1.6;else h=w/1.6;
+    const cx=(x1+x2)/2,cy=(y1+y2)/2;
+    return[cx-w/2,cy-h/2,w,h];
+  }
+  function animateVB(){
+    cancelAnimationFrame(raf);
+    const tick=()=>{let done=true;
+      for(let i=0;i<4;i++){vb[i]+=(tvb[i]-vb[i])*.045;if(Math.abs(tvb[i]-vb[i])>.5)done=false}
+      svg.setAttribute('viewBox',vb.map(v=>v.toFixed(1)).join(' '));
+      if(!done)raf=requestAnimationFrame(tick)};
+    tick();
+  }
+  function ring(c,r){const [x,y]=Array.isArray(c)?pt(c):pos(c,r);el('circle',{class:'ring',cx:x,cy:y,r:9},gR);el('circle',{cx:x,cy:y,r:9,fill:'none',stroke:'#ff5fa2','stroke-width':2.5},gR)}
+  // ---- you can drag and zoom the picture yourself ----
+  function setVB(v){vb=v.slice();tvb=v.slice();svg.setAttribute('viewBox',vb.map(n=>n.toFixed(1)).join(' '))}
+  function stopCam(){camTimers.forEach(clearTimeout);camTimers=[];cancelAnimationFrame(raf);tvb=vb.slice()}   // you take over the camera
+  const toSvg=(cx,cy)=>{const q=svg.createSVGPoint();q.x=cx;q.y=cy;return q.matrixTransform(svg.getScreenCTM().inverse())};
+  function zoomAt(cx,cy,f){stopCam();const q=toSvg(cx,cy),w=vb[2]*f;if(w<140||w>2400)return;setVB([q.x-(q.x-vb[0])*f,q.y-(q.y-vb[1])*f,w,vb[3]*f])}
+  const ptrs=new Map();
+  svg.addEventListener('pointerdown',e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});stopCam();svg.classList.add('grab')});
+  svg.addEventListener('pointermove',e=>{
+    const prev=ptrs.get(e.pointerId);if(!prev)return;const now={x:e.clientX,y:e.clientY};
+    if(ptrs.size===1){const k=svg.getScreenCTM().a;setVB([vb[0]-(now.x-prev.x)/k,vb[1]-(now.y-prev.y)/k,vb[2],vb[3]])}
+    else if(ptrs.size===2){const other=[...ptrs.entries()].find(([id])=>id!==e.pointerId)[1];
+      const d0=Math.hypot(prev.x-other.x,prev.y-other.y),d1=Math.hypot(now.x-other.x,now.y-other.y);
+      if(d0>0&&d1>0)zoomAt((now.x+other.x)/2,(now.y+other.y)/2,d0/d1)}
+    ptrs.set(e.pointerId,now)});
+  ['pointerup','pointercancel'].forEach(t=>svg.addEventListener(t,e=>{ptrs.delete(e.pointerId);if(!ptrs.size)svg.classList.remove('grab')}));
+  svg.addEventListener('wheel',e=>{e.preventDefault();zoomAt(e.clientX,e.clientY,Math.exp(e.deltaY*(e.ctrlKey?0.01:0.0018)))},{passive:false});
+  svg.addEventListener('dblclick',()=>{stopCam();camTo(fit(stepPoints(STEPS[cur])))});
+  const centre=()=>{const r=svg.getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
+  document.getElementById('zin').onclick=()=>zoomAt(...centre(),1/1.4);
+  document.getElementById('zout').onclick=()=>zoomAt(...centre(),1.4);
+  document.getElementById('zstep').onclick=()=>{stopCam();camTo(fit(stepPoints(STEPS[cur])))};
+  document.getElementById('zall').onclick=()=>{stopCam();camTo([0,20,1320,800])};
+
+  // ---- camera: zoom in close so the connector names are easy to read, and follow each wire ----
+  let camTimers=[];
+  const camTo=r=>{tvb=r;animateVB()};
+  const focusPt=p=>{const w=380,h=w/1.6,cy=p[1]+(p[1]<Y.e?45:(p[1]>Y.f?-45:0));return[p[0]-w/2,cy-h/2,w,h]};
+  const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+  const isFar=it=>it.k=='w'&&dist(pt(it.a),pt(it.b))>380;
+  let stepSecs=3;   // how long the current step's animation lasts (used by auto-play)
+  function render(n,anim){
+    camTimers.forEach(clearTimeout);camTimers=[];
+    gP.innerHTML='';gW.innerHTML='';gR.innerHTML='';
+    const timeline=[];   // [seconds, camera rectangle]
+    let endT=0;
+    for(let k=0;k<=n;k++){
+      const s=STEPS[k],a=(k===n)&&anim;
+      let d=s.items.some(it=>it.k=='part')?1.4:0.3;
+      s.items.forEach(it=>{
+        drawItem(it,a,d,k<n&&n!==LAST);
+        if(a&&it.k=='w'){
+          const A=pt(it.a),B=pt(it.b), lane=it.lane!=null?[[A[0],it.lane],[B[0],it.lane]]:[];
+          if(isFar(it)){
+            timeline.push([d-0.3,focusPt(A)],            // 1) look at where the wire starts
+                          [d+0.9,focusPt(B)],            // 2) follow it to where it ends
+                          [d+2.4,fit([A,B,...lane],420,70)]); // 3) zoom out to see both ends together
+          }else timeline.push([d-0.3,fit([A,B],380,50)]);
+        }
+        if(it.k=='w'){d+=isFar(it)?4.4:2.6;endT=d}
+      });
+    }
+    const s=STEPS[n];
+    s.items.forEach(it=>{if(it.k=='w'){ring(it.a);ring(it.b)}});
+    (s.rings||[]).forEach(r=>ring(r[0],r[1]));
+    stepSecs=anim?Math.max(endT,3):3;
+    if(n==LAST){camTo([0,20,1320,800]);return}
+    if(anim&&closeUp&&timeline.length){
+      const part=s.items.filter(it=>it.k=='part');
+      camTo(part.length?fit(stepPoints({items:part})):timeline[0][1]);
+      timeline.forEach(([t,r])=>camTimers.push(setTimeout(()=>camTo(r),Math.max(0,t)*1000)));
+      // at the end, show everything this step connected
+      const wires=s.items.filter(it=>it.k=='w');
+      if(wires.length>1)camTimers.push(setTimeout(()=>camTo(fit(stepPoints({items:wires}))),(endT-0.6)*1000));
+    }else camTo(fit(stepPoints(s)));
+  }
+  function go(n,anim=true){
+    cur=Math.max(0,Math.min(LAST,n));
+    const s=STEPS[cur];
+    document.getElementById('stepNum').textContent=`STEP ${cur+1} OF ${STEPS.length}`;
+    document.getElementById('stepTitle').innerHTML=s.t;
+    document.getElementById('stepSay').innerHTML=s.say;
+    document.getElementById('stepWhere').innerHTML=s.where.map(w=>`<li><span class="sw" style="background:${w[1]}"></span><span>${w[0]}</span></li>`).join('');
+    const o=document.getElementById('stepOops');o.style.display=s.oops?'block':'none';o.innerHTML=s.oops?`<b>⚠️ Watch out</b>${s.oops}`:'';
+    [...dots.children].forEach((d,i)=>d.className=i<cur?'on':i==cur?'now':'');
+    document.getElementById('pfill').style.width=((cur+1)/STEPS.length*100)+'%';
+    document.getElementById('prev').disabled=cur==0;
+    document.getElementById('next').disabled=cur==LAST;
+    render(cur,anim);
+    if(window.__bbAuto)window.__bbAuto();
+  }
+  document.getElementById('next').onclick=()=>go(cur+1);
+  document.getElementById('prev').onclick=()=>go(cur-1,false);
+  document.getElementById('replay').onclick=()=>go(cur);
+  document.querySelectorAll('#flt button').forEach(b=>b.onclick=()=>{
+    flt=b.dataset.f;document.querySelectorAll('#flt button').forEach(x=>x.classList.toggle('on',x===b));render(cur,false)});
+  document.getElementById('zoomc').onchange=e=>{closeUp=e.target.checked;go(cur)};
+  let autoT=null;
+  const autoBox=document.getElementById('auto');
+  function scheduleAuto(){clearTimeout(autoT);if(autoBox.checked)autoT=setTimeout(()=>{if(cur<LAST)go(cur+1);else autoBox.checked=false},(stepSecs+3)*1000)}
+  autoBox.onchange=()=>scheduleAuto();
+  window.__bbAuto=scheduleAuto;
+  const hm=location.hash.match(/step=(\d+)/);
+  go(hm?Math.min(LAST,+hm[1]-1):0,true);
+})();
+
+/* ================= WIRING CHECKLIST ================= */
+(function(){
+  const boxes=[...document.querySelectorAll('input.c')], out=document.getElementById('wcount');
+  const saved=JSON.parse(localStorage.getItem('bb-wires')||'[]');
+  function upd(){const n=boxes.filter(b=>b.checked).length;out.textContent=`${n} of ${boxes.length} wires ticked`+(n==boxes.length?' 🎉':'');
+    boxes.forEach(b=>b.closest('tr').style.background=b.checked?'#c9f5df':'');
+    localStorage.setItem('bb-wires',JSON.stringify(boxes.map(b=>b.checked)))}
+  boxes.forEach((b,i)=>{b.checked=!!saved[i];b.onchange=upd});upd();
+})();
+
+/* ================= OOPS DEMO ================= */
+(function(){
+  const svg=document.getElementById('oopsBoard');
+  const B=makeBoard(svg,1,12,{big:true});
+  svg.setAttribute('viewBox',`0 ${20+YO} ${B.X(12)+60} 520`);
+  const g=el('g',{},svg);
+  const msg=document.getElementById('oopsMsg');
+  function chip(x,label,color){el('rect',{x:x-32,y:40+YO,width:64,height:30,rx:10,fill:color,stroke:'#0004','stroke-width':2},g);txt(g,x,60+YO,label,13,'#fff')}
+  function scene(bad){
+    g.innerHTML='';svg.querySelectorAll('.strip').forEach(s=>s.classList.remove('glow'));
+    svg.classList.add('showx');
+    const a=[B.X(3),70], b=[B.X(bad?3:5),70];
+    chip(B.X(3)-10,'GPIO1',COL.yellow);chip(B.X(6)+ (bad?-10:14),'GPIO2',COL.blue);
+    const p1=B.pos(4,'b'), p2=bad?B.pos(4,'c'):B.pos(6,'b');
+    drawWire(g,[B.X(3)-10,72+YO],p1,COL.yellow,8,-14,true,0);
+    drawWire(g,[B.X(6)+(bad?-10:14),72+YO],p2,COL.blue,8,bad?22:10,true,.6);
+    if(bad){
+      // glow the shared strip
+      const strips=[...svg.querySelectorAll('.xray .strip')];
+      const idx=(4-1)*2; strips[idx].classList.add('glow');
+      txt(g,B.X(4)+34,B.pos(4,'d')[1]+4,'⚡',38,'#ff5a6a','middle',{class:'zap'});
+      msg.className='msg bad';
+      msg.innerHTML='❌ <b>Short circuit!</b> Both wires are in <b>column 4</b> (top half). The hidden strip joins them, so GPIO1 and GPIO2 are now the <u>same</u> wire. Nothing works, and parts can get damaged.';
+    }else{
+      msg.className='msg good';
+      msg.innerHTML='✅ <b>Perfect!</b> GPIO1 is in column 4 and GPIO2 is in column 6. Each has its own strip. Even <i>neighbouring</i> columns (like 4 and 5) are separate.';
+    }
+  }
+  document.getElementById('bad').onclick=()=>scene(true);
+  document.getElementById('good').onclick=()=>scene(false);
+  scene(true);
+})();
+</script>
+</body>
+</html>

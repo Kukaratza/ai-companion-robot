@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Companion Robot · Build a talking robot friend!</title>
+<style>
+:root{--ink:#1d1b4b;--sun:#ffd23f}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:17px/1.55 "Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;background:#fff1c9;
+ background-image:radial-gradient(circle at 25px 25px,#ff5fa255 6px,transparent 7px),radial-gradient(circle at 85px 70px,#4b7bff44 7px,transparent 8px),radial-gradient(circle at 60px 120px,#2fc98b55 5px,transparent 6px);background-size:150px 150px}
+.wrap{max-width:980px;margin:0 auto;padding:28px 22px 70px}
+.hero{text-align:center;padding:34px 24px;border:6px solid var(--ink);border-radius:40px;box-shadow:10px 10px 0 var(--ink);
+ background:radial-gradient(circle at 12% 20%,#ff5fa2 0 80px,transparent 81px),radial-gradient(circle at 90% 25%,#2fc98b 0 100px,transparent 101px),radial-gradient(circle at 80% 100%,#8a5cff 0 120px,transparent 121px),radial-gradient(circle at 5% 100%,#4b7bff 0 90px,transparent 91px),var(--sun)}
+.robot{font-size:96px;line-height:1.05;display:inline-block;filter:drop-shadow(6px 6px 0 var(--ink));animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(4deg)}}
+h1{margin:6px 0;font-size:clamp(30px,5.5vw,50px);line-height:1.1;color:#fff;text-shadow:4px 4px 0 var(--ink),-3px -3px 0 var(--ink),3px -3px 0 var(--ink),-3px 3px 0 var(--ink),0 6px 0 var(--ink)}
+.hero p{display:inline-block;background:#fffbe6;border:4px solid var(--ink);border-radius:20px;padding:8px 20px;margin:8px 0 0;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px;margin:34px 0}
+a.card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);background:#fff;border:4px solid var(--ink);border-radius:28px;box-shadow:7px 7px 0 var(--ink);padding:20px;transition:transform .15s}
+a.card:hover{transform:translate(-3px,-6px) rotate(-1deg)}
+a.card .ic{font-size:54px;line-height:1}
+a.card h2{margin:0;font-size:22px}
+a.card .go{margin-top:auto;align-self:flex-start;background:#e8358d;color:#fff;border:4px solid var(--ink);border-radius:99px;padding:6px 18px;font-weight:900;box-shadow:0 4px 0 var(--ink)}
+.c1{background:#ffe0ef}.c2{background:#e3e9ff}.c3{background:#dcf8ea}
+.note{background:#fff3cf;border:4px solid var(--ink);border-radius:22px;box-shadow:5px 5px 0 var(--ink);padding:14px 20px;margin:10px 0}
+footer{text-align:center;margin-top:34px;font-weight:700}
+footer a{color:#e8358d}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="robot">🤖</div>
+    <h1>Build Your Own Talking Robot Friend!</h1>
+    <p>Push a button, ask any question, and your robot talks back, with a face that blinks!</p>
+  </div>
+
+  <div class="cards">
+    <a class="card c1" href="guide-kids.html"><span class="ic">🛠️</span><h2>The Robot Guide</h2><span>Step by step for kids and grown-up helpers: parts, wiring, software, a Robot Maker for personalities, and more.</span><span class="go">Start building ➜</span></a>
+    <a class="card c2" href="guide-breadboard.html"><span class="ic">🧵</span><h2>Breadboard Buddy</h2><span>An animated lesson that shows exactly where every wire goes. Drag and zoom the board!</span><span class="go">Open the lesson ➜</span></a>
+    <a class="card c3" href="guide.html"><span class="ic">🧑‍🔧</span><h2>Technical Guide</h2><span>For grown-ups: architecture, pin tables, code and troubleshooting.</span><span class="go">Read it ➜</span></a>
+  </div>
+
+  <div class="note"><b>⚠️ Heads up:</b> the robot's code has not been tested on real hardware yet. Expect to fix a few things on the first build, and keep your Gemini API key private.</div>
+
+  <footer>Open source (MIT) · <a href="https://github.com/Kukaratza/ai-companion-robot">View the code on GitHub</a></footer>
+</div>
+</body>
+</html>
