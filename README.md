@@ -24,6 +24,7 @@ ESP32-S3 (N16R8) · INMP441 I2S microphone · MAX98357 I2S amplifier + 3 W speak
 |---|---|
 | `arduino/AI_Companion` | The full robot, ready to open in **Arduino IDE 2** |
 | `arduino/Face_Demo` | Step 1: just the face, no mic/speaker/WiFi needed |
+| `arduino/Button_Test` | Helper that finds which two wires of the push button are the switch (C and NO) |
 | `src/`, `include/`, `platformio.ini` | Same code as a PlatformIO project (source of truth) |
 | `guide-*.html`, `kids-theme.css`, `index.html`, `images/` | The interactive website |
 | `tools/` | Scripts that regenerate the Arduino sketches and embed the code in the kids guide |

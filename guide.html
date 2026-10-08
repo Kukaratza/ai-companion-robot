@@ -264,7 +264,7 @@ footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
     <tr><td>MAX98357 <code>VIN</code> / <code>GND</code></td><td>5V / GND</td><td>Leave <code>SD</code> and <code>GAIN</code> unconnected</td></tr>
     <tr><td>OLED face <code>SDA</code> / <code>SCK</code></td><td>GPIO2 / GPIO1</td><td>0.96" SSD1306, I2C address 0x3C (SCK = SCL)</td></tr>
     <tr><td>OLED face <code>VDD</code> / <code>GND</code></td><td>3V3 / GND</td><td><b>3.3 V only</b></td></tr>
-    <tr><td>Button leg 1 / leg 2</td><td>GPIO4 / GND</td><td>Internal pull-up is used</td></tr>
+    <tr><td>Button <code>NO</code> / <code>C</code></td><td>GPIO4 / GND</td><td>Momentary metal button with C, NO, NC + LED terminals. Use C and NO only; leave NC and the LED unconnected. Internal pull-up is used</td></tr>
   </table>
   <div class="callout warn"><b>Avoid GPIO 35, 36, 37</b>On the N16R8 these pins are used by the octal PSRAM. Using them crashes the board.</div>
   <div class="callout"><b>Tip: keep the mic away from the speaker</b>Place them on opposite sides of the enclosure, or the assistant will hear itself.</div>

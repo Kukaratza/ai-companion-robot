@@ -138,7 +138,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
     <div class="card"><div class="photo"><img src="images/mic.jpg" alt="Microphone" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">👂</div></div><div class="spot">🔎 Look for “INMP441” printed on it. It has a tiny hole on top.</div><h3>Microphone (INMP441)</h3>The <b>ear</b>. It listens to your voice.</div>
     <div class="card"><div class="photo"><img src="images/amp.jpg" alt="Amplifier" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">📣</div></div><div class="spot">🔎 Look for “MAX98357”. It has little green screw blocks.</div><h3>Amplifier (MAX98357)</h3>The <b>voice box</b>. It makes the sound strong enough to hear.</div>
     <div class="card"><div class="photo"><img src="images/speaker.jpg" alt="Speaker" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔊</div></div><div class="spot">🔎 A round disc with two thin wires.</div><h3>Speaker</h3>The <b>mouth</b>. The sound comes out here.</div>
-    <div class="card"><div class="photo"><img src="images/button.jpg" alt="Push button" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔘</div></div><div class="spot">🔎 A shiny metal ring you can press.</div><h3>Push button</h3>The <b>“talk now!” switch</b>.</div>
+    <div class="card"><div class="photo"><img src="images/button.jpg" alt="Push button" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔘</div></div><div class="spot">🔎 A shiny metal ring you can press.</div><h3>Push button</h3>The <b>“talk now!” switch</b>.<div class="spot" style="background:#ffeaea">⚠️ Yours has several wires. We only use two: <b>NO</b> and <b>C</b>. Breadboard Buddy step 11 shows which ones.</div></div>
     <div class="card"><div class="photo"><img src="images/breadboard.jpg" alt="Breadboard" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧵</div></div><div class="spot">🔎 A white board full of tiny holes. The picture is a short one. <b>Yours is longer</b>, with about 63 columns!</div><h3>Breadboard + wires</h3>A board with holes where you plug things together. <b>No glue, no soldering!</b></div>
   </div>
   <h3>🎁 Extra parts for later</h3>
@@ -1099,6 +1099,7 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
     <dt>WiFi</dt><dd>Invisible internet signal that flies through the air.</dd>
     <dt>API key</dt><dd>A secret password that says “yes, I'm allowed to use this service.”</dd>
     <dt>Wake word</dt><dd>A special name the robot listens for while it sleeps, like “Hi, ESP!”. When it hears it, it wakes up.</dd>
+    <dt>C, NO and NC</dt><dd>Wire names on a switch. <b>C</b> is the shared wire. <b>NO</b> (normally open) is joined to C only while you push. <b>NC</b> (normally closed) is joined to C until you push.</dd>
     <dt>GPIO pin</dt><dd>A tiny metal leg on the brain that can send or receive signals.</dd>
     <dt>GND (ground)</dt><dd>The “return road” for electricity. Every part needs to be connected to it.</dd>
     <dt>Speaker / Microphone</dt><dd>Opposites! A mic turns sound into electricity, and a speaker turns electricity into sound.</dd>

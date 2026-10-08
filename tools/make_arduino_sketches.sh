@@ -2,8 +2,8 @@
 # Regenerates the Arduino IDE sketches from the PlatformIO sources (src/ + include/).
 # Run from the project root after editing any code:  sh tools/make_arduino_sketches.sh
 set -e
-rm -rf arduino/AI_Companion arduino/Face_Demo
-mkdir -p arduino/AI_Companion arduino/Face_Demo
+rm -rf arduino/AI_Companion arduino/Face_Demo arduino/Button_Test
+mkdir -p arduino/AI_Companion arduino/Face_Demo arduino/Button_Test
 
 # --- full robot ---
 cp src/audio_in.cpp src/audio_in.h src/audio_out.cpp src/audio_out.h \
@@ -18,4 +18,7 @@ else cp include/secrets.example.h arduino/AI_Companion/secrets.h; fi
 cp src/face.cpp src/face.h arduino/Face_Demo/
 cp include/config.h arduino/Face_Demo/
 cp src/face_demo.cpp arduino/Face_Demo/Face_Demo.ino
-echo "Done: arduino/AI_Companion and arduino/Face_Demo"
+# --- find the button wires ---
+cp include/config.h arduino/Button_Test/
+cp src/button_test.cpp arduino/Button_Test/Button_Test.ino
+echo "Done: arduino/AI_Companion, Face_Demo and Button_Test"

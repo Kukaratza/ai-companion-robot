@@ -260,8 +260,9 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
   <h3>🔘 The button (top half)</h3>
   <table>
     <tr><th>Button leg</th><th>Goes to</th><th>Done?</th></tr>
-    <tr><td><span class="dot" style="background:#a56bff"></span>Leg 1</td><td><b>GPIO4</b> (top row of pins)</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#555"></span>Leg 2</td><td>the <b>top</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#a56bff"></span>NO (normally open)</td><td><b>GPIO4</b> (top row of pins)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>C (common)</td><td>the <b>top</b> blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td>NC and the LED wires</td><td>Leave them alone (not used)</td><td></td></tr>
   </table>
 
   <div class="fltbar" style="margin-top:14px"><b id="wcount">0 of 0 wires ticked</b></div>
@@ -566,9 +567,9 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     oops:'Careful! LRC and BCLK sit next to each other. Read the little labels on the amp before you plug in.',
     items:[L(T('16'),[ampC('LRC'),'b'],COL.blue,LT(2),'voice'),L(T('15'),[ampC('BCLK'),'b'],COL.yellow,LT(1),'voice'),L(T('7'),[ampC('DIN'),'b'],COL.green,LT(0),'voice')]},
    {t:'Add the big button 🔘',
-    say:'The button has two legs. One goes to brain pin <b>4</b> and the other goes to the <b>top blue ground rail</b>. When you push it, pin 4 touches ground, and the brain knows you want to talk!',
-    where:[['Purple: leg 1 → pin 4 (col 5, row a)',COL.purple],['Gray: leg 2 → top blue rail (col 7)',COL.gray]],
-    oops:'The button is not on the breadboard. Only its two wires are.',
+    say:'Your button has several wires. The switch ones are labelled <b>C</b>, <b>NO</b> and <b>NC</b>. We only use <b>two</b>: <b>NO</b> goes to brain pin <b>4</b> and <b>C</b> goes to the <b>top blue ground rail</b>. When you push the button, pin 4 touches ground, and the brain knows you want to talk!',
+    where:[['Purple: <b>NO</b> (normally open) → pin 4 (col 5, row a)',COL.purple],['Gray: <b>C</b> (common) → top blue rail (col 7)',COL.gray],['<b>NC</b> and the LED wires (+ and −): leave them alone',COL.black]],
+    oops:'<b>C</b> = Common, the shared wire. <b>NO</b> = Normally Open: not connected until you push (this is the one we want). <b>NC</b> = Normally Closed: connected until you push. If you use NC by mistake, the robot thinks the button is always pressed! The button itself is not on the breadboard, only its wires. <b>Never connect the LED wires of a 12V, 24V or 220V button to this board.</b> <b>Not sure which wire is which?</b> Use the Button Finder: upload <code>arduino / Button_Test / Button_Test.ino</code>, then touch one wire to the pin 4 hole and another to the blue ground rail. The right pair says <b>PRESSED</b> only while you push.',
     items:[{k:'part',n:'btn'},W([BTN[0]-22,BTN[1]+30],T('4'),COL.purple,'button'),W([BTN[0]+22,BTN[1]+30],[7,'bt'],COL.gray,'button')]},
    {t:'Connect the speaker 🔊',
     say:'The speaker has 2 wires. Ask a grown-up to help you screw them into the green <b>OUT+</b> and <b>OUT−</b> blocks on the amplifier. Turn the little screw to the left to open, slide the bare wire in, and tighten to the right.',
