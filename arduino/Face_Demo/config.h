@@ -22,18 +22,19 @@
 // ==========================================================
 
 // --- Which pin is each part plugged into? ---
-// INMP441 microphone (the EAR) - the brain's BOTTOM row of pins
-#define PIN_MIC_SCK 42
-#define PIN_MIC_WS  41
-#define PIN_MIC_SD  40
+// All of them are on the brain's TOP row of pins (the row next to breadboard row A).
+// INMP441 microphone (the EAR)
+#define PIN_MIC_SCK 4
+#define PIN_MIC_WS  5
+#define PIN_MIC_SD  6
 
-// MAX98357 amplifier (the VOICE BOX) - the brain's TOP row of pins
+// MAX98357 amplifier (the VOICE BOX)
 #define PIN_SPK_BCLK 15
-#define PIN_SPK_LRC  16
-#define PIN_SPK_DIN  7
+#define PIN_SPK_LRC  7
+#define PIN_SPK_DIN  16
 
 // The big push button. Push it to start or stop a conversation.
-#define PIN_BUTTON 4
+#define PIN_BUTTON 9
 
 // --- Sound settings (please leave these alone) ---
 #define MIC_RATE_HZ     16000   // how many sound snapshots per second going IN to Gemini
@@ -58,9 +59,9 @@
 // --- The face (the little screen) ---
 // 1 = use the face, 0 = run without it
 #define FACE_ENABLED 1
-#define PIN_OLED_SDA 2
-#define PIN_OLED_SCL 1
+#define PIN_OLED_SDA 18
+#define PIN_OLED_SCL 17
 #define OLED_ADDR    0x3C
-// The screen sits upside down on the breadboard, so turn its picture around.
-// (1 = turn around, 0 = leave it)
-#define FACE_FLIP    1
+// The screen sits right way up on the breadboard (pins at the top).
+// If your picture shows upside down, change this to 1.
+#define FACE_FLIP    0

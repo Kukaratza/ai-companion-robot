@@ -195,12 +195,12 @@ footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
       <!-- ESP32 -->
       <rect x="340" y="40" width="220" height="440" rx="14" fill="#14523c" stroke="#3ee6c3" stroke-width="2"/>
       <text x="450" y="70" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="16">ESP32-S3</text>
-      <text x="450" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#aef">N16R8 · USB-C on bottom</text>
+      <text x="450" y="90" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#aef">N16R8 · schematic overview</text>
       <g text-anchor="start">
-        <text x="352" y="135">GPIO42</text><text x="352" y="175">GPIO41</text><text x="352" y="215">GPIO40</text><text x="352" y="255">3V3</text><text x="352" y="295">GND</text>
+        <text x="352" y="135">GPIO4</text><text x="352" y="175">GPIO5</text><text x="352" y="215">GPIO6</text><text x="352" y="255">3V3</text><text x="352" y="295">GND</text>
       </g>
       <g text-anchor="end">
-        <text x="548" y="135">GPIO15</text><text x="548" y="175">GPIO16</text><text x="548" y="215">GPIO7</text><text x="548" y="255">5V</text><text x="548" y="295">GND</text><text x="548" y="375">GPIO4</text><text x="548" y="415">GND</text>
+        <text x="548" y="135">GPIO15</text><text x="548" y="175">GPIO7</text><text x="548" y="215">GPIO16</text><text x="548" y="255">5V</text><text x="548" y="295">GND</text><text x="548" y="375">GPIO9</text><text x="548" y="415">GND</text>
       </g>
       <!-- Mic -->
       <rect x="40" y="100" width="160" height="230" rx="12" fill="#243a86" stroke="#7c8cff" stroke-width="2"/>
@@ -237,7 +237,7 @@ footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
       </g>
       <path d="M152 410 H300 V371 H340" fill="none" stroke="#f7c948" stroke-width="2.5"/>
       <path d="M560 371 H600 V390" fill="none" stroke="#f7c948" stroke-width="2.5"/>
-      <text x="610" y="405" font-size="11" fill="#98a2cf" font-family="sans-serif">button → GPIO4</text>
+      <text x="610" y="405" font-size="11" fill="#98a2cf" font-family="sans-serif">button → GPIO9</text>
       <text x="200" y="445" font-size="11" fill="#98a2cf" font-family="sans-serif">other leg → GND</text>
       <!-- legend -->
       <g font-family="sans-serif" font-size="12">
@@ -253,20 +253,21 @@ footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
 
   <table>
     <tr><th>Part pin</th><th>→ ESP32-S3</th><th>Notes</th></tr>
-    <tr><td>INMP441 <code>SCK</code></td><td>GPIO42</td><td>I2S bit clock</td></tr>
-    <tr><td>INMP441 <code>WS</code></td><td>GPIO41</td><td>Word select</td></tr>
-    <tr><td>INMP441 <code>SD</code></td><td>GPIO40</td><td>Data from mic</td></tr>
+    <tr><td>INMP441 <code>SCK</code></td><td>GPIO4</td><td>I2S bit clock</td></tr>
+    <tr><td>INMP441 <code>WS</code></td><td>GPIO5</td><td>Word select</td></tr>
+    <tr><td>INMP441 <code>SD</code></td><td>GPIO6</td><td>Data from mic</td></tr>
     <tr><td>INMP441 <code>L/R</code></td><td>GND</td><td>Selects the left channel</td></tr>
     <tr><td>INMP441 <code>VDD</code> / <code>GND</code></td><td>3V3 / GND</td><td><b>3.3 V only</b></td></tr>
     <tr><td>MAX98357 <code>BCLK</code></td><td>GPIO15</td><td></td></tr>
-    <tr><td>MAX98357 <code>LRC</code></td><td>GPIO16</td><td></td></tr>
-    <tr><td>MAX98357 <code>DIN</code></td><td>GPIO7</td><td>Data to amp</td></tr>
+    <tr><td>MAX98357 <code>LRC</code></td><td>GPIO7</td><td></td></tr>
+    <tr><td>MAX98357 <code>DIN</code></td><td>GPIO16</td><td>Data to amp</td></tr>
     <tr><td>MAX98357 <code>VIN</code> / <code>GND</code></td><td>5V / GND</td><td>Leave <code>SD</code> and <code>GAIN</code> unconnected</td></tr>
-    <tr><td>OLED face <code>SDA</code> / <code>SCK</code></td><td>GPIO2 / GPIO1</td><td>0.96" SSD1306, I2C address 0x3C (SCK = SCL)</td></tr>
+    <tr><td>OLED face <code>SDA</code> / <code>SCK</code></td><td>GPIO18 / GPIO17</td><td>0.96" SSD1306, I2C address 0x3C (SCK = SCL)</td></tr>
     <tr><td>OLED face <code>VDD</code> / <code>GND</code></td><td>3V3 / GND</td><td><b>3.3 V only</b></td></tr>
-    <tr><td>Button <code>NO</code> / <code>C</code></td><td>GPIO4 / GND</td><td>Momentary metal button with C, NO, NC + LED terminals. Use C and NO only; leave NC and the LED unconnected. Internal pull-up is used</td></tr>
+    <tr><td>Button <code>NO</code> / <code>C</code></td><td>GPIO9 / GND</td><td>Momentary metal button with C, NO, NC + LED terminals. Use C and NO only; leave NC and the LED unconnected. Internal pull-up is used</td></tr>
   </table>
-  <div class="callout warn"><b>Avoid GPIO 35, 36, 37</b>On the N16R8 these pins are used by the octal PSRAM. Using them crashes the board.</div>
+  <div class="callout warn"><b>Avoid GPIO 35, 36, 37</b>On the N16R8 these pins are used by the octal PSRAM. Using them crashes the board. On the top row also leave <b>RST</b>, <b>3</b> and <b>46</b> alone.</div>
+  <div class="callout"><b>Breadboard orientation (verified on the author's board)</b>The ESP32-S3 board here is about 1.0" wide, so its pin rows sit in breadboard rows <b>B</b> and <b>J</b>. Only row <b>A</b> stays free, so <b>only the top row of pins can be wired</b>, and the bottom row (including GPIO 1, 2, 40, 41, 42 and its 3V3/5V neighbours) is unreachable. Turn the board so the USB ports are on the <b>left</b> and the top row reads, left to right: <code>G, 5V, 14, 13, 12, 11, 10, 9, 46, 3, 8, 18, 17, 16, 15, 7, 6, 5, 4, RST, 3V3, 3V3</code>. All pins used by the firmware are on that row. The 3V3 and 5V positions come from the usual DevKitC-1 layout, so confirm them against the printed labels.</div>
   <div class="callout"><b>Tip: keep the mic away from the speaker</b>Place them on opposite sides of the enclosure, or the assistant will hear itself.</div>
 </section>
 

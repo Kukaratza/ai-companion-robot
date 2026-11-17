@@ -39,7 +39,7 @@ python3 tools/embed_code_in_kids_guide.py
 
 ## 🚀 Quick start
 
-1. Install **Arduino IDE 2** and the **esp32 by Espressif Systems** board package (version 3.x). Install the libraries **WebSockets** (Markus Sattler), **Adafruit SSD1306** and **Adafruit GFX Library**.
+1. (Works on macOS with an Apple chip or an Intel chip, and on Windows. The kids guide has a "What computer do you have?" picker that changes the steps to match.) Install **Arduino IDE 2** and the **esp32 by Espressif Systems** board package (version 3.x). Install the libraries **WebSockets** (Markus Sattler), **Adafruit SSD1306** and **Adafruit GFX Library**.
 2. Open `arduino/Face_Demo/Face_Demo.ino` first and wire up the OLED to see the face.
 3. For the full robot open `arduino/AI_Companion/AI_Companion.ino`, edit the `secrets.h` tab with your WiFi and a [Gemini API key](https://aistudio.google.com/apikey), choose the Tools settings from the guide, and upload.
 
@@ -48,7 +48,7 @@ The kids guide has every step, with screenshots-style walk-throughs and the exac
 ## ⚠️ Status: please read
 
 - **The firmware has not been compiled or run on real hardware yet.** It was written and checked by reading and with stand-in libraries only. Expect to fix some compile errors or pin mistakes on the first build, and please open an issue or a pull request if you do.
-- The ESP32-S3 pin layout is assumed to match the common *ESP32-S3-DevKitC-1*. Always trust the labels printed on your own board.
+- The ESP32-S3 pin layout is assumed to match the common *ESP32-S3-DevKitC-1*. On a standard breadboard the board's pins sit in rows B and J, so only the **top row** of pins can be wired. Turn the board so the USB ports are on the left and that row reads `G, 5V, 14, 13, … 4, RST, 3V3, 3V3`. Always trust the labels printed on your own board.
 - The **wake word** ("Hi ESP", or a typed name) is experimental, off by default, and written from memory of the Arduino `ESP_SR` library.
 - The Gemini model name in `config.h` may change. Check Google's current Live API docs.
 - **Keep your API key private.** `arduino/AI_Companion/secrets.h` is committed with placeholders only. Never commit a real key. Set a usage limit in Google AI Studio.

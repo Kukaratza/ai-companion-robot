@@ -138,7 +138,7 @@ bool faceBegin() {
         return false;
     }
 #if FACE_FLIP
-    oled.setRotation(2);  // the screen is mounted upside down, so turn the picture around
+    oled.setRotation(2);  // if the picture shows upside down, FACE_FLIP in config.h turns it around
 #endif
     faceSet(FACE_HAPPY);
     xTaskCreatePinnedToCore(faceTask, "face", 4096, nullptr, 1, nullptr, 0);  // start the little artist

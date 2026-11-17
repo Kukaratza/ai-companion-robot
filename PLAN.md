@@ -10,9 +10,9 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 - Battery caveat: the TP4056 has no boost regulator. 3.7V into the dev board's 5V pin will brown out the LDO. Develop on USB power. For battery use, add a 5V boost converter (not in your list).
 
 ## Wiring (ESP32-S3, separate I2S buses)
-- INMP441 (I2S0, RX): SCK→GPIO42, WS→GPIO41, SD→GPIO40, L/R→GND, VDD→3V3, GND→GND. (Original plan used GPIO4/5/6; moved to the bottom pin row, see the update at the end.)
-- MAX98357 (I2S1, TX): BCLK→GPIO15, LRC→GPIO16, DIN→GPIO7, VIN→5V, GND→GND, SD tied to VIN (always on, or a GPIO for mute). Speaker to its +/- outputs.
-- Button: GPIO4 to GND (INPUT_PULLUP). (Original plan: GPIO9.)
+- INMP441 (I2S0, RX): SCK→GPIO4, WS→GPIO5, SD→GPIO6, L/R→GND, VDD→3V3, GND→GND. (See the one-sided wiring update at the end.)
+- MAX98357 (I2S1, TX): BCLK→GPIO15, LRC→GPIO7, DIN→GPIO16, VIN→5V, GND→GND, SD tied to VIN (always on, or a GPIO for mute). Speaker to its +/- outputs.
+- Button: GPIO9 to GND (INPUT_PULLUP).
 - Avoid GPIO 35–37 on the N16R8 (octal PSRAM). Pin numbers are adjustable in `config.h`.
 
 ## Architecture
@@ -49,17 +49,20 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 
 ## Update: robot face (added later)
 - Part: 0.96" SSD1306 OLED, 128x64, 4-pin I2C (pins GND VDD SCK SDA), yellow/blue or white/blue two-colour: top 16 rows are one colour, the rest blue.
-- Wiring: GND→GND, VDD→3V3, SCK (=SCL)→GPIO1, SDA→GPIO2 (I2C address 0x3C). Pins/address in `include/config.h`.
+- Wiring: GND→GND, VDD→3V3, SCK (=SCL)→GPIO17, SDA→GPIO18 (I2C address 0x3C). Pins/address in `include/config.h`.
 - Firmware: `src/face.{h,cpp}` runs a 20 fps animation task (moods: idle, happy, listen, think, speak, sleep); `main.cpp` sets the mood from session state. Optional: `FACE_ENABLED 0`, and it skips itself if no OLED is found.
 - Kid-first milestone: `pio run -e face_demo -t upload` builds `src/face_demo.cpp`, which needs only ESP32 + OLED (no mic, speaker or WiFi). Cycles through every mood.
 - Libraries: Adafruit SSD1306 + Adafruit GFX. Not yet compiled or run on hardware.
 - The face uses the top 16-pixel band for a status word (READY, LISTENING, ...) and draws the eyes below it.
 
-## Update: pins split across both sides of the ESP32 (less wire clutter)
-- Top row of pins (left header): amplifier BCLK=15, LRC=16, DIN=7; button=GPIO4; 5V and GND.
-- Bottom row of pins (right header): mic SCK=42, WS=41, SD=40; face SDA=2, SCL=1; GND; 3V3 is fed around the left end to the bottom red rail.
-- Breadboard: amp on the top half (upright); mic and face on the bottom half, flipped over. `FACE_FLIP 1` rotates the OLED picture 180 degrees.
-- Pin names from the usual ESP32-S3-DevKitC-1 layout; verify against the labels on your board.
+## Update: SUPERSEDED idea, pins split across both sides of the ESP32
+- This was dropped. The author's ESP32-S3 board is ~1.0" wide: its pin rows sit in breadboard rows B and J, so only row A (top) is free and the bottom row of pins cannot be wired at all.
+
+## Update: one-sided wiring (current design, verified against the author's board)
+- Only the TOP row of pins is used. With the USB ports on the LEFT it reads: `G, 5V, 14, 13, 12, 11, 10, 9, 46, 3, 8, 18, 17, 16, 15, 7, 6, 5, 4, RST, 3V3, 3V3` (the board's other header, with GND/TX/RX/1/2/42..., is the unreachable bottom row). The 3V3/5V positions come from the usual DevKitC-1 layout and are unverified on the real board.
+- Pins: mic SCK=4, WS=5, SD=6; amp BCLK=15, LRC=7, DIN=16; OLED SCL=17, SDA=18; button=9. All parts sit upright on the top half; `FACE_FLIP` is 0.
+- Rails: top red = 3.3V (mic, OLED), top blue = GND. The amp's VIN comes straight from the 5V pin by a long wire.
+- Pins were chosen so the nine lane wires nest with only 2 crossings (the 5V wire over the two OLED wires).
 
 ## Update: Arduino IDE sketches for kids
 - `arduino/AI_Companion` (full robot) and `arduino/Face_Demo` (OLED only) are generated from `src/` + `include/` by `sh tools/make_arduino_sketches.sh`. Re-run it after any code change.
@@ -73,4 +76,5 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 - A stub-library compile check passes for wake word on/off; real library signatures (ESP_SR.begin/pause/resume, sr_cmd_t) are from memory and unverified. Custom wake words (Edge Impulse) are not implemented.
 - `WAKE_ENGINE` (config.h): 1 = ESP-SR "Hi ESP"; 2 = empty slot in `wakeword.cpp` for a custom engine (Picovoice Porcupine or Edge Impulse). Robot Maker has a "Robot name" field (persona name; the wake phrase stays "Hi, ESP!"). Compile check passes for both engines, on/off.
 - `WAKE_PHRASE` (config.h, default "Hi ESP"): "Hi ESP" -> WakeNet; any other phrase -> MultiNet text command in command mode (re-armed on timeout). The Robot Maker builds the phrase as "Hi " + robot name. Experimental: MultiNet accuracy for arbitrary names is unverified; ESP_SR.setMode/begin(mode) calls are from memory.
-- Push button (AliExpress metal button) has C / NO / NC switch terminals plus LED terminals. Wiring: NO -> GPIO4, C -> GND; NC and the LED are unused. `arduino/Button_Test` helps identify the wires.
+- Push button (AliExpress metal button) has C / NO / NC switch terminals plus LED terminals. Wiring: NO -> GPIO9, C -> GND; NC and the LED are unused. `arduino/Button_Test` helps identify the wires.
+- Kids guide section 4 has a "What computer do you have?" picker (Mac Apple chip / Mac Intel / Windows). Per-computer text uses `data-for` attributes toggled by one `applyOS` script; the choice is saved in localStorage (`kids-os`); shortcut keys (`.mod`) show ⌘ or Ctrl. Windows is preselected on Windows browsers; on a Mac the chip is never guessed. Not checked on Windows or an Intel Mac.
