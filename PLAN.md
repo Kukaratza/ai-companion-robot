@@ -48,8 +48,8 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 - API/model names change: confirm the current Live API model ID and message schema in Google's docs at implementation time.
 
 ## Update: robot face (added later)
-- Part: 0.96" SSD1306 OLED, 128x64, 4-pin I2C (pins GND VDD SCK SDA), yellow/blue or white/blue two-colour: top 16 rows are one colour, the rest blue.
-- Wiring: GND→GND, VDD→3V3, SCK (=SCL)→GPIO17, SDA→GPIO18 (I2C address 0x3C). Pins/address in `include/config.h`.
+- Part: 0.96" SSD1306 OLED, 128x64, 4-pin I2C (pins GND VDD SCL SDA), yellow/blue or white/blue two-colour: top 16 rows are one colour, the rest blue.
+- Wiring: GND→GND, VDD→3V3, SCL→GPIO17, SDA→GPIO18 (I2C address 0x3C). Pins/address in `include/config.h`.
 - Firmware: `src/face.{h,cpp}` runs a 20 fps animation task (moods: idle, happy, listen, think, speak, sleep); `main.cpp` sets the mood from session state. Optional: `FACE_ENABLED 0`, and it skips itself if no OLED is found.
 - Kid-first milestone: `pio run -e face_demo -t upload` builds `src/face_demo.cpp`, which needs only ESP32 + OLED (no mic, speaker or WiFi). Cycles through every mood.
 - Libraries: Adafruit SSD1306 + Adafruit GFX. Not yet compiled or run on hardware.

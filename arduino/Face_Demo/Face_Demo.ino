@@ -8,7 +8,7 @@ static const char *names[] = {"happy", "idle", "listening", "thinking", "speakin
 
 void setup() {
     Serial.begin(115200);
-    if (!faceBegin()) Serial.println("Check the 4 OLED wires: GND, VCC, SCL, SDA");
+    if (!faceBegin()) Serial.println("Check the 4 OLED wires: GND, VDD, SCL, SDA");
 }
 
 void loop() {

@@ -134,7 +134,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <p>Every part is like a part of a body!</p>
   <div class="grid">
     <div class="card"><div class="photo"><img src="images/esp32.jpg" alt="ESP32-S3 board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧠</div></div><div class="spot">🔎 Look for the words “ESP32-S3” on the little metal square.</div><h3>ESP32-S3 board</h3>The <b>brain</b>. A tiny computer the size of a stick of gum. It runs our code.</div>
-    <div class="card"><div class="photo"><img src="images/oled.jpg" alt="OLED face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">😀</div></div><div class="spot">🔎 A little blue square with a black screen and 4 pins at the top. The pins say <b>GND VDD SCK SDA</b>.</div><h3>Face screen (OLED)</h3>A tiny screen that shows your robot's <b>eyes and smile</b>. It blinks, looks around and talks!</div>
+    <div class="card"><div class="photo"><img src="images/oled.jpg" alt="OLED face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">😀</div></div><div class="spot">🔎 A little blue square with a black screen and 4 pins at the top. The pins say <b>GND VDD SCL SDA</b>.</div><h3>Face screen (OLED)</h3>A tiny screen that shows your robot's <b>eyes and smile</b>. It blinks, looks around and talks!</div>
     <div class="card"><div class="photo"><img src="images/mic.jpg" alt="Microphone" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">👂</div></div><div class="spot">🔎 Look for “INMP441” printed on it. It has a tiny hole on top.</div><h3>Microphone (INMP441)</h3>The <b>ear</b>. It listens to your voice.</div>
     <div class="card"><div class="photo"><img src="images/amp.jpg" alt="Amplifier" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">📣</div></div><div class="spot">🔎 Look for “MAX98357”. It has little green screw blocks.</div><h3>Amplifier (MAX98357)</h3>The <b>voice box</b>. It makes the sound strong enough to hear.</div>
     <div class="card"><div class="photo"><img src="images/speaker.jpg" alt="Speaker" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔊</div></div><div class="spot">🔎 A round disc with two thin wires.</div><h3>Speaker</h3>The <b>mouth</b>. The sound comes out here.</div>
@@ -193,11 +193,11 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <table class="cheat">
     <tr><th></th><th>In the Tools menu, click…</th><th>Then choose…</th><th>Done?</th></tr>
     <tr class="cheatrow"><td class="cn">1</td><td><b>Board</b> → <b>esp32</b></td><td><span class="pick">ESP32S3 Dev Module</span><small>Do this one <b>first</b>! The other items only show up after you choose this board. The list is long, so scroll down until you see the name.</small></td><td><input type="checkbox" class="cc"></td></tr>
-    <tr class="cheatrow"><td class="cn">2</td><td><b>USB CDC On Boot</b></td><td><span class="pick">Disabled</span></td><td><input type="checkbox" class="cc"></td></tr>
+    <tr class="cheatrow"><td class="cn">2</td><td><b>USB CDC On Boot</b></td><td><span class="pick">Disabled</span> or <span class="pick">Enabled</span><small>It depends on which USB port you use. Plugged into the port marked <b>COM</b> (Mac name <code>usbserial…</code>)? Choose <b>Disabled</b>. Plugged into the port marked <b>USB</b> (Mac name <code>usbmodem…</code>)? Choose <b>Enabled</b>, or the Serial Monitor stays empty.</small></td><td><input type="checkbox" class="cc"></td></tr>
     <tr class="cheatrow"><td class="cn">3</td><td><b>Flash Size</b></td><td><span class="pick">16MB (128Mb)</span></td><td><input type="checkbox" class="cc"></td></tr>
     <tr class="cheatrow"><td class="cn">4</td><td><b>PSRAM</b></td><td><span class="pick">OPI PSRAM</span><small>There are 3 choices. Pick the one that says <b>OPI</b>.</small></td><td><input type="checkbox" class="cc"></td></tr>
     <tr class="cheatrow"><td class="cn">5</td><td><b>Partition Scheme</b></td><td><span class="pick">16M Flash (3MB APP/9.9MB FATFS)</span><small>Many choices look alike. Look for <b>16M</b> at the start and <b>3MB APP</b>.</small></td><td><input type="checkbox" class="cc"></td></tr>
-    <tr class="cheatrow"><td class="cn">6</td><td><b>Port</b></td><td><span class="pick">The new port</span><small><b>First</b> plug the USB cable into the port marked <b>COM</b> (that word is printed on the board). <b>Then</b> open <b>Tools → Port</b> and pick the one that just appeared. <span class="trick">🔎 <b>Trick:</b> open Tools → Port <b>before</b> you plug in and look at the list. Plug the board in and open it again. The <b>new name</b> in the list is your board!</span> <span data-for="none">On a Mac it looks like <code>/dev/cu.usbserial-…</code>. On Windows it looks like <code>COM3</code>.</span><span data-for="mac-arm mac-intel">On a Mac it looks like <code>/dev/cu.usbserial-…</code> or <code>/dev/cu.usbmodem…</code>. Ignore names that say <code>Bluetooth</code> or <code>debug-console</code>. They are not your board.</span><span data-for="windows">On Windows it looks like <code>COM3</code> or <code>COM5</code> (the number changes). That is just Windows' name for the port. It is not the word “COM” printed on the board.</span></small></td><td><input type="checkbox" class="cc"></td></tr>
+    <tr class="cheatrow"><td class="cn">6</td><td><b>Port</b></td><td><span class="pick">The new port</span><small><b>First</b> plug the USB cable into one of the board's two ports (the one marked <b>COM</b> is the easiest). <b>Then</b> open <b>Tools → Port</b> and pick the one that just appeared. <span class="trick">🔎 <b>Trick:</b> open Tools → Port <b>before</b> you plug in and look at the list. Plug the board in and open it again. The <b>new name</b> in the list is your board!</span> <span data-for="none">On a Mac it looks like <code>/dev/cu.usbserial-…</code>. On Windows it looks like <code>COM3</code>.</span><span data-for="mac-arm mac-intel">On a Mac it looks like <code>/dev/cu.usbserial-…</code> or <code>/dev/cu.usbmodem…</code>. Ignore names that say <code>Bluetooth</code> or <code>debug-console</code>. They are not your board.</span><span data-for="windows">On Windows it looks like <code>COM3</code> or <code>COM5</code> (the number changes). That is just Windows' name for the port. It is not the word “COM” printed on the board.</span></small></td><td><input type="checkbox" class="cc"></td></tr>
   </table>
   <p class="cheatcount"><b id="cheatCount">0 of 6 settings done</b></p>
 
@@ -213,14 +213,15 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   </div>
   <p>Open the Tools menu again and compare. Everything else in the menu <b>stays just as it is</b>. In the bottom-right corner of the Arduino IDE window you should also see <b>ESP32S3 Dev Module</b> and the name of your port.</p>
   <div class="tip"><b>🗣️ Want it to wake up when you say its name?</b>Later, in section 9, you can switch on the wake word. Then pick this Partition Scheme instead: <b>ESP SR 16M (3MB APP/7MB SPIFFS/2.9MB MODEL)</b>.</div>
-  <div class="tip"><b>🔁 Two USB ports?</b>Your brain board has two USB-C ports. Use the one marked <b>COM</b>. If the computer cannot find the board, try the other port and set <b>USB CDC On Boot</b> to <b>Enabled</b>.</div>
+  <div class="tip"><b>🔁 Two USB ports?</b>Your brain board has two USB-C ports. Both can load the code, but they talk differently. <b>COM</b> port: set <b>USB CDC On Boot</b> to <b>Disabled</b>. <b>USB</b> port (your Mac shows <code>usbmodem…</code>): set it to <b>Enabled</b>. If you pick the wrong one, the upload still works but the Serial Monitor shows nothing. If the computer cannot find the board, try the other port.</div>
   <div class="grownup" id="sketches"><b>👩‍👧 Grown-up corner: the robot's files</b>
     <p><b>What is a “sketch”?</b> It is Arduino's word for a program. A sketch is a <b>folder</b> that holds one main file ending in <code>.ino</code> plus a few helper files. When you open the <code>.ino</code> file, the helper files show up as <b>tabs</b> across the top of the Arduino window (<code>config.h</code>, <code>face.cpp</code>, and so on). The folder and the main file must have the <b>same name</b>, which is why the folders must stay whole.</p>
-    <p><b>This project has three sketches</b>, all inside the <code>arduino</code> folder:</p>
+    <p><b>This project has four sketches</b>, all inside the <code>arduino</code> folder:</p>
     <ul>
       <li><code>Face_Demo</code>: just the face on the screen. Needs only the brain and the screen. You use this one first.</li>
       <li><code>AI_Companion</code>: the whole talking robot. This is the main one.</li>
       <li><code>Button_Test</code>: a helper that finds the right two wires on the push button.</li>
+      <li><code>I2C_Scan</code>: a helper that checks whether the face screen is connected and its two data wires are right.</li>
     </ul>
     <p><b>Where do the folders come from?</b> You download them once:</p>
     <ol>
@@ -293,7 +294,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
     <p><b>About the screen.</b> It is the 0.96" SSD1306 OLED (128×64 dots, 4-pin I2C). Yellow-and-blue and white-and-blue versions are two-colour: the top 16 rows of dots are one colour and everything below is blue. The robot writes a short word in that top band, like READY or LISTENING, and draws the face in the blue area.</p>
     <p><b>If the screen stays black,</b> the Serial Monitor says “No OLED found”. Check these in order:</p>
     <ol>
-      <li>The 4 wires match the Breadboard Buddy checklist (GND, VDD, SCK, SDA).</li>
+      <li>The 4 wires match the Breadboard Buddy checklist (GND, VDD, SCL, SDA).</li>
       <li>The I2C address. It is usually <code>0x3C</code>, but a few screens use <code>0x3D</code>. Change <code>OLED_ADDR</code> in the <code>config.h</code> tab.</li>
     </ol>
     <p><b>Two optional settings</b> in the <code>config.h</code> tab:</p>
@@ -352,7 +353,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
     <ul>
       <li>The USB cable is plugged in.</li>
       <li>Arduino IDE said <b>“Done uploading”</b>.</li>
-      <li>The <b>Serial Monitor</b> is open. It is the <b>robot's diary</b>, a little window where the robot writes what it is doing. Open it with the <b>magnifying glass 🔍</b> at the top right of Arduino IDE, and pick <code>115200 baud</code> at the bottom.</li>
+      <li>The <b>Serial Monitor</b> is open. It is the <b>robot's diary</b>, a little window where the robot writes what it is doing. Open it with the <b>magnifying glass 🔍</b> at the top right of Arduino IDE, and pick <code>115200 baud</code> at the bottom. If it stays empty, see <b>USB CDC On Boot</b> in the <a href="#cheat">cheat sheet</a>.</li>
     </ul>
   </div>
 
@@ -1173,6 +1174,19 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
   <details><summary>🔁 The robot keeps restarting</summary>Unplug a wire → wait → plug in again. Check no wire is on pins 35, 36, 37.</details>
   <details><summary>📚 Red error: “WebSocketsClient.h: No such file” (or another missing file)</summary>A helper library is missing. Go back to section 4, step 4, and install the 3 libraries: <b>WebSockets</b>, <b>Adafruit SSD1306</b> and <b>Adafruit GFX Library</b>.</details>
   <details><summary>🧠 Red error: “ESP_I2S.h: No such file”</summary>Your brain-board package is too old. Open <b>Tools → Board → Boards Manager</b>, find “esp32 by Espressif Systems” and update it to version 3 or newer.</details>
+  <details><summary>📺 The face screen stays black</summary>
+    <ol>
+      <li><b>Open the Serial Monitor</b> (115200). If it is empty, fix <b>USB CDC On Boot</b> first (see the <a href="#cheat">cheat sheet</a>), upload again, and look again. If it says <code>No OLED found</code>, the brain cannot talk to the screen.</li>
+      <li><b>Run the I2C Scanner.</b> In Arduino IDE choose <b>File → Open…</b> and open <code>arduino / I2C_Scan / I2C_Scan.ino</code>. Upload it and open the Serial Monitor. Read the answer:
+        <ul>
+          <li><b>“FOUND something at address 0x3C”</b> under the first line: the screen is connected and the wires are right. The problem is the code settings, so check <code>PIN_OLED_SDA 18</code>, <code>PIN_OLED_SCL 17</code> and <code>OLED_ADDR</code> in <code>config.h</code>.</li>
+          <li><b>FOUND under “swapped”:</b> you swapped the two data wires. Put <b>SDA</b> on pin <b>18</b> and <b>SCL</b> on pin <b>17</b>.</li>
+          <li><b>“nothing found” both times:</b> check power and ground (VDD to the red 3.3V rail, GND to the blue rail), that the screen's 4 pins are in row e of their own 4 columns, and that the brain is turned so its top row reads <code>G, 5V, 14, 13, 12…</code></li>
+          <li><b>Found at 0x3D:</b> change <code>OLED_ADDR</code> to <code>0x3D</code> in <code>config.h</code>.</li>
+        </ul></li>
+      <li>Make sure the <code>config.h</code> tab is the <b>new</b> one: <code>PIN_OLED_SDA 18</code> and <code>PIN_OLED_SCL 17</code>. Old downloads say 2 and 1.</li>
+    </ol>
+  </details>
   <details><summary>🔌 The computer can't find the board</summary>Check that the right <b>Port</b> is picked in the Tools menu. Hold the <b>BOOT</b> button, tap <b>RST</b>, let go of BOOT, then click Upload again. Try the other USB port, or a different cable, since some cables only charge.<div class="osnote" data-for="none">Pick your computer in section 4 to see tips for it.</div><div class="osnote" data-for="mac-arm mac-intel">On a Mac there is usually nothing extra to install. Plug the board straight into the computer (no hub), then close and reopen Arduino IDE.</div><div class="osnote" data-for="windows">On Windows, right-click the Start button and open <b>Device Manager</b>. Look under <b>Ports (COM &amp; LPT)</b> while you plug the board in and out. If it shows up as an unknown device, a grown-up can install the USB driver for the chip on your board (often <b>CP210x</b> or <b>CH340</b>).</div></details>
   <details><summary>🗣️ It talks to itself</summary>Move the mic far from the speaker and turn the volume down a little.</details>
 </section>

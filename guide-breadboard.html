@@ -229,10 +229,10 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <tr><th>Screen pin</th><th>Goes to</th><th>Done?</th></tr>
     <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the top blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#ff6b7d"></span>VDD</td><td>the top red rail (3V3) ⚠️ not 5V!</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#f7c948"></span>SCK</td><td><b>GPIO17</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#f7c948"></span>SCL</td><td><b>GPIO17</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#5be38f"></span>SDA</td><td><b>GPIO18</b></td><td><input type="checkbox" class="c"></td></tr>
   </table>
-  <div class="tip"><b>👀 Read the tiny labels</b>Hold the screen with the 4 pins at the top. Left to right they say <code>GND</code> <code>VDD</code> <code>SCK</code> <code>SDA</code>. (<code>SCK</code> is the clock wire. Some people call it SCL.) Match the <b>words</b>!</div>
+  <div class="tip"><b>👀 Read the tiny labels</b>Hold the screen with the 4 pins at the top. Left to right they say <code>GND</code> <code>VDD</code> <code>SCL</code> <code>SDA</code>. (<code>SCL</code> is the clock wire. A few screens print <code>SCK</code> instead. It is the same wire.) Match the <b>words</b>!</div>
 
   <h3>👂 The microphone (6 wires)</h3>
   <table>
@@ -424,8 +424,8 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
   /* ---- where the parts go (all on the top half, right way up) ---- */
   const MIC=['SCK','WS','SD','L/R','VDD','GND'], MIC0=27;
   const AMP=['LRC','BCLK','DIN','GAIN','SD','GND','VIN'], AMP0=36;
-  const OLED=['GND','VDD','SCK','SDA'], OLED0=48;
-  const sig={SCK:COL.yellow,BCLK:COL.yellow,WS:COL.blue,LRC:COL.blue,SD:COL.green,SDA:COL.green,DIN:COL.green,VDD:COL.red,VIN:COL.red,GND:COL.gray,'L/R':COL.gray};
+  const OLED=['GND','VDD','SCL','SDA'], OLED0=48;
+  const sig={SCK:COL.yellow,SCL:COL.yellow,BCLK:COL.yellow,WS:COL.blue,LRC:COL.blue,SD:COL.green,SDA:COL.green,DIN:COL.green,VDD:COL.red,VIN:COL.red,GND:COL.gray,'L/R':COL.gray};
   const micC=n=>MIC0+MIC.indexOf(n), ampC=n=>AMP0+AMP.indexOf(n), oledC=n=>OLED0+OLED.indexOf(n);
   const topCol={'G':2,'5V':3,'9':9,'18':13,'17':14,'16':15,'15':16,'7':17,'6':18,'5':19,'4':20,'3V3':22};
   const T=n=>[topCol[n],'a'];
@@ -515,10 +515,10 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     items:[W([22,'a'],[22,'rt'],COL.red,'power')]},
    {t:'Give it a face! 😀',
     say:'The little OLED screen is your robot\'s <b>face</b>. Hold it with the 4 pins at the top, so you can read its words. Push the pins into row <b>e</b>, columns <b>48 to 51</b>. The screen will lie flat over the holes below it, and that\'s fine. Then add 4 wires: power, ground and two wires that carry the picture.',
-    where:[['Pins → row e, columns 48 to 51 (GND, VDD, SCK, SDA)',COL.green],['Gray: screen GND (col 48, row b) → top blue rail',COL.gray],['Red: top red rail → VDD (col 49, row b)',COL.red],['Yellow: pin 17 (col 14, row a) → SCK (col 50, row b)',COL.yellow],['Green: pin 18 (col 13, row a) → SDA (col 51, row b)',COL.green]],
-    oops:'Match the words printed on YOUR screen: <b>GND, VDD, SCK, SDA</b> (pin 1 is GND). <b>SCK</b> is the clock wire, also called SCL. Swapping VDD and GND can break the screen. Red goes to the 3.3V rail only!',
+    where:[['Pins → row e, columns 48 to 51 (GND, VDD, SCL, SDA)',COL.green],['Gray: screen GND (col 48, row b) → top blue rail',COL.gray],['Red: top red rail → VDD (col 49, row b)',COL.red],['Yellow: pin 17 (col 14, row a) → SCL (col 50, row b)',COL.yellow],['Green: pin 18 (col 13, row a) → SDA (col 51, row b)',COL.green]],
+    oops:'Match the words printed on YOUR screen: <b>GND, VDD, SCL, SDA</b> (pin 1 is GND). <b>SCL</b> is the clock wire. A few screens print SCK instead. It is the same wire. Swapping VDD and GND can break the screen. Red goes to the 3.3V rail only!',
     items:[{k:'part',n:'oled'},W([oledC('VDD'),'rt'],[oledC('VDD'),'b'],COL.red,'face'),W([oledC('GND'),'b'],[oledC('GND'),'bt'],COL.gray,'face'),
-           L(T('18'),[oledC('SDA'),'b'],COL.green,LT(1),'face'),L(T('17'),[oledC('SCK'),'b'],COL.yellow,LT(2),'face')],
+           L(T('18'),[oledC('SDA'),'b'],COL.green,LT(1),'face'),L(T('17'),[oledC('SCL'),'b'],COL.yellow,LT(2),'face')],
     rings:[[48,'e'],[51,'e']]},
    {t:'Add the ear 👂 (microphone)',
     say:'Push the microphone\'s 6 pins into row <b>e</b> of columns <b>27 to 32</b>. It is far from the brain and the face screen, so no column is shared.',
