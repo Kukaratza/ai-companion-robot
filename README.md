@@ -27,7 +27,7 @@ ESP32-S3 (N16R8) · INMP441 I2S microphone · MAX98357 I2S amplifier + 3 W speak
 | `arduino/TFT_Test` | Tests the colour screen on its own (colour bars, a blinking face, and the 4 rotations) |
 | `arduino/Button_Test` | Helper that finds which two wires of the push button are the switch (C and NO) |
 | `src/`, `include/`, `platformio.ini` | Same code as a PlatformIO project (source of truth) |
-| `guide-*.html`, `kids-theme.css`, `index.html`, `images/` | The interactive website |
+| `guide-*.html`, `kids-theme.css`, `images/` | The interactive website (`index.html` just opens the Robot Guide) |
 | `tools/` | Scripts that regenerate the Arduino sketches and embed the code in the kids guide |
 | `PLAN.md` | Design notes and decisions |
 

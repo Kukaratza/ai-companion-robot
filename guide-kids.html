@@ -70,25 +70,22 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 <link rel="stylesheet" href="kids-theme.css">
 <style>
 .facebox{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin:14px 0}
-#facesim{width:min(100%,420px);aspect-ratio:4/3;border:8px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);background:#05070d}
-.moods{display:flex;flex-wrap:wrap;gap:10px;flex:1;min-width:240px}
+#facesim{width:min(100%,420px);aspect-ratio:4/3;border:6px solid var(--ink);border-radius:18px;box-shadow:var(--shadow);background:#05070d}
+.moods{display:flex;flex-wrap:wrap;gap:10px;flex:1;min-width:240px;align-items:flex-start}
 .moods button.btn{font-size:16px;padding:8px 16px}
-.moods{align-items:flex-start}
-.mood{display:flex;flex-direction:column;align-items:center;gap:2px;width:96px;padding:10px 6px 8px;cursor:pointer;
-  font:900 15px "Arial Rounded MT Bold","Trebuchet MS",sans-serif;color:#1d1b4b;border:4px solid #1d1b4b;border-radius:28px;box-shadow:0 6px 0 #1d1b4b;transition:transform .15s}
-.mood:hover{transform:translateY(-4px) rotate(-3deg)}
-.mood:active{transform:translateY(4px);box-shadow:0 2px 0 #1d1b4b}
-.mood.on{outline:5px solid #fff;box-shadow:0 0 0 9px #1d1b4b,0 6px 0 9px #1d1b4b;animation:boing .5s}
-@keyframes boing{30%{transform:scale(1.14) rotate(-4deg)}60%{transform:scale(.96)}}
-.mood[data-m=idle]{background:#ffd23f}.mood[data-m=happy]{background:#ff8fc4}.mood[data-m=listen]{background:#7fb0ff}
-.mood[data-m=think]{background:#c3a1ff}.mood[data-m=speak]{background:#6fe3b0}.mood[data-m=sleep]{background:#ffb27a}
-.colrow{flex-basis:100%;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-weight:800;margin-top:6px}
-.sw{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 6px;font:800 14px "Trebuchet MS",sans-serif;cursor:pointer;background:#fff;color:#1d1b4b;border:3px solid #1d1b4b;border-radius:99px;box-shadow:0 4px 0 #1d1b4b}
-.sw i{width:26px;height:26px;border-radius:8px;border:3px solid #1d1b4b;display:block}
-.sw.on{background:#ffd23f}
+.mood{display:flex;flex-direction:column;align-items:center;gap:2px;width:92px;padding:10px 6px 8px;cursor:pointer;
+  font:600 14px var(--font);color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;transition:border-color .15s,background .15s}
+.mood:hover{border-color:var(--accent);background:var(--accent-soft)}
+.mood.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent);animation:boing .4s}
+@keyframes boing{30%{transform:scale(1.08)}60%{transform:scale(.98)}}
+.colrow{flex-basis:100%;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-weight:600;margin-top:6px}
+.sw{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 6px;font:600 14px var(--font);cursor:pointer;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:99px}
+.sw i{width:24px;height:24px;border-radius:7px;border:1px solid rgba(0,0,0,.2);display:block}
+.sw:hover{border-color:var(--accent)}
+.sw.on{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 </style>
 </head>
-<body>
+<body class="bands">
 <div class="topbar">
   <a href="#what">🤔 What is it?</a><a href="#how">⚙️ How it works</a><a href="#parts">🧩 Parts</a><a href="#ide">💻 Set up</a><a href="#face">😀 Face</a><a href="#wire">🔌 Wiring</a><a class="hot" href="guide-breadboard.html#step=1" target="_blank">🧵 Breadboard Buddy</a><a href="#software">💻 Software</a><a href="#test">🎉 Test it</a><a href="#code">🎨 Make it yours</a><a href="#stuck">🆘 Stuck?</a><a href="#words">📖 Words</a><a href="#next">🚀 What next?</a>
 </div>
@@ -100,10 +97,10 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <p>Push a button, ask any question, and your robot talks back!<br>You will build it yourself with real electronics.</p>
   <div class="chips"><span class="chip">⏱ A weekend</span><span class="chip">👨‍👩‍👧 Best with a grown-up helper</span><span class="chip">🧠 Uses real AI</span></div>
 </header>
-<div class="ticker"><span>★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN ★ BUILD ★ WIRE ★ CODE ★ TALK ★ LEARN ★ HAVE FUN </span></div>
 
 <!-- WHAT -->
 <section id="what">
+  <div class="kicker">The big idea</div>
   <h2><span class="n">1</span>What are we making?</h2>
   <div class="card">
     <p>Imagine a tiny robot on your desk. You press its button and ask, <i>“Why is the sky blue?”</i> A moment later, it <b>answers out loud</b>!</p>
@@ -118,6 +115,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 </section>
 
 <section id="how">
+  <div class="kicker">Under the hood</div>
   <h2><span class="n">2</span>How does it work?</h2>
   <ol class="steps">
     <li><b>You press the button.</b> The brain wakes up and calls Gemini over WiFi.</li>
@@ -130,28 +128,30 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
 <!-- PARTS -->
 <section id="parts">
+  <div class="kicker">Meet the team</div>
   <h2><span class="n">3</span>Meet your parts</h2>
-  <p>Every part is like a part of a body!</p>
-  <div class="grid">
-    <div class="card"><div class="photo"><img src="images/esp32.jpg" alt="ESP32-S3 board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧠</div></div><div class="spot">🔎 Look for the words “ESP32-S3” on the little metal square.</div><h3>ESP32-S3 board</h3>The <b>brain</b>. A tiny computer the size of a stick of gum. It runs our code.</div>
-    <div class="card"><div class="photo"><img src="images/tft.jpg" alt="Big colour face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">😀</div></div><div class="spot">🔎 A big screen. Turn it over: a row of <b>14 pins</b> with names like <b>CS</b>, <b>DC</b> and <b>VCC</b>.</div><h3>Face screen (2.4" colour)</h3>A big colour screen that shows your robot's <b>eyes and smile</b>. It blinks, looks around and talks!<div class="spot" style="background:#ffeaea">⚠️ It is delicate. Hold it by the edges and never press on the glass.</div></div>
-    <div class="card"><div class="photo"><img src="images/mic.jpg" alt="Microphone" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">👂</div></div><div class="spot">🔎 Look for “INMP441” printed on it. It has a tiny hole on top.</div><h3>Microphone (INMP441)</h3>The <b>ear</b>. It listens to your voice.</div>
-    <div class="card"><div class="photo"><img src="images/amp.jpg" alt="Amplifier" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">📣</div></div><div class="spot">🔎 Look for “MAX98357”. It has little green screw blocks.</div><h3>Amplifier (MAX98357)</h3>The <b>voice box</b>. It makes the sound strong enough to hear.</div>
-    <div class="card"><div class="photo"><img src="images/speaker.jpg" alt="Speaker" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔊</div></div><div class="spot">🔎 A round disc with two thin wires.</div><h3>Speaker</h3>The <b>mouth</b>. The sound comes out here.</div>
-    <div class="card"><div class="photo"><img src="images/button.jpg" alt="Push button" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔘</div></div><div class="spot">🔎 A shiny metal ring you can press.</div><h3>Push button</h3>The <b>“talk now!” switch</b>.<div class="spot" style="background:#ffeaea">⚠️ Yours has several wires. We only use two: <b>NO</b> and <b>C</b>. Breadboard Buddy step 11 shows which ones.</div></div>
-    <div class="card"><div class="photo"><img src="images/breadboard.jpg" alt="Makeronics BB-102 breadboard" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧵</div></div><div class="spot">🔎 A big board full of tiny holes: <b>two long strips</b>, each with two red/blue lines (the power rails). Look for the <b>number 30</b> in the middle: that is where every rail is cut in half.</div><h3>Breadboard + wires</h3>A board with holes where you plug things together. <b>No glue, no soldering!</b> We used the <a href="https://www.amazon.com/dp/B07Q34YND5" target="_blank" rel="noopener">Makeronics BB-102</a> (two strips, 61 columns each). Other breadboards work too, but the column numbers in Breadboard Buddy will change.</div>
+  <p class="lead">Every part is like a part of a body.</p>
+  <div class="parts">
+    <div class="pcard"><div class="pic"><img src="images/esp32.jpg" alt="ESP32-S3 board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🧠</span></div><div><h3>ESP32-S3 board</h3><p>The <b>brain</b>. A tiny computer the size of a stick of gum. It runs our code.</p><span class="look">🔎 Look for “ESP32-S3” on the little metal square.</span></div></div>
+    <div class="pcard"><div class="pic"><img src="images/tft.jpg" alt="Big colour face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>😀</span></div><div><h3>Face screen (2.4" colour)</h3><p>The <b>face</b>. A colour screen that shows eyes and a smile. It blinks, looks around and talks!</p><span class="look">🔎 Turn it over: a row of <b>14 pins</b> named <b>CS</b>, <b>DC</b>, <b>VCC</b>…</span><span class="look warn">⚠️ Delicate. Hold it by the edges and never press on the glass.</span></div></div>
+    <div class="pcard"><div class="pic"><img src="images/mic.jpg" alt="Microphone" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>👂</span></div><div><h3>Microphone (INMP441)</h3><p>The <b>ear</b>. It listens to your voice.</p><span class="look">🔎 “INMP441” is printed on it, with a tiny hole on top.</span></div></div>
+    <div class="pcard"><div class="pic"><img src="images/amp.jpg" alt="Amplifier" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>📣</span></div><div><h3>Amplifier (MAX98357)</h3><p>The <b>voice box</b>. It makes the sound strong enough to hear.</p><span class="look">🔎 “MAX98357” and little green screw blocks.</span></div></div>
+    <div class="pcard"><div class="pic"><img src="images/speaker.jpg" alt="Speaker" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🔊</span></div><div><h3>Speaker</h3><p>The <b>mouth</b>. The sound comes out here.</p><span class="look">🔎 A round disc with two thin wires.</span></div></div>
+    <div class="pcard"><div class="pic"><img src="images/button.jpg" alt="Push button" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🔘</span></div><div><h3>Push button</h3><p>The <b>“talk now!” switch</b>.</p><span class="look">🔎 A shiny metal ring you can press.</span><span class="look warn">⚠️ Yours has several wires. We only use two: <b>NO</b> and <b>C</b>. Breadboard Buddy step 13 shows which ones.</span></div></div>
+    <div class="pcard"><div class="pic"><img src="images/breadboard.jpg" alt="Makeronics BB-102 breadboard" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🧵</span></div><div><h3>Breadboard + wires</h3><p>Where everything plugs in. <b>No glue, no soldering!</b> We use the <a href="https://www.amazon.com/dp/B07Q34YND5" target="_blank" rel="noopener">Makeronics BB-102</a> (two strips, 61 columns each).</p><span class="look">🔎 Two long strips, each with a red and a blue line. Find the <b>30</b> in the middle: every rail is cut in half there. Other breadboards work too, but the column numbers change.</span></div></div>
   </div>
   <h3>🎁 Extra parts for later</h3>
-  <p>Your kit has more cool parts. We do <b>not</b> need them today. They are for upgrades after your robot talks!</p>
-  <div class="grid">
-    <div class="card"><div class="photo"><img src="images/battery.jpg" alt="TP4056 charger board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔋</div></div><div class="spot">🔎 Blue board with a USB-C plug and “4056” printed on it.</div><h3>Battery charger (TP4056)</h3>Charges a rechargeable battery so the robot can go anywhere.<div class="spot" style="background:#ffeaea">⚠️ Batteries need a grown-up!</div></div>
-    <div class="card"><div class="photo"><img src="images/servo.jpg" alt="MG90S servo" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🦾</div></div><div class="spot">🔎 A small box with three wires and a little white arm.</div><h3>Servo (MG90S)</h3>A tiny motor that turns to an exact spot. It can make your robot nod its head!</div>
+  <p class="lead">Your kit has more parts. We do <b>not</b> need them today. They are for upgrades after your robot talks!</p>
+  <div class="parts">
+    <div class="pcard later"><div class="pic"><img src="images/battery.jpg" alt="TP4056 charger board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🔋</span></div><div><h3>Battery charger (TP4056)</h3><p>Charges a rechargeable battery so the robot can go anywhere.</p><span class="look">🔎 Blue board with a USB-C plug and “4056” printed on it.</span><span class="look warn">⚠️ Batteries need a grown-up!</span></div></div>
+    <div class="pcard later"><div class="pic"><img src="images/servo.jpg" alt="MG90S servo" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🦾</span></div><div><h3>Servo (MG90S)</h3><p>A tiny motor that turns to an exact spot. It can make your robot nod!</p><span class="look">🔎 A small box with three wires and a little white arm.</span></div></div>
   </div>
 </section>
 
 <!-- HOW -->
 <!-- IDE SETUP -->
 <section id="ide">
+  <div class="kicker">Get ready</div>
   <h2><span class="n">4</span>Set up your computer (one time)</h2>
   <p class="lead">You need one free program called <b>Arduino IDE</b>. It is where you load instructions into the brain. Do this part <b>once</b> with a grown-up. It takes about 20 minutes, mostly waiting.</p>
   <div class="ospick" id="ospick">
@@ -245,6 +245,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
 <!-- FACE -->
 <section id="face">
+  <div class="kicker">Give it a face</div>
   <h2><span class="n">5</span>First, give it a face! 😀</h2>
   <p class="lead">Before the ears and the voice, let's make your robot <b>come alive</b>. In about 15 minutes it will be blinking at you!</p>
   <div class="card">
@@ -306,6 +307,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
 <!-- WIRE -->
 <section id="wire">
+  <div class="kicker">Plug it in</div>
   <h2><span class="n">6</span>Connect the wires</h2>
   <p class="lead">All the wiring happens in <b>Breadboard Buddy</b>. It shows every wire, one at a time, with the pin lists and checkboxes right there.</p>
   <div class="safe"><b>⚠️ Safety first!</b>Always <b>unplug the USB cable</b> before changing any wire. Ask a grown-up to check your wires before you plug in. A wire in the wrong place can break a part.</div>
@@ -319,6 +321,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
 <!-- SOFTWARE -->
 <section id="software">
+  <div class="kicker">Wake it up</div>
   <h2><span class="n">7</span>Teach the brain</h2>
   <p>The brain needs instructions. Those instructions are called <b>code</b>. The code is already written. You only need to <b>load it</b> and change <b>three lines</b>.</p>
   <div class="bar"><i id="bar"></i></div>
@@ -345,6 +348,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
 <!-- TEST -->
 <section id="test">
+  <div class="kicker">First words</div>
   <h2><span class="n">8</span>Try it! 🎉</h2>
   <p class="lead">This is the big moment! Follow the steps in order. Each step tells you what to <b>look at</b>, <b>read</b> or <b>listen for</b>, so you always know if it is working.</p>
 
@@ -384,6 +388,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 <!-- STUCK -->
 <!-- CODE -->
 <section id="code">
+  <div class="kicker">Make it yours</div>
   <h2><span class="n">9</span>Make it yours: customize your robot!</h2>
   <p class="lead">Your robot works! Now make it <b>YOURS</b>. Give it a personality, a new voice, its own look. Every change is just a few words. <b>Change, upload, and try it!</b></p>
 
@@ -1201,6 +1206,7 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
 </section>
 
 <section id="stuck">
+  <div class="kicker">Need a hand?</div>
   <h2><span class="n">10</span>Stuck? Don't worry!</h2>
   <details><summary>😶 The robot does not talk</summary>Check the speaker wires and that the amplifier's <code>VIN</code> goes to <code>5V</code>. Try turning <code>SPK_VOLUME</code> up.</details>
   <details><summary>🙉 It does not hear me</summary>Make sure the mic's <code>L/R</code> is connected to <code>GND</code> and <code>VDD</code> goes to <code>3V3</code>. Speak closer to the microphone.</details>
@@ -1225,6 +1231,7 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
 
 <!-- WORDS -->
 <section id="words">
+  <div class="kicker">Secret code words</div>
   <h2><span class="n">11</span>Cool words you learned</h2>
   <dl class="gloss card">
     <dt>AI</dt><dd>A computer program that can understand and answer questions, a bit like a very fast reader who has read lots of books.</dd>
@@ -1241,6 +1248,7 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
 </section>
 
 <section id="next">
+  <div class="kicker">What next</div>
   <h2><span class="n">12</span>What next? Your robot roadmap</h2>
   <p class="lead">Personalities, voices and faces are in <a href="#code"><b>section 9</b></a>. Once your robot talks, level it up with these bigger projects! Start at Level 1 and work your way up. Each level is a little harder.</p>
   <div class="road">
