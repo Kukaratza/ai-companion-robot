@@ -3,6 +3,7 @@
    Palette: off-white page, white cards, navy ink, ONE indigo accent, amber for small highlights.
    Green / red only mean "done" and "careful". */
 :root{
+  color-scheme:only light;
   --ink:#231f47; --muted:#68628f; --line:#e6e0f4; --page:#f8f9fc; --card:#ffffff;
   --accent:#6a4cff; --accent-dark:#5236e0; --accent-soft:#efeaff;
   --amber:#ffc42e; --amber-soft:#fff3cc;
@@ -354,15 +355,15 @@ table.cheat .cn,table.cheat tr.cheatrow:nth-child(n) .cn{background:var(--sc)}
    ===================================================================== */
 body.bands{overflow-x:hidden}
 body.bands{
-  --wave:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'><path d='M0 22 C150 -2 300 -2 450 22 S750 46 900 22 S1100 -2 1200 22 V40 H0Z'/></svg>");
-  --p-dots:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28'><circle cx='4' cy='4' r='2.4' fill='white' fill-opacity='.24'/></svg>");
-  --p-plus:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><path d='M22 14v16M14 22h16' stroke='white' stroke-opacity='.22' stroke-width='3' stroke-linecap='round'/></svg>");
-  --p-zig:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='24'><path d='M0 16L10 6L20 16L30 6L40 16' fill='none' stroke='white' stroke-opacity='.2' stroke-width='3'/></svg>");
-  --p-star:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><polygon points='32,20 35,29 44,29 37,35 40,44 32,38 24,44 27,35 20,29 29,29' fill='white' fill-opacity='.2'/></svg>");
-  --p-circuit:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48'><path d='M0 24H17M31 24H48M24 0V17M24 31V48' stroke='white' stroke-opacity='.2' stroke-width='3'/><circle cx='24' cy='24' r='5' fill='none' stroke='white' stroke-opacity='.28' stroke-width='3'/></svg>");
-  --p-tri:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='54' height='54'><path d='M27 12L40 36H14Z' fill='white' fill-opacity='.15'/></svg>");
-  --p-wave:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='26'><path d='M0 13Q15 0 30 13T60 13' fill='none' stroke='white' stroke-opacity='.22' stroke-width='3'/></svg>");
-  --p-code:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='56'><text x='6' y='38' font-size='30' font-family='monospace' font-weight='bold' fill='white' fill-opacity='.13'>{ }</text></svg>");
+  --wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'%3E%3Cpath d='M0 22 C150 -2 300 -2 450 22 S750 46 900 22 S1100 -2 1200 22 V40 H0Z'/%3E%3C/svg%3E");
+  --p-dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='4' cy='4' r='2.4' fill='white' fill-opacity='.24'/%3E%3C/svg%3E");
+  --p-plus:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cpath d='M22 14v16M14 22h16' stroke='white' stroke-opacity='.22' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  --p-zig:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='24'%3E%3Cpath d='M0 16L10 6L20 16L30 6L40 16' fill='none' stroke='white' stroke-opacity='.2' stroke-width='3'/%3E%3C/svg%3E");
+  --p-star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpolygon points='32,20 35,29 44,29 37,35 40,44 32,38 24,44 27,35 20,29 29,29' fill='white' fill-opacity='.2'/%3E%3C/svg%3E");
+  --p-circuit:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M0 24H17M31 24H48M24 0V17M24 31V48' stroke='white' stroke-opacity='.2' stroke-width='3'/%3E%3Ccircle cx='24' cy='24' r='5' fill='none' stroke='white' stroke-opacity='.28' stroke-width='3'/%3E%3C/svg%3E");
+  --p-tri:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='54' height='54'%3E%3Cpath d='M27 12L40 36H14Z' fill='white' fill-opacity='.15'/%3E%3C/svg%3E");
+  --p-wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='26'%3E%3Cpath d='M0 13Q15 0 30 13T60 13' fill='none' stroke='white' stroke-opacity='.22' stroke-width='3'/%3E%3C/svg%3E");
+  --p-code:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='56'%3E%3Ctext x='6' y='38' font-size='30' font-family='monospace' font-weight='bold' fill='white' fill-opacity='.13'%3E%7B %7D%3C/text%3E%3C/svg%3E");
   --p-stripe:repeating-linear-gradient(45deg,rgba(255,255,255,.12) 0 18px,transparent 18px 36px);
   --p-caution:repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 16px,transparent 16px 32px);
 }
@@ -442,7 +443,7 @@ body.bands .hero{color:var(--ink);text-align:center;background:none;border:0;box
 body.bands .hero::before{
   top:0;
   background:radial-gradient(circle at 12% 30%,rgba(255,255,255,.55),transparent 22%),radial-gradient(circle at 90% 70%,rgba(255,255,255,.4),transparent 26%),
-    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='34'><circle cx='5' cy='5' r='2.6' fill='%23e8590c' fill-opacity='.22'/></svg>"),#ffc42e;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Ccircle cx='5' cy='5' r='2.6' fill='%23e8590c' fill-opacity='.22'/%3E%3C/svg%3E"),#ffc42e;
 }
 body.bands .hero .robot{font-size:96px;filter:drop-shadow(0 8px 0 rgba(35,31,71,.18));animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-10px) rotate(4deg)}}
