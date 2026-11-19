@@ -4,7 +4,7 @@
 Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word, streams mic audio directly to the Gemini Live API over WiFi, and plays the spoken reply. Choices: ESP32 direct (no laptop relay), wake word trigger, no servo for now, PlatformIO/Arduino firmware. The project directory is currently empty.
 
 ## Parts used / not used
-- Used: ESP32-S3-N16R8 (8MB PSRAM is required for TLS + audio buffers), INMP441 mic, MAX98357 amp + 3W 4Ω speaker, breadboard + MB102 power, one push button (mute/reset fallback), jumper wires.
+- Used: ESP32-S3-N16R8 (8MB PSRAM is required for TLS + audio buffers), INMP441 mic, MAX98357 amp + 3W 4Ω speaker, breadboard (now the Makeronics BB-102), one push button (mute/reset fallback), jumper wires.
 - Optional later: TP4056 + 18650 (battery), MG90S servo, TTP223, N20 motor.
 - Not needed: N20 motor. Servo is deferred.
 - Battery caveat: the TP4056 has no boost regulator. 3.7V into the dev board's 5V pin will brown out the LDO. Develop on USB power. For battery use, add a 5V boost converter (not in your list).
@@ -47,7 +47,7 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 - Speaker echo into the mic: keep the mic away from the speaker; mute the mic while speaking.
 - API/model names change: confirm the current Live API model ID and message schema in Google's docs at implementation time.
 
-## Update: robot face (added later)
+## Update: robot face (added later) — SUPERSEDED by the big colour screen (see the end)
 - Part: 0.96" SSD1306 OLED, 128x64, 4-pin I2C (pins GND VDD SCL SDA), yellow/blue or white/blue two-colour: top 16 rows are one colour, the rest blue.
 - Wiring: GND→GND, VDD→3V3, SCL→GPIO17, SDA→GPIO18 (I2C address 0x3C). Pins/address in `include/config.h`.
 - Firmware: `src/face.{h,cpp}` runs a 20 fps animation task (moods: idle, happy, listen, think, speak, sleep); `main.cpp` sets the mood from session state. Optional: `FACE_ENABLED 0`, and it skips itself if no OLED is found.
@@ -78,3 +78,17 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 - `WAKE_PHRASE` (config.h, default "Hi ESP"): "Hi ESP" -> WakeNet; any other phrase -> MultiNet text command in command mode (re-armed on timeout). The Robot Maker builds the phrase as "Hi " + robot name. Experimental: MultiNet accuracy for arbitrary names is unverified; ESP_SR.setMode/begin(mode) calls are from memory.
 - Push button (AliExpress metal button) has C / NO / NC switch terminals plus LED terminals. Wiring: NO -> GPIO9, C -> GND; NC and the LED are unused. `arduino/Button_Test` helps identify the wires.
 - Kids guide section 4 has a "What computer do you have?" picker (Mac Apple chip / Mac Intel / Windows). Per-computer text uses `data-for` attributes toggled by one `applyOS` script; the choice is saved in localStorage (`kids-os`); shortcut keys (`.mod`) show ⌘ or Ctrl. Windows is preselected on Windows browsers; on a Mac the chip is never guessed. Not checked on Windows or an Intel Mac.
+
+## Update: big 2.4" colour screen replaces the OLED (current design)
+- Why: the small SSD1306 OLED never answered on the author's board (the I2C scan found nothing on any pin), while a 2.4" 240x320 ILI9341 SPI colour screen worked first time on the same breadboard. The face is now widescreen (320x240, `TFT_ROTATION 1`; use 3 if upside down).
+- Firmware: `src/face.cpp` draws the six moods in colour onto a hidden `GFXcanvas16` and blits it (no flicker); a coloured strip shows the mood word. Libraries: Adafruit GFX + Adafruit ILI9341. `src/tft_test.cpp` (colour bars, blink, 4 rotations) replaces the I2C scanner. There is no way to detect an SPI display that has no MISO wire, so the demo cannot say "screen found".
+- Pins (all on the brain's usable row): mic SCK 4, WS 5, SD 6; amp BCLK 15, LRC 7, DIN 16; screen CS 13, RESET 12, DC 11, SDI/MOSI 10, SCK 9; button 14. Screen power: VCC to the 5V pin, LED (backlight) to the 3.3V rail, GND to the ground rail. The amp's VIN borrows 5V with a short wire from the screen's VCC column.
+- Breadboard Buddy: 15 steps; nested lanes (screen farthest, then amp, then mic) so only one wire crossing remains. `node tools/verify_breadboard_design.js guide-breadboard.html include/config.h` checks the picture against config.h.
+- Unverified on hardware: the new face.cpp, the pin set (the author tested the screen on CS 10, MOSI 11, SCK 12, DC 14, RESET 9, which is a different set), and the real Adafruit library calls (checked only against stand-in stubs).
+
+## Update: new breadboard, Makeronics BB-102 (current design)
+- The author's first breadboard had bad rows, so the project moved to the Makeronics BB-102 (Amazon B07Q34YND5; details from the photo `images/breadboard.jpg`, the listing page could not be opened). It has TWO strips of 61 columns (A-E and F-J around the groove), FOUR power-rail pairs, and every rail is CUT in two halves after column 30.
+- Breadboard Buddy layout: the brain on strip 1 with the free row at the BOTTOM (USB on the right, row reads `3V3, 3V3, RST, 4, 5, 6, 7, 15, 16, 17, 18, 8, 3, 46, 9, 10, 11, 12, 13, 14, 5V, G`, free holes in row j); mic (cols 1-6), amp (8-14) and screen (16-29) on strip 2, pins in row e, wires in row b. Wire lanes run in the gap between the strips.
+- Power: brain G -> strip 1 blue rail, brain 3V3 (col 2) -> strip 1 red rail, then one bridge wire each to the strip 2 rails (cols 12 and 11). All rail holes are kept in columns 1-30, so no rail needs a bridge across the cut. The button sits beside the brain: NO -> pin 14, C -> strip 1 blue rail.
+- The pins and the firmware did not change. Screen VCC is still on the 5V pin; the author's backlight lit with VCC on 3V3, so VCC may move to the red rail once the full face is confirmed on 3.3V.
+- `tools/verify_breadboard_design.js` now checks two strips, the rail cut, wire crossings with real geometry (currently 0) and the pin set. The new picture was only checked by script (and a syntax check); it has not been looked at in a browser by the assistant, and the wiring has not been tried on the real board.

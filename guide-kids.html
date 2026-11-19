@@ -70,7 +70,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 <link rel="stylesheet" href="kids-theme.css">
 <style>
 .facebox{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin:14px 0}
-#facesim{width:min(100%,420px);aspect-ratio:2;border:8px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);background:#05070d}
+#facesim{width:min(100%,420px);aspect-ratio:4/3;border:8px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);background:#05070d}
 .moods{display:flex;flex-wrap:wrap;gap:10px;flex:1;min-width:240px}
 .moods button.btn{font-size:16px;padding:8px 16px}
 .moods{align-items:flex-start}
@@ -134,12 +134,12 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <p>Every part is like a part of a body!</p>
   <div class="grid">
     <div class="card"><div class="photo"><img src="images/esp32.jpg" alt="ESP32-S3 board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧠</div></div><div class="spot">🔎 Look for the words “ESP32-S3” on the little metal square.</div><h3>ESP32-S3 board</h3>The <b>brain</b>. A tiny computer the size of a stick of gum. It runs our code.</div>
-    <div class="card"><div class="photo"><img src="images/oled.jpg" alt="OLED face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">😀</div></div><div class="spot">🔎 A little blue square with a black screen and 4 pins at the top. The pins say <b>GND VDD SCL SDA</b>.</div><h3>Face screen (OLED)</h3>A tiny screen that shows your robot's <b>eyes and smile</b>. It blinks, looks around and talks!</div>
+    <div class="card"><div class="photo"><img src="images/tft.jpg" alt="Big colour face screen" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">😀</div></div><div class="spot">🔎 A big screen. Turn it over: a row of <b>14 pins</b> with names like <b>CS</b>, <b>DC</b> and <b>VCC</b>.</div><h3>Face screen (2.4" colour)</h3>A big colour screen that shows your robot's <b>eyes and smile</b>. It blinks, looks around and talks!<div class="spot" style="background:#ffeaea">⚠️ It is delicate. Hold it by the edges and never press on the glass.</div></div>
     <div class="card"><div class="photo"><img src="images/mic.jpg" alt="Microphone" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">👂</div></div><div class="spot">🔎 Look for “INMP441” printed on it. It has a tiny hole on top.</div><h3>Microphone (INMP441)</h3>The <b>ear</b>. It listens to your voice.</div>
     <div class="card"><div class="photo"><img src="images/amp.jpg" alt="Amplifier" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">📣</div></div><div class="spot">🔎 Look for “MAX98357”. It has little green screw blocks.</div><h3>Amplifier (MAX98357)</h3>The <b>voice box</b>. It makes the sound strong enough to hear.</div>
     <div class="card"><div class="photo"><img src="images/speaker.jpg" alt="Speaker" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔊</div></div><div class="spot">🔎 A round disc with two thin wires.</div><h3>Speaker</h3>The <b>mouth</b>. The sound comes out here.</div>
     <div class="card"><div class="photo"><img src="images/button.jpg" alt="Push button" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🔘</div></div><div class="spot">🔎 A shiny metal ring you can press.</div><h3>Push button</h3>The <b>“talk now!” switch</b>.<div class="spot" style="background:#ffeaea">⚠️ Yours has several wires. We only use two: <b>NO</b> and <b>C</b>. Breadboard Buddy step 11 shows which ones.</div></div>
-    <div class="card"><div class="photo"><img src="images/breadboard.jpg" alt="Breadboard" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧵</div></div><div class="spot">🔎 A white board full of tiny holes. The picture is a short one. <b>Yours is longer</b>, with about 63 columns!</div><h3>Breadboard + wires</h3>A board with holes where you plug things together. <b>No glue, no soldering!</b></div>
+    <div class="card"><div class="photo"><img src="images/breadboard.jpg" alt="Makeronics BB-102 breadboard" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><div class="big">🧵</div></div><div class="spot">🔎 A big board full of tiny holes: <b>two long strips</b>, each with two red/blue lines (the power rails). Look for the <b>number 30</b> in the middle: that is where every rail is cut in half.</div><h3>Breadboard + wires</h3>A board with holes where you plug things together. <b>No glue, no soldering!</b> We used the <a href="https://www.amazon.com/dp/B07Q34YND5" target="_blank" rel="noopener">Makeronics BB-102</a> (two strips, 61 columns each). Other breadboards work too, but the column numbers in Breadboard Buddy will change.</div>
   </div>
   <h3>🎁 Extra parts for later</h3>
   <p>Your kit has more cool parts. We do <b>not</b> need them today. They are for upgrades after your robot talks!</p>
@@ -183,7 +183,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
       <div class="codewrap" style="margin:8px 0"><span class="fn">paste this</span><button class="copy">Copy</button><pre><code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></pre></div></label></li>
     <li><label><input type="checkbox"> <b>Install the brain board.</b> Click <b>Tools → Board → Boards Manager…</b>, type <code>esp32</code>, and click <b>Install</b> on <b>“esp32 by Espressif Systems”</b> (version 3 or newer). It takes a few minutes. Go get a snack 🍪</label></li>
     <li><label><input type="checkbox"> <b>Install 3 helper libraries.</b> Click <b>Sketch → Include Library → Manage Libraries…</b>. Search for each name and click <b>Install</b> (say <b>“Install all”</b> if it asks about extra pieces):
-      <ul><li><code>WebSockets</code> by <i>Markus Sattler</i></li><li><code>Adafruit SSD1306</code></li><li><code>Adafruit GFX Library</code></li></ul></label></li>
+      <ul><li><code>WebSockets</code> by <i>Markus Sattler</i></li><li><code>Adafruit ILI9341</code></li><li><code>Adafruit GFX Library</code></li></ul></label></li>
     <li><label><input type="checkbox"> <b>Set up the Tools menu.</b> Do the 6 lines in the <a href="#cheat"><b>cheat sheet</b></a> just below, one by one. They are all in the <b>Tools</b> menu at the top.</label></li>
   </ol>
 
@@ -193,7 +193,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <table class="cheat">
     <tr><th></th><th>In the Tools menu, click…</th><th>Then choose…</th><th>Done?</th></tr>
     <tr class="cheatrow"><td class="cn">1</td><td><b>Board</b> → <b>esp32</b></td><td><span class="pick">ESP32S3 Dev Module</span><small>Do this one <b>first</b>! The other items only show up after you choose this board. The list is long, so scroll down until you see the name.</small></td><td><input type="checkbox" class="cc"></td></tr>
-    <tr class="cheatrow"><td class="cn">2</td><td><b>USB CDC On Boot</b></td><td><span class="pick">Disabled</span> or <span class="pick">Enabled</span><small>It depends on which USB port you use. Plugged into the port marked <b>COM</b> (Mac name <code>usbserial…</code>)? Choose <b>Disabled</b>. Plugged into the port marked <b>USB</b> (Mac name <code>usbmodem…</code>)? Choose <b>Enabled</b>, or the Serial Monitor stays empty.</small></td><td><input type="checkbox" class="cc"></td></tr>
+    <tr class="cheatrow"><td class="cn">2</td><td><b>USB CDC On Boot</b></td><td><span class="pick">Disabled</span> or <span class="pick">Enabled</span><small>It depends on which of the board's two USB ports your cable is in. Look at the label <b>printed on the board</b>: cable in the port marked <b>COM</b>? Choose <b>Disabled</b>. Cable in the port marked <b>USB</b>? Choose <b>Enabled</b>. (Don't go by the name your computer shows. Some boards show the same kind of name for both ports.) Wrong choice = the Serial Monitor is empty or full of strange symbols.</small></td></tr>
     <tr class="cheatrow"><td class="cn">3</td><td><b>Flash Size</b></td><td><span class="pick">16MB (128Mb)</span></td><td><input type="checkbox" class="cc"></td></tr>
     <tr class="cheatrow"><td class="cn">4</td><td><b>PSRAM</b></td><td><span class="pick">OPI PSRAM</span><small>There are 3 choices. Pick the one that says <b>OPI</b>.</small></td><td><input type="checkbox" class="cc"></td></tr>
     <tr class="cheatrow"><td class="cn">5</td><td><b>Partition Scheme</b></td><td><span class="pick">16M Flash (3MB APP/9.9MB FATFS)</span><small>Many choices look alike. Look for <b>16M</b> at the start and <b>3MB APP</b>.</small></td><td><input type="checkbox" class="cc"></td></tr>
@@ -213,7 +213,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   </div>
   <p>Open the Tools menu again and compare. Everything else in the menu <b>stays just as it is</b>. In the bottom-right corner of the Arduino IDE window you should also see <b>ESP32S3 Dev Module</b> and the name of your port.</p>
   <div class="tip"><b>🗣️ Want it to wake up when you say its name?</b>Later, in section 9, you can switch on the wake word. Then pick this Partition Scheme instead: <b>ESP SR 16M (3MB APP/7MB SPIFFS/2.9MB MODEL)</b>.</div>
-  <div class="tip"><b>🔁 Two USB ports?</b>Your brain board has two USB-C ports. Both can load the code, but they talk differently. <b>COM</b> port: set <b>USB CDC On Boot</b> to <b>Disabled</b>. <b>USB</b> port (your Mac shows <code>usbmodem…</code>): set it to <b>Enabled</b>. If you pick the wrong one, the upload still works but the Serial Monitor shows nothing. If the computer cannot find the board, try the other port.</div>
+  <div class="tip"><b>🔁 Two USB ports?</b>Your brain board has two USB-C ports, marked <b>COM</b> and <b>USB</b>. Both can load the code, but they talk differently. Cable in <b>COM</b>: set <b>USB CDC On Boot</b> to <b>Disabled</b>. Cable in <b>USB</b>: set it to <b>Enabled</b>. If you pick the wrong one, the upload still works but the Serial Monitor shows nothing, or strange symbols like <code>����</code>. After you change the setting, upload again.</div>
   <div class="grownup" id="sketches"><b>👩‍👧 Grown-up corner: the robot's files</b>
     <p><b>What is a “sketch”?</b> It is Arduino's word for a program. A sketch is a <b>folder</b> that holds one main file ending in <code>.ino</code> plus a few helper files. When you open the <code>.ino</code> file, the helper files show up as <b>tabs</b> across the top of the Arduino window (<code>config.h</code>, <code>face.cpp</code>, and so on). The folder and the main file must have the <b>same name</b>, which is why the folders must stay whole.</p>
     <p><b>This project has four sketches</b>, all inside the <code>arduino</code> folder:</p>
@@ -221,7 +221,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
       <li><code>Face_Demo</code>: just the face on the screen. Needs only the brain and the screen. You use this one first.</li>
       <li><code>AI_Companion</code>: the whole talking robot. This is the main one.</li>
       <li><code>Button_Test</code>: a helper that finds the right two wires on the push button.</li>
-      <li><code>I2C_Scan</code>: a helper that checks whether the face screen is connected and its two data wires are right.</li>
+      <li><code>TFT_Test</code>: a helper that tests the colour screen all on its own.</li>
     </ul>
     <p><b>Where do the folders come from?</b> You download them once:</p>
     <ol>
@@ -249,14 +249,14 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <p class="lead">Before the ears and the voice, let's make your robot <b>come alive</b>. In about 15 minutes it will be blinking at you!</p>
   <div class="card">
     <h3>🔌 Step A · Plug it in</h3>
-    <p>Open <b>Breadboard Buddy</b> with the big <b>pink button</b> in the yellow banner just below, and follow <b>steps 1 to 4</b>. It shows every wire for the face screen, and has a checklist so you can tick each one off.</p>
-    <p style="margin:0"><b>Come back here when the face screen has its 4 wires.</b></p>
+    <p>Open <b>Breadboard Buddy</b> with the big <b>pink button</b> in the yellow banner just below, and follow <b>steps 1 to 6</b>. It shows every wire for the face screen (8 of them), and has a checklist so you can tick each one off.</p>
+    <p style="margin:0"><b>Come back here when the face screen has its 8 wires.</b></p>
   </div>
 
   <a class="cta" href="guide-breadboard.html#step=1" target="_blank" rel="noopener">
     <span class="ic">😀</span>
-    <span class="tx"><em class="ptag">Breadboard Buddy · Part 1 of 2</em><b>Get ready to give your robot a FACE!</b><span>In just 4 quick steps you will build your robot's home, add the power, and plug in a screen that blinks back at you. Never used a breadboard? No problem! Breadboard Buddy shows you every hole.</span></span>
-    <span class="go">Let's go! Steps 1 to 4 ➜</span>
+    <span class="tx"><em class="ptag">Breadboard Buddy · Part 1 of 2</em><b>Get ready to give your robot a FACE!</b><span>In just 6 quick steps you will build your robot's home, add the power, and plug in a big colour screen that blinks back at you. Never used a breadboard? No problem! Breadboard Buddy shows you every hole.</span></span>
+    <span class="go">Let's go! Steps 1 to 6 ➜</span>
   </a>
 
   <div class="card">
@@ -274,12 +274,9 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <h3>👇 Try the faces right here</h3>
   <p>This is what the real screen will show. Click a mood!</p>
   <div class="facebox">
-    <svg id="facesim" viewBox="0 0 128 64" aria-label="Robot face preview"><rect width="128" height="64" fill="#05070d"/><g id="fg" fill="#fff"></g><g style="mix-blend-mode:multiply"><rect id="tintTop" width="128" height="16" fill="#ffd21f"/><rect id="tintBot" y="16" width="128" height="48" fill="#3fa9ff"/></g></svg>
+    <svg id="facesim" viewBox="0 0 320 240" aria-label="Robot face preview"><rect width="320" height="240" fill="#05070d"/><g id="fg"></g></svg>
     <div class="moods" id="moods">
       <button class="mood" data-m="idle"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="19" rx="4" ry="7" fill="#1d1b4b"/><ellipse cx="32" cy="19" rx="4" ry="7" fill="#1d1b4b"/><path d="M18 35h12"/></svg><span>Awake</span></button><button class="mood" data-m="happy"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 22q7-11 14 0M25 22q7-11 14 0"/><path d="M14 31q10 12 20 0" fill="#1d1b4b"/></svg><span>Happy</span></button><button class="mood" data-m="listen"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="20" r="6" fill="#1d1b4b"/><circle cx="31" cy="20" r="6" fill="#1d1b4b"/><ellipse cx="24" cy="36" rx="3" ry="3.5"/><path d="M4 16q-3 6 0 12M44 16q3 6 0 12"/></svg><span>Listening</span></button><button class="mood" data-m="think"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="18" cy="22" rx="4" ry="6.5" fill="#1d1b4b"/><ellipse cx="32" cy="22" rx="4" ry="6.5" fill="#1d1b4b"/><path d="M15 37q3-3 6 0t6 0t6 0"/><circle cx="36" cy="6" r="1.6" fill="#1d1b4b"/><circle cx="41" cy="9" r="2" fill="#1d1b4b"/></svg><span>Thinking</span></button><button class="mood" data-m="speak"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="16" cy="18" rx="4" ry="6.5" fill="#1d1b4b"/><ellipse cx="32" cy="18" rx="4" ry="6.5" fill="#1d1b4b"/><ellipse cx="24" cy="35" rx="7" ry="6" fill="#1d1b4b"/></svg><span>Talking</span></button><button class="mood" data-m="sleep"><svg viewBox="0 0 48 48" width="54" height="54" aria-hidden="true" fill="none" stroke="#1d1b4b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21h12M27 21h12"/><path d="M19 35q5 3 10 0"/><path d="M34 4h7l-7 8h7" stroke-width="2.6"/></svg><span>Sleeping</span></button>
-      <div class="colrow"><b>Screen colours (pick yours):</b>
-        <button class="sw" id="cYB"><i style="background:linear-gradient(#ffd21f 0 28%,#3fa9ff 28%)"></i>Yellow + blue</button>
-        <button class="sw" id="cWB"><i style="background:linear-gradient(#fff 0 28%,#3fa9ff 28%)"></i>White + blue</button></div>
     </div>
   </div>
   <table>
@@ -291,16 +288,18 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
     <tr><td>🗣️ Moving mouth</td><td>Talking to you.</td></tr>
   </table>
   <div class="grownup"><b>👩‍👧 Grown-up corner</b>
-    <p><b>About the screen.</b> It is the 0.96" SSD1306 OLED (128×64 dots, 4-pin I2C). Yellow-and-blue and white-and-blue versions are two-colour: the top 16 rows of dots are one colour and everything below is blue. The robot writes a short word in that top band, like READY or LISTENING, and draws the face in the blue area.</p>
-    <p><b>If the screen stays black,</b> the Serial Monitor says “No OLED found”. Check these in order:</p>
+    <p><b>About the screen.</b> It is a 2.4" colour screen with 240×320 dots and an ILI9341 chip, driven over SPI. It also has a touch layer and an SD card slot, which this project does not use. The robot lays the screen on its side (widescreen, 320 dots across).</p>
+    <p><b>If the screen stays dark or shows junk.</b> The screen only listens, so the robot cannot tell whether it is plugged in. Check in this order:</p>
     <ol>
-      <li>The 4 wires match the Breadboard Buddy checklist (GND, VDD, SCL, SDA).</li>
-      <li>The I2C address. It is usually <code>0x3C</code>, but a few screens use <code>0x3D</code>. Change <code>OLED_ADDR</code> in the <code>config.h</code> tab.</li>
+      <li>Run the <code>TFT_Test</code> sketch. It shows colour bars and a blinking face.</li>
+      <li>Power: <b>VCC</b> on the brain's <b>5V</b> pin, <b>LED</b> on the red 3.3V rail, <b>GND</b> on the blue rail.</li>
+      <li>The 5 data wires match the Breadboard Buddy list: CS 13, RESET 12, DC 11, SDI 10, SCK 9.</li>
+      <li>Static or strange colours: loose or tangled wires. Tidy them, or set <code>TFT_SPI_HZ</code> to <code>4000000</code> in <code>config.h</code>.</li>
     </ol>
     <p><b>Two optional settings</b> in the <code>config.h</code> tab:</p>
     <ul>
+      <li><code>TFT_ROTATION</code>: <code>1</code> or <code>3</code> only (the face is wide). If the face is <b>upside down</b>, change it to the other one. <code>0</code> and <code>2</code> are the tall screen and cut the face off.</li>
       <li><code>FACE_ENABLED</code>: set it to <code>0</code> and the robot works without a screen.</li>
-      <li><code>FACE_FLIP</code>: normally <code>0</code>. If the face shows <b>upside down</b> on your screen, change it to <code>1</code> to turn the picture around.</li>
     </ul>
   </div>
 </section>
@@ -310,10 +309,10 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <h2><span class="n">6</span>Connect the wires</h2>
   <p class="lead">All the wiring happens in <b>Breadboard Buddy</b>. It shows every wire, one at a time, with the pin lists and checkboxes right there.</p>
   <div class="safe"><b>⚠️ Safety first!</b>Always <b>unplug the USB cable</b> before changing any wire. Ask a grown-up to check your wires before you plug in. A wire in the wrong place can break a part.</div>
-  <a class="cta" href="guide-breadboard.html#step=5" target="_blank" rel="noopener">
+  <a class="cta" href="guide-breadboard.html#step=7" target="_blank" rel="noopener">
     <span class="ic">🧵</span>
-    <span class="tx"><em class="ptag">Breadboard Buddy · Part 2 of 2</em><b>Keep going! Steps 5 to 13</b><span>Pick up where the face left off. Watch the ear, voice box, button and speaker go on, one wire at a time.</span></span>
-    <span class="go">Continue with steps 5 to 13 ➜</span>
+    <span class="tx"><em class="ptag">Breadboard Buddy · Part 2 of 2</em><b>Keep going! Steps 7 to 15</b><span>Pick up where the face left off. Watch the ear, voice box, button and speaker go on, one wire at a time.</span></span>
+    <span class="go">Continue with steps 7 to 15 ➜</span>
   </a>
   <div class="tip"><b>✅ When all the wires are in</b>Ask a grown-up to check every wire against the picture. Then plug in the USB cable and go to the next section!</div>
 </section>
@@ -353,7 +352,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
     <ul>
       <li>The USB cable is plugged in.</li>
       <li>Arduino IDE said <b>“Done uploading”</b>.</li>
-      <li>The <b>Serial Monitor</b> is open. It is the <b>robot's diary</b>, a little window where the robot writes what it is doing. Open it with the <b>magnifying glass 🔍</b> at the top right of Arduino IDE, and pick <code>115200 baud</code> at the bottom. If it stays empty, see <b>USB CDC On Boot</b> in the <a href="#cheat">cheat sheet</a>.</li>
+      <li>The <b>Serial Monitor</b> is open. It is the <b>robot's diary</b>, a little window where the robot writes what it is doing. Open it with the <b>magnifying glass 🔍</b> at the top right of Arduino IDE, and pick <code>115200 baud</code> at the bottom. If it stays empty or shows strange symbols, see <b>USB CDC On Boot</b> in the <a href="#cheat">cheat sheet</a>.</li>
     </ul>
   </div>
 
@@ -421,8 +420,9 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
   <h3>😀 Change its face</h3>
   <p>Click the <code>face.cpp</code> tab, find the line, change it, then Upload. (Click inside the code first and press <b><span class="mod">⌘</span> + F</b> to search for the line.)</p>
-  <div class="tryit"><div><small>FIND</small><code>header("READY");</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>header("HI!");</code></div><p>The word in the top band changes. Use your own name!</p></div>
-  <div class="tryit"><div><small>FIND</small><code>const int w = 30, h = 28;</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>const int w = 40, h = 28;</code></div><p>Wider eyes! Try h = 36 for taller eyes too.</p></div>
+  <div class="tryit"><div><small>FIND</small><code>"READY"</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>"HI!"</code></div><p>The word in the coloured strip changes. Use your own name!</p></div>
+  <div class="tryit"><div><small>FIND</small><code>RGB565(0, 220, 255)</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>RGB565(255, 80, 80)</code></div><p>Red eyes for the waiting face! Mix your own colours: each number goes from 0 to 255.</p></div>
+  <div class="tryit"><div><small>FIND</small><code>const int ew = 76, eh = 84;</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>const int ew = 100, eh = 84;</code></div><p>Wider eyes! Try eh = 110 for taller eyes too.</p></div>
   <div class="tryit"><div><small>FIND</small><code>nextBlink = now + random(2000, 5500);</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>nextBlink = now + random(300, 900);</code></div><p>Your robot blinks super fast, like it has something in its eye.</p></div>
   <p>Now click the <code>AI_Companion.ino</code> tab:</p>
   <div class="tryit"><div><small>FIND</small><code>else                        faceSet(FACE_LISTEN);</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>else                        faceSet(FACE_SLEEP);</code></div><p>Your robot looks sleepy while it listens to you! Change it back after you laugh.</p></div>
@@ -483,7 +483,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 <span class="cm">// ==========================================================</span>
 
 <span class="cm">// --- Which pin is each part plugged into? ---</span>
-<span class="cm">// All of them are on the brain&#x27;s TOP row of pins (the row next to breadboard row A).</span>
+<span class="cm">// All of them are on the brain&#x27;s pin row that sits next to the breadboard&#x27;s free holes.</span>
 <span class="cm">// INMP441 microphone (the EAR)</span>
 <span class="pp">#define</span> PIN_MIC_SCK <span class="nm">4</span>
 <span class="pp">#define</span> PIN_MIC_WS  <span class="nm">5</span>
@@ -495,7 +495,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 <span class="pp">#define</span> PIN_SPK_DIN  <span class="nm">16</span>
 
 <span class="cm">// The big push button. Push it to start or stop a conversation.</span>
-<span class="pp">#define</span> PIN_BUTTON <span class="nm">9</span>
+<span class="pp">#define</span> PIN_BUTTON <span class="nm">14</span>
 
 <span class="cm">// --- Sound settings (please leave these alone) ---</span>
 <span class="pp">#define</span> MIC_RATE_HZ     <span class="nm">16000</span>   <span class="cm">// how many sound snapshots per second going IN to Gemini</span>
@@ -517,15 +517,20 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 <span class="cm">// After this many quiet seconds the robot hangs up and goes back to sleep.</span>
 <span class="pp">#define</span> SESSION_IDLE_SECONDS <span class="nm">15</span>
 
-<span class="cm">// --- The face (the little screen) ---</span>
+<span class="cm">// --- The face (the big 2.4&quot; colour screen, 240 x 320, ILI9341) ---</span>
 <span class="cm">// 1 = use the face, 0 = run without it</span>
 <span class="pp">#define</span> FACE_ENABLED <span class="nm">1</span>
-<span class="pp">#define</span> PIN_OLED_SDA <span class="nm">18</span>
-<span class="pp">#define</span> PIN_OLED_SCL <span class="nm">17</span>
-<span class="pp">#define</span> OLED_ADDR    <span class="nm">0x3C</span>
-<span class="cm">// The screen sits right way up on the breadboard (pins at the top).</span>
-<span class="cm">// If your picture shows upside down, change this to 1.</span>
-<span class="pp">#define</span> FACE_FLIP    <span class="nm">0</span></code></pre></div><!--/CODE-->
+<span class="cm">// The screen&#x27;s 5 data wires. The names on the screen&#x27;s pins are in the comments.</span>
+<span class="pp">#define</span> PIN_TFT_CS   <span class="nm">13</span>   <span class="cm">// screen pin CS</span>
+<span class="pp">#define</span> PIN_TFT_RST  <span class="nm">12</span>   <span class="cm">// screen pin RESET</span>
+<span class="pp">#define</span> PIN_TFT_DC   <span class="nm">11</span>   <span class="cm">// screen pin DC</span>
+<span class="pp">#define</span> PIN_TFT_MOSI <span class="nm">10</span>   <span class="cm">// screen pin SDI (MOSI)</span>
+<span class="pp">#define</span> PIN_TFT_SCK  <span class="nm">9</span>    <span class="cm">// screen pin SCK</span>
+<span class="cm">// How fast the data wires talk. If you see static or strange colours, try 4000000.</span>
+<span class="pp">#define</span> TFT_SPI_HZ   <span class="nm">10000000</span>
+<span class="cm">// The face is WIDE (320 across), so use 1 or 3 only. If the face is upside down, change it</span>
+<span class="cm">// to the other one. (0 and 2 are the tall screen and are not allowed.)</span>
+<span class="pp">#define</span> TFT_ROTATION <span class="nm">1</span></code></pre></div><!--/CODE-->
   </div>
 
   <!-- FILE 2 -->
@@ -656,23 +661,40 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <!-- FILE 3 -->
   <div class="filecard">
     <header><span class="stars">⭐⭐ Medium</span><h3>face.cpp · The face</h3></header>
-    <p><b>What it does:</b> draws the eyes, smile and mouth on the screen about <b>20 times every second</b>. Fast drawings look like movement, like a flip book!</p>
-    <ul class="read"><li>The screen is a grid of dots: <b>128 across</b> and <b>64 down</b>. <code>(0, 0)</code> is the top-left corner.</li><li><code>eye(x, y, width, height)</code> draws one eye. Blinking just makes the height smaller for a moment.</li><li>The big <code>switch</code> picks a drawing for each mood: READY, HELLO, LISTENING, THINKING, TALKING, ZZZ.</li></ul>
-    <!--CODE:AI_Companion/face.cpp|face.cpp tab--><div class="codewrap"><span class="fn">face.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="cm">// THE FACE: draws the robot&#x27;s eyes and mouth on the little screen.</span>
+    <p><b>What it does:</b> draws the eyes, smile and mouth on the big colour screen about <b>10 times every second</b>. Fast drawings look like movement, like a flip book!</p>
+    <ul class="read"><li>The screen lies on its side: <b>320 dots across</b> and <b>240 down</b>. <code>(0, 0)</code> is the top-left corner.</li><li>The robot draws on a <b>hidden board</b> (<code>canvas</code>) first and then shows the whole picture at once, so nothing flickers.</li><li><code>eye(x, y, width, height, colour)</code> draws one eye. Blinking just makes the height smaller for a moment.</li><li>Every mood has its own <b>word</b> and <b>colour</b>, in two lists near the top.</li></ul>
+    <!--CODE:AI_Companion/face.cpp|face.cpp tab--><div class="codewrap"><span class="fn">face.cpp tab</span><button class="copy">Copy</button><pre class="big"><code><span class="cm">// THE FACE: draws the robot&#x27;s eyes and mouth on the big colour screen.</span>
 <span class="pp">#include</span> <span class="st">&quot;face.h&quot;</span>
-<span class="pp">#include</span> &lt;Wire.h&gt;
+<span class="pp">#include</span> &lt;SPI.h&gt;
 <span class="pp">#include</span> &lt;Adafruit_GFX.h&gt;
-<span class="pp">#include</span> &lt;Adafruit_SSD1306.h&gt;
+<span class="pp">#include</span> &lt;Adafruit_ILI9341.h&gt;
 <span class="pp">#include</span> <span class="st">&quot;config.h&quot;</span>
 
-<span class="cm">// The screen is 128 dots wide and 64 dots tall. The dot at the top-left is (0, 0).</span>
-<span class="cm">// Some screens have two colours: the top 16 rows are one colour (the &quot;band&quot;),</span>
-<span class="cm">// the rest is blue. We use the band for a word like READY, and draw the face below.</span>
-<span class="kw">static</span> <span class="kw">const</span> <span class="kw">int</span> BAND = <span class="nm">16</span>;
+<span class="cm">// Make a colour from amounts of red, green and blue (0 to 255 each).</span>
+<span class="pp">#define</span> <span class="fnm">RGB565</span>(r, g, b) ((((r) &amp; <span class="nm">0xF8</span>) &lt;&lt; <span class="nm">8</span>) | (((g) &amp; <span class="nm">0xFC</span>) &lt;&lt; <span class="nm">3</span>) | ((b) &gt;&gt; <span class="nm">3</span>))
+<span class="pp">#define</span> BLACK <span class="nm">0x0000</span>
 
-<span class="kw">static</span> Adafruit_SSD1306 <span class="fnm">oled</span>(<span class="nm">128</span>, <span class="nm">64</span>, &amp;Wire, -<span class="nm">1</span>);  <span class="cm">// &quot;oled&quot; is our name for the screen</span>
-<span class="kw">static</span> <span class="kw">volatile</span> FaceMood mood = FACE_IDLE;         <span class="cm">// which face are we making right now?</span>
-<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">uint32_t</span> moodSince = <span class="nm">0</span>;            <span class="cm">// when did this face start?</span>
+<span class="cm">// The screen lies on its side: 320 dots across and 240 dots down. (0, 0) is the top-left corner.</span>
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">int</span> W = <span class="nm">320</span>;
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">int</span> BAND = <span class="nm">40</span>;             <span class="cm">// the coloured strip at the top that shows a word</span>
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">int</span> FX = <span class="nm">20</span>, FY = <span class="nm">48</span>;      <span class="cm">// where the face picture starts</span>
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">int</span> FW = <span class="nm">280</span>, FH = <span class="nm">184</span>;    <span class="cm">// how big the face picture is</span>
+
+<span class="cm">// One word and one colour for every mood. The order matches the list in face.h.</span>
+<span class="kw">static</span> <span class="kw">const</span> <span class="kw">char</span> *LABEL[] = {<span class="st">&quot;READY&quot;</span>, <span class="st">&quot;HELLO!&quot;</span>, <span class="st">&quot;LISTENING&quot;</span>, <span class="st">&quot;THINKING&quot;</span>, <span class="st">&quot;TALKING&quot;</span>, <span class="st">&quot;ZZZ&quot;</span>};
+<span class="kw">static</span> <span class="kw">const</span> uint16_t COLOUR[] = {
+    <span class="fnm">RGB565</span>(<span class="nm">0</span>, <span class="nm">220</span>, <span class="nm">255</span>),    <span class="cm">// READY: cyan eyes</span>
+    <span class="fnm">RGB565</span>(<span class="nm">255</span>, <span class="nm">120</span>, <span class="nm">190</span>),  <span class="cm">// HELLO: pink eyes</span>
+    <span class="fnm">RGB565</span>(<span class="nm">90</span>, <span class="nm">255</span>, <span class="nm">140</span>),   <span class="cm">// LISTENING: green eyes</span>
+    <span class="fnm">RGB565</span>(<span class="nm">190</span>, <span class="nm">140</span>, <span class="nm">255</span>),  <span class="cm">// THINKING: purple eyes</span>
+    <span class="fnm">RGB565</span>(<span class="nm">255</span>, <span class="nm">220</span>, <span class="nm">60</span>),   <span class="cm">// TALKING: yellow eyes</span>
+    <span class="fnm">RGB565</span>(<span class="nm">110</span>, <span class="nm">150</span>, <span class="nm">255</span>),  <span class="cm">// ZZZ: blue eyes</span>
+};
+
+<span class="kw">static</span> Adafruit_ILI9341 <span class="fnm">tft</span>(&amp;SPI, PIN_TFT_DC, PIN_TFT_CS, PIN_TFT_RST);  <span class="cm">// &quot;tft&quot; is our name for the screen</span>
+<span class="kw">static</span> GFXcanvas16 <span class="fnm">canvas</span>(FW, FH);  <span class="cm">// a hidden drawing board: we draw there, then show it all at once (no flicker!)</span>
+<span class="kw">static</span> <span class="kw">volatile</span> FaceMood mood = FACE_IDLE;  <span class="cm">// which face are we making right now?</span>
+<span class="kw">static</span> <span class="kw">volatile</span> <span class="kw">uint32_t</span> moodSince = <span class="nm">0</span>;     <span class="cm">// when did this face start?</span>
 
 <span class="cm">// Other files call this to change the face, like faceSet(FACE_HAPPY).</span>
 <span class="kw">void</span> <span class="fnm">faceSet</span>(FaceMood m) {
@@ -683,36 +705,42 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 }
 
 <span class="cm">// Draw ONE eye: a rounded rectangle. cx, cy = its centre. w = width, h = height.</span>
-<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">eye</span>(<span class="kw">int</span> cx, <span class="kw">int</span> cy, <span class="kw">int</span> w, <span class="kw">int</span> h) {
-    <span class="kw">if</span> (h &lt; <span class="nm">3</span>) h = <span class="nm">3</span>;  <span class="cm">// never thinner than a line</span>
-    oled.<span class="fnm">fillRoundRect</span>(cx - w / <span class="nm">2</span>, cy - h / <span class="nm">2</span>, w, h, <span class="fnm">min</span>(<span class="nm">9</span>, h / <span class="nm">2</span>), SSD1306_WHITE);
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">eye</span>(<span class="kw">int</span> cx, <span class="kw">int</span> cy, <span class="kw">int</span> w, <span class="kw">int</span> h, uint16_t colour) {
+    <span class="kw">if</span> (h &lt; <span class="nm">6</span>) h = <span class="nm">6</span>;  <span class="cm">// never thinner than a line</span>
+    canvas.<span class="fnm">fillRoundRect</span>(cx - w / <span class="nm">2</span>, cy - h / <span class="nm">2</span>, w, h, <span class="fnm">min</span>(<span class="nm">24</span>, h / <span class="nm">2</span>), colour);
 }
 
-<span class="cm">// Write a little word in the top band, and draw a line under it.</span>
-<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">header</span>(<span class="kw">const</span> <span class="kw">char</span> *s) {
-    oled.<span class="fnm">setTextSize</span>(<span class="nm">1</span>);
-    oled.<span class="fnm">setTextColor</span>(SSD1306_WHITE);
-    oled.<span class="fnm">setCursor</span>(<span class="nm">2</span>, <span class="nm">4</span>);
-    oled.<span class="fnm">print</span>(s);
-    oled.<span class="fnm">drawFastHLine</span>(<span class="nm">0</span>, BAND - <span class="nm">1</span>, <span class="nm">128</span>, SSD1306_WHITE);
+<span class="cm">// Colour the strip at the top and write the mood&#x27;s word on it.</span>
+<span class="kw">static</span> <span class="kw">void</span> <span class="fnm">header</span>(FaceMood m) {
+    tft.<span class="fnm">fillRect</span>(<span class="nm">0</span>, <span class="nm">0</span>, W, BAND, COLOUR[m]);
+    tft.<span class="fnm">setTextSize</span>(<span class="nm">3</span>);
+    tft.<span class="fnm">setTextColor</span>(BLACK, COLOUR[m]);
+    tft.<span class="fnm">setCursor</span>(<span class="nm">12</span>, <span class="nm">9</span>);
+    tft.<span class="fnm">print</span>(LABEL[m]);
 }
 
 <span class="cm">// This &quot;task&quot; runs on its own, all the time, like a little artist inside the robot.</span>
 <span class="kw">static</span> <span class="kw">void</span> <span class="fnm">faceTask</span>(<span class="kw">void</span> *) {
-    <span class="kw">const</span> <span class="kw">int</span> LX = <span class="nm">36</span>, RX = <span class="nm">92</span>, CY = <span class="nm">37</span>;  <span class="cm">// where the LEFT eye, RIGHT eye and eye height are</span>
+    <span class="kw">const</span> <span class="kw">int</span> LX = <span class="nm">70</span>, RX = <span class="nm">210</span>, CY = <span class="nm">78</span>;  <span class="cm">// where the LEFT eye, RIGHT eye and eye height are</span>
+    <span class="kw">const</span> <span class="kw">int</span> ew = <span class="nm">76</span>, eh = <span class="nm">84</span>;            <span class="cm">// eye width and height</span>
     <span class="kw">const</span> <span class="kw">float</span> blinkScale[] = {<span class="nm">0.7f</span>, <span class="nm">0.35f</span>, <span class="nm">0.1f</span>, <span class="nm">0.35f</span>, <span class="nm">0.7f</span>};  <span class="cm">// how closed the eye is, frame by frame</span>
     <span class="kw">int</span> blinkFrame = -<span class="nm">1</span>;  <span class="cm">// -1 means &quot;not blinking right now&quot;</span>
     <span class="kw">uint32_t</span> nextBlink = <span class="fnm">millis</span>() + <span class="nm">2500</span>, nextLook = <span class="fnm">millis</span>() + <span class="nm">3000</span>;
     <span class="kw">int</span> lookX = <span class="nm">0</span>, lookY = <span class="nm">0</span>;  <span class="cm">// how far the eyes look left/right and up/down</span>
+    <span class="kw">int</span> shownMood = -<span class="nm">1</span>;        <span class="cm">// which mood&#x27;s top strip is on the screen</span>
 
     <span class="kw">for</span> (;;) {  <span class="cm">// forever...</span>
         <span class="kw">uint32_t</span> now = <span class="fnm">millis</span>();
         FaceMood m = mood;
 
-        <span class="cm">// HAPPY only lasts 2.5 seconds, then we go back to IDLE.</span>
+        <span class="cm">// HELLO only lasts 2.5 seconds, then we go back to READY.</span>
         <span class="kw">if</span> (m == FACE_HAPPY &amp;&amp; now - moodSince &gt; <span class="nm">2500</span>) {
             <span class="fnm">faceSet</span>(FACE_IDLE);
             m = FACE_IDLE;
+        }
+        <span class="kw">if</span> (shownMood != (<span class="kw">int</span>)m) {  <span class="cm">// new mood? Change the strip at the top.</span>
+            <span class="fnm">header</span>(m);
+            shownMood = (<span class="kw">int</span>)m;
         }
 
         <span class="cm">// Time to blink? Step through the blink frames one by one.</span>
@@ -727,81 +755,88 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
         }
         <span class="cm">// Every few seconds, look somewhere new.</span>
         <span class="kw">if</span> (now &gt; nextLook) {
-            lookX = <span class="fnm">random</span>(-<span class="nm">8</span>, <span class="nm">9</span>);
-            lookY = <span class="fnm">random</span>(-<span class="nm">3</span>, <span class="nm">4</span>);
+            lookX = <span class="fnm">random</span>(-<span class="nm">16</span>, <span class="nm">17</span>);
+            lookY = <span class="fnm">random</span>(-<span class="nm">6</span>, <span class="nm">7</span>);
             nextLook = now + <span class="fnm">random</span>(<span class="nm">1500</span>, <span class="nm">4000</span>);
         }
 
-        oled.<span class="fnm">clearDisplay</span>();  <span class="cm">// wipe the screen, then draw the new picture</span>
-        <span class="kw">const</span> <span class="kw">int</span> w = <span class="nm">30</span>, h = <span class="nm">28</span>;  <span class="cm">// eye width and height</span>
+        canvas.<span class="fnm">fillScreen</span>(BLACK);  <span class="cm">// wipe the hidden board, then draw the new picture on it</span>
+        <span class="kw">const</span> uint16_t c = COLOUR[m];
         <span class="kw">switch</span> (m) {  <span class="cm">// pick the drawing that matches the mood</span>
             <span class="kw">case</span> FACE_IDLE:  <span class="cm">// waiting: open eyes that blink and look around</span>
-                <span class="fnm">header</span>(<span class="st">&quot;READY&quot;</span>);
-                <span class="fnm">eye</span>(LX + lookX, CY + lookY, w, h * bs);
-                <span class="fnm">eye</span>(RX + lookX, CY + lookY, w, h * bs);
+                <span class="fnm">eye</span>(LX + lookX, CY + lookY, ew, eh * bs, c);
+                <span class="fnm">eye</span>(RX + lookX, CY + lookY, ew, eh * bs, c);
                 <span class="kw">break</span>;
-            <span class="kw">case</span> FACE_HAPPY:  <span class="cm">// happy: ^ ^ eyes and a smile</span>
-                <span class="fnm">header</span>(<span class="st">&quot;HELLO!&quot;</span>);
+            <span class="kw">case</span> FACE_HAPPY:  <span class="cm">// happy: ^ ^ eyes, a smile and rosy cheeks</span>
                 <span class="kw">for</span> (<span class="kw">int</span> cx : {LX, RX}) {
-                    oled.<span class="fnm">fillRoundRect</span>(cx - <span class="nm">15</span>, CY - <span class="nm">12</span>, <span class="nm">30</span>, <span class="nm">26</span>, <span class="nm">11</span>, SSD1306_WHITE);
-                    oled.<span class="fnm">fillCircle</span>(cx, CY + <span class="nm">12</span>, <span class="nm">16</span>, SSD1306_BLACK);  <span class="cm">// cut away the bottom to make a ^</span>
+                    canvas.<span class="fnm">fillRoundRect</span>(cx - <span class="nm">36</span>, CY - <span class="nm">28</span>, <span class="nm">72</span>, <span class="nm">60</span>, <span class="nm">26</span>, c);
+                    canvas.<span class="fnm">fillCircle</span>(cx, CY + <span class="nm">32</span>, <span class="nm">40</span>, BLACK);  <span class="cm">// cut away the bottom to make a ^</span>
+                    canvas.<span class="fnm">fillCircle</span>(cx + (cx &lt; <span class="nm">140</span> ? -<span class="nm">22</span> : <span class="nm">22</span>), <span class="nm">128</span>, <span class="nm">12</span>, <span class="fnm">RGB565</span>(<span class="nm">255</span>, <span class="nm">90</span>, <span class="nm">120</span>));  <span class="cm">// cheek</span>
                 }
-                oled.<span class="fnm">drawCircle</span>(<span class="nm">64</span>, <span class="nm">47</span>, <span class="nm">10</span>, SSD1306_WHITE);  <span class="cm">// a smile is the bottom half of a circle</span>
-                oled.<span class="fnm">fillRect</span>(<span class="nm">52</span>, <span class="nm">34</span>, <span class="nm">24</span>, <span class="nm">13</span>, SSD1306_BLACK);
+                canvas.<span class="fnm">fillCircle</span>(<span class="nm">140</span>, <span class="nm">128</span>, <span class="nm">30</span>, c);       <span class="cm">// a smile is a half moon:</span>
+                canvas.<span class="fnm">fillCircle</span>(<span class="nm">140</span>, <span class="nm">112</span>, <span class="nm">30</span>, BLACK);   <span class="cm">// a circle with the top bitten off</span>
                 <span class="kw">break</span>;
-            <span class="kw">case</span> FACE_LISTEN: {  <span class="cm">// listening: big eyes and pulsing dots</span>
-                <span class="fnm">header</span>(<span class="st">&quot;LISTENING&quot;</span>);
-                <span class="fnm">eye</span>(LX, CY - <span class="nm">3</span>, w + <span class="nm">4</span>, (h + <span class="nm">8</span>) * bs);
-                <span class="fnm">eye</span>(RX, CY - <span class="nm">3</span>, w + <span class="nm">4</span>, (h + <span class="nm">8</span>) * bs);
+            <span class="kw">case</span> FACE_LISTEN: {  <span class="cm">// listening: big round eyes and pulsing dots</span>
+                <span class="fnm">eye</span>(LX, CY - <span class="nm">6</span>, ew + <span class="nm">8</span>, (eh + <span class="nm">20</span>) * bs, c);
+                <span class="fnm">eye</span>(RX, CY - <span class="nm">6</span>, ew + <span class="nm">8</span>, (eh + <span class="nm">20</span>) * bs, c);
                 <span class="kw">int</span> ph = (now / <span class="nm">200</span>) % <span class="nm">3</span>;  <span class="cm">// which dot is big right now?</span>
-                <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++)
-                    oled.<span class="fnm">fillCircle</span>(<span class="nm">50</span> + i * <span class="nm">14</span>, <span class="nm">59</span>, (i == ph) ? <span class="nm">3</span> : <span class="nm">2</span>, SSD1306_WHITE);
+                <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">3</span>; i++) canvas.<span class="fnm">fillCircle</span>(<span class="nm">100</span> + i * <span class="nm">40</span>, <span class="nm">160</span>, (i == ph) ? <span class="nm">10</span> : <span class="nm">6</span>, c);
                 <span class="kw">break</span>;
             }
             <span class="kw">case</span> FACE_THINK: {  <span class="cm">// thinking: eyes swing side to side and &quot;...&quot; appear</span>
-                <span class="fnm">header</span>(<span class="st">&quot;THINKING&quot;</span>);
-                <span class="kw">int</span> sway = (<span class="kw">int</span>)(<span class="nm">10</span> * <span class="fnm">sin</span>(now / <span class="nm">350.0</span>));  <span class="cm">// sin() makes a smooth back-and-forth</span>
-                <span class="fnm">eye</span>(LX + sway, CY - <span class="nm">4</span>, w, h * bs);
-                <span class="fnm">eye</span>(RX + sway, CY - <span class="nm">4</span>, w, h * bs);
+                <span class="kw">int</span> sway = (<span class="kw">int</span>)(<span class="nm">22</span> * <span class="fnm">sin</span>(now / <span class="nm">350.0</span>));  <span class="cm">// sin() makes a smooth back-and-forth</span>
+                <span class="fnm">eye</span>(LX + sway, CY - <span class="nm">8</span>, ew, eh * bs, c);
+                <span class="fnm">eye</span>(RX + sway, CY - <span class="nm">8</span>, ew, eh * bs, c);
                 <span class="kw">int</span> dots = (now / <span class="nm">350</span>) % <span class="nm">4</span>;  <span class="cm">// 0, 1, 2 or 3 dots</span>
-                <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; dots; i++) oled.<span class="fnm">fillCircle</span>(<span class="nm">50</span> + i * <span class="nm">14</span>, <span class="nm">59</span>, <span class="nm">3</span>, SSD1306_WHITE);
+                <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; dots; i++) canvas.<span class="fnm">fillCircle</span>(<span class="nm">100</span> + i * <span class="nm">40</span>, <span class="nm">160</span>, <span class="nm">9</span>, c);
                 <span class="kw">break</span>;
             }
             <span class="kw">case</span> FACE_SPEAK: {  <span class="cm">// talking: a mouth that opens and closes</span>
-                <span class="fnm">header</span>(<span class="st">&quot;TALKING&quot;</span>);
-                <span class="fnm">eye</span>(LX, CY - <span class="nm">5</span>, w, h * bs);
-                <span class="fnm">eye</span>(RX, CY - <span class="nm">5</span>, w, h * bs);
-                <span class="kw">int</span> mh = <span class="nm">4</span> + (<span class="kw">int</span>)(<span class="nm">5</span> + <span class="nm">5</span> * <span class="fnm">sin</span>(now / <span class="nm">90.0</span> + <span class="fnm">random</span>(<span class="nm">0</span>, <span class="nm">3</span>)));  <span class="cm">// mouth height wobbles</span>
-                oled.<span class="fnm">fillRoundRect</span>(<span class="nm">50</span>, <span class="nm">53</span>, <span class="nm">28</span>, mh, <span class="nm">4</span>, SSD1306_WHITE);
+                <span class="fnm">eye</span>(LX, CY - <span class="nm">10</span>, ew, eh * bs, c);
+                <span class="fnm">eye</span>(RX, CY - <span class="nm">10</span>, ew, eh * bs, c);
+                <span class="kw">int</span> mh = <span class="nm">12</span> + (<span class="kw">int</span>)(<span class="nm">14</span> + <span class="nm">14</span> * <span class="fnm">sin</span>(now / <span class="nm">90.0</span> + <span class="fnm">random</span>(<span class="nm">0</span>, <span class="nm">3</span>)));  <span class="cm">// mouth height wobbles</span>
+                canvas.<span class="fnm">fillRoundRect</span>(<span class="nm">100</span>, <span class="nm">140</span>, <span class="nm">80</span>, mh, <span class="nm">10</span>, <span class="fnm">RGB565</span>(<span class="nm">255</span>, <span class="nm">120</span>, <span class="nm">120</span>));
                 <span class="kw">break</span>;
             }
             <span class="kw">case</span> FACE_SLEEP:  <span class="cm">// sleeping: thin closed eyes and a floating z</span>
-                <span class="fnm">header</span>(<span class="st">&quot;ZZZ&quot;</span>);
-                oled.<span class="fnm">fillRoundRect</span>(LX - <span class="nm">15</span>, CY, <span class="nm">30</span>, <span class="nm">4</span>, <span class="nm">2</span>, SSD1306_WHITE);
-                oled.<span class="fnm">fillRoundRect</span>(RX - <span class="nm">15</span>, CY, <span class="nm">30</span>, <span class="nm">4</span>, <span class="nm">2</span>, SSD1306_WHITE);
-                oled.<span class="fnm">setTextSize</span>(<span class="nm">2</span>);
-                oled.<span class="fnm">setCursor</span>(<span class="nm">100</span> + (<span class="kw">int</span>)(<span class="nm">4</span> * <span class="fnm">sin</span>(now / <span class="nm">400.0</span>)), <span class="nm">22</span>);
-                oled.<span class="fnm">print</span>(<span class="st">&quot;z&quot;</span>);
+                canvas.<span class="fnm">fillRoundRect</span>(LX - <span class="nm">36</span>, CY + <span class="nm">4</span>, <span class="nm">72</span>, <span class="nm">8</span>, <span class="nm">4</span>, c);
+                canvas.<span class="fnm">fillRoundRect</span>(RX - <span class="nm">36</span>, CY + <span class="nm">4</span>, <span class="nm">72</span>, <span class="nm">8</span>, <span class="nm">4</span>, c);
+                canvas.<span class="fnm">setTextColor</span>(c);
+                canvas.<span class="fnm">setTextSize</span>(<span class="nm">5</span>);
+                canvas.<span class="fnm">setCursor</span>(<span class="nm">215</span> + (<span class="kw">int</span>)(<span class="nm">8</span> * <span class="fnm">sin</span>(now / <span class="nm">400.0</span>)), <span class="nm">20</span>);
+                canvas.<span class="fnm">print</span>(<span class="st">&quot;z&quot;</span>);
                 <span class="kw">break</span>;
         }
-        oled.<span class="fnm">display</span>();                 <span class="cm">// show the new picture on the screen</span>
-        <span class="fnm">vTaskDelay</span>(<span class="fnm">pdMS_TO_TICKS</span>(<span class="nm">50</span>));  <span class="cm">// rest for 50 ms, so we draw about 20 pictures a second</span>
+        <span class="cm">// Show the whole hidden picture on the screen in ONE go: open a window on the</span>
+        <span class="cm">// screen (setAddrWindow), then pour all the dots through it (writePixels).</span>
+        tft.<span class="fnm">startWrite</span>();
+        tft.<span class="fnm">setAddrWindow</span>(FX, FY, FW, FH);
+        tft.<span class="fnm">writePixels</span>(canvas.<span class="fnm">getBuffer</span>(), FW * FH);
+        tft.<span class="fnm">endWrite</span>();
+        <span class="fnm">vTaskDelay</span>(<span class="fnm">pdMS_TO_TICKS</span>(<span class="nm">30</span>));
     }
 }
 
-<span class="cm">// Get the screen ready. Returns false if no screen is found (the robot still works!).</span>
+<span class="cm">// Get the screen ready. The screen only LISTENS, so we cannot ask it &quot;are you there?&quot;.</span>
+<span class="cm">// If nothing shows up, check the wires.</span>
 <span class="kw">bool</span> <span class="fnm">faceBegin</span>() {
-    Wire.<span class="fnm">begin</span>(PIN_OLED_SDA, PIN_OLED_SCL);  <span class="cm">// connect to the screen&#x27;s 2 wires</span>
-    Wire.<span class="fnm">setClock</span>(<span class="nm">400000</span>);
-    <span class="kw">if</span> (!oled.<span class="fnm">begin</span>(SSD1306_SWITCHCAPVCC, OLED_ADDR)) {
-        Serial.<span class="fnm">println</span>(<span class="st">&quot;No OLED found - running without a face&quot;</span>);
+    <span class="kw">if</span> (!canvas.<span class="fnm">getBuffer</span>()) {
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;Face: not enough memory for the picture (is PSRAM set to OPI PSRAM in Tools?)&quot;</span>);
         <span class="kw">return</span> <span class="kw">false</span>;
     }
-<span class="pp">#if</span> FACE_FLIP
-    oled.<span class="fnm">setRotation</span>(<span class="nm">2</span>);  <span class="cm">// if the picture shows upside down, FACE_FLIP in config.h turns it around</span>
-<span class="pp">#endif</span>
+    SPI.<span class="fnm">begin</span>(PIN_TFT_SCK, -<span class="nm">1</span>, PIN_TFT_MOSI, -<span class="nm">1</span>);  <span class="cm">// no MISO wire: the screen only listens</span>
+    tft.<span class="fnm">begin</span>(TFT_SPI_HZ);
+    <span class="cm">// The face is made for the WIDE screen (320 across). Rotations 0 and 2 are the TALL</span>
+    <span class="cm">// screen: the right side of the face would run off the edge. So only 1 and 3 are allowed.</span>
+    <span class="kw">uint8_t</span> rotation = TFT_ROTATION;
+    <span class="kw">if</span> (rotation % <span class="nm">2</span> == <span class="nm">0</span>) {
+        Serial.<span class="fnm">println</span>(<span class="st">&quot;Face: TFT_ROTATION must be 1 or 3 (the screen on its side). Using 1.&quot;</span>);
+        rotation = <span class="nm">1</span>;
+    }
+    tft.<span class="fnm">setRotation</span>(rotation);
+    tft.<span class="fnm">fillScreen</span>(BLACK);
     <span class="fnm">faceSet</span>(FACE_HAPPY);
-    <span class="fnm">xTaskCreatePinnedToCore</span>(faceTask, <span class="st">&quot;face&quot;</span>, <span class="nm">4096</span>, <span class="kw">nullptr</span>, <span class="nm">1</span>, <span class="kw">nullptr</span>, <span class="nm">0</span>);  <span class="cm">// start the little artist</span>
+    <span class="fnm">xTaskCreatePinnedToCore</span>(faceTask, <span class="st">&quot;face&quot;</span>, <span class="nm">6144</span>, <span class="kw">nullptr</span>, <span class="nm">1</span>, <span class="kw">nullptr</span>, <span class="nm">0</span>);  <span class="cm">// start the little artist</span>
     <span class="kw">return</span> <span class="kw">true</span>;
 }</code></pre></div><!--/CODE-->
   </div>
@@ -1172,19 +1207,16 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
   <details><summary>📶 The diary never says “WiFi OK”</summary>Check the WiFi name and password in <code>secrets.h</code>. Capital letters matter!</details>
   <details><summary>🔑 It says “WS connected” but never “Gemini ready”</summary>The magic password (API key) might be wrong, or the AI's name changed. Ask a grown-up to check Google's website.</details>
   <details><summary>🔁 The robot keeps restarting</summary>Unplug a wire → wait → plug in again. Check no wire is on pins 35, 36, 37.</details>
-  <details><summary>📚 Red error: “WebSocketsClient.h: No such file” (or another missing file)</summary>A helper library is missing. Go back to section 4, step 4, and install the 3 libraries: <b>WebSockets</b>, <b>Adafruit SSD1306</b> and <b>Adafruit GFX Library</b>.</details>
+  <details><summary>📚 Red error: “WebSocketsClient.h: No such file” (or another missing file)</summary>A helper library is missing. Go back to section 4, step 4, and install the 3 libraries: <b>WebSockets</b>, <b>Adafruit ILI9341</b> and <b>Adafruit GFX Library</b>.</details>
   <details><summary>🧠 Red error: “ESP_I2S.h: No such file”</summary>Your brain-board package is too old. Open <b>Tools → Board → Boards Manager</b>, find “esp32 by Espressif Systems” and update it to version 3 or newer.</details>
-  <details><summary>📺 The face screen stays black</summary>
+  <details><summary>📺 The face screen stays dark, or shows strange colours</summary>
     <ol>
-      <li><b>Open the Serial Monitor</b> (115200). If it is empty, fix <b>USB CDC On Boot</b> first (see the <a href="#cheat">cheat sheet</a>), upload again, and look again. If it says <code>No OLED found</code>, the brain cannot talk to the screen.</li>
-      <li><b>Run the I2C Scanner.</b> In Arduino IDE choose <b>File → Open…</b> and open <code>arduino / I2C_Scan / I2C_Scan.ino</code>. Upload it and open the Serial Monitor. Read the answer:
-        <ul>
-          <li><b>“FOUND something at address 0x3C”</b> under the first line: the screen is connected and the wires are right. The problem is the code settings, so check <code>PIN_OLED_SDA 18</code>, <code>PIN_OLED_SCL 17</code> and <code>OLED_ADDR</code> in <code>config.h</code>.</li>
-          <li><b>FOUND under “swapped”:</b> you swapped the two data wires. Put <b>SDA</b> on pin <b>18</b> and <b>SCL</b> on pin <b>17</b>.</li>
-          <li><b>“nothing found” both times:</b> check power and ground (VDD to the red 3.3V rail, GND to the blue rail), that the screen's 4 pins are in row e of their own 4 columns, and that the brain is turned so its top row reads <code>G, 5V, 14, 13, 12…</code></li>
-          <li><b>Found at 0x3D:</b> change <code>OLED_ADDR</code> to <code>0x3D</code> in <code>config.h</code>.</li>
-        </ul></li>
-      <li>Make sure the <code>config.h</code> tab is the <b>new</b> one: <code>PIN_OLED_SDA 18</code> and <code>PIN_OLED_SCL 17</code>. Old downloads say 2 and 1.</li>
+      <li><b>Test the screen on its own.</b> In Arduino IDE choose <b>File → Open…</b> and open <code>arduino / TFT_Test / TFT_Test.ino</code>. Upload it. You should see five colour bars (red, green, blue, yellow, white) and a blinking face. It turns the picture a quarter turn every few seconds and writes <b>rotation 0, 1, 2, 3</b>.</li>
+      <li><b>Dark, and the backlight is off:</b> check the power. <b>VCC</b> goes to the brain's <b>5V</b> pin, <b>LED</b> to the red 3.3V rail, <b>GND</b> to the blue rail. Is the red rail joined all the way along?</li>
+      <li><b>Backlight on, but the picture is white or black:</b> check the five data wires: <b>CS</b> → pin 13, <b>RESET</b> → pin 12, <b>DC</b> → pin 11, <b>SDI</b> → pin 10, <b>SCK</b> → pin 9. Push each one in firmly.</li>
+      <li><b>Static, odd colours or half a picture:</b> loose or tangled wires. Make them shorter and tidier, or set <code>TFT_SPI_HZ</code> to <code>4000000</code> in the <code>config.h</code> tab.</li>
+      <li><b>The face is cut off, or colourful stripes run down the right side:</b> <code>TFT_ROTATION</code> in <code>config.h</code> must be <code>1</code> or <code>3</code>, never <code>0</code> or <code>2</code>. <b>Sideways or upside down?</b> The face is made for a screen lying on its side, so turn the screen that way, or try the other number (<code>1</code> or <code>3</code>).</li>
+      <li>Make sure the <code>config.h</code> tab is the <b>new</b> one: it has <code>PIN_TFT_CS 13</code>. Old downloads talk about an OLED.</li>
     </ol>
   </details>
   <details><summary>🔌 The computer can't find the board</summary>Check that the right <b>Port</b> is picked in the Tools menu. Hold the <b>BOOT</b> button, tap <b>RST</b>, let go of BOOT, then click Upload again. Try the other USB port, or a different cable, since some cables only charge.<div class="osnote" data-for="none">Pick your computer in section 4 to see tips for it.</div><div class="osnote" data-for="mac-arm mac-intel">On a Mac there is usually nothing extra to install. Plug the board straight into the computer (no hub), then close and reopen Arduino IDE.</div><div class="osnote" data-for="windows">On Windows, right-click the Start button and open <b>Device Manager</b>. Look under <b>Ports (COM &amp; LPT)</b> while you plug the board in and out. If it shows up as an unknown device, a grown-up can install the USB driver for the chip on your board (often <b>CP210x</b> or <b>CH340</b>).</div></details>
@@ -1240,10 +1272,10 @@ I2SClass &amp;<span class="fnm">audioInI2S</span>() { <span class="kw">return</s
         <div class="need">⚠️ Batteries can be dangerous if wired wrong. Only do this with a grown-up.</div></div></div>
     <div class="lvl"><header><b>5</b><div><h3>Design your own expression 😎</h3><small>⭐⭐ Medium · a grown-up helper</small></div></header>
       <div class="body"><ol>
-        <li>Click the <code>face.cpp</code> tab. Each mood draws eyes with <code>eye(x, y, width, height)</code>.</li>
+        <li>Click the <code>face.cpp</code> tab. Each mood draws eyes with <code>eye(x, y, width, height, colour)</code>.</li>
         <li>Make the eyes bigger, smaller or closer together, then upload.</li>
-        <li>Draw eyebrows with <code>oled.drawLine()</code> to make an angry or surprised robot!</li></ol>
-        <div class="need">🎨 Sketch your face on graph paper first. The screen is 128 dots wide and 64 dots tall. The top 16 rows are the colour band.</div></div></div>
+        <li>Draw eyebrows with <code>canvas.drawLine(x1, y1, x2, y2, colour)</code> to make an angry or surprised robot!</li></ol>
+        <div class="need">🎨 Sketch your face on graph paper first. The face picture is 280 dots wide and 184 dots tall.</div></div></div>
   </div>
   <details class="peek" id="teen">
     <summary>🧑‍💻 Teen project: choose your own wake-up phrase</summary>
@@ -1338,40 +1370,42 @@ checklist('codeCheck','bar3','kids-code');
 })();
 
 
-/* ---- face preview (mirrors src/face.cpp) ---- */
+/* ---- face preview (mirrors src/face.cpp: same shapes, words and colours) ---- */
 (function(){
   const g=document.getElementById('fg'),NS='http://www.w3.org/2000/svg';
-  let mood='happy',since=performance.now(),blink=-1,nextBlink=1500,lx=0,ly=0,nextLook=2500;
+  const LAB={idle:'READY',happy:'HELLO!',listen:'LISTENING',think:'THINKING',speak:'TALKING',sleep:'ZZZ'};
+  const COL={idle:'#00dcff',happy:'#ff78be',listen:'#5aff8c',think:'#be8cff',speak:'#ffdc3c',sleep:'#6e96ff'};
+  let mood='happy',blink=-1,nextBlink=1500,lx=0,ly=0,nextLook=2500,P=g;
   const bs=[.7,.35,.1,.35,.7];
-  const R=(x,y,w,h,r,f)=>{const e=document.createElementNS(NS,'rect');e.setAttribute('x',x);e.setAttribute('y',y);e.setAttribute('width',w);e.setAttribute('height',h);e.setAttribute('rx',r);if(f)e.setAttribute('fill',f);g.appendChild(e)};
-  const C=(x,y,r)=>{const e=document.createElementNS(NS,'circle');e.setAttribute('cx',x);e.setAttribute('cy',y);e.setAttribute('r',r);g.appendChild(e)};
-  const eye=(cx,cy,w,h)=>{h=Math.max(3,h);R(cx-w/2,cy-h/2,w,h,Math.min(10,h/2))};
+  const mk=(t,a,parent)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(parent||P).appendChild(e);return e};
+  const R=(x,y,w,h,r,f)=>mk('rect',{x,y,width:w,height:h,rx:r,fill:f});
+  const C=(x,y,r,f)=>mk('circle',{cx:x,cy:y,r,fill:f});
+  const eye=(cx,cy,w,h,c)=>{h=Math.max(6,h);R(cx-w/2,cy-h/2,w,h,Math.min(24,h/2),c)};
   function frame(now){
-    let b=1;
     if(blink<0&&now>nextBlink)blink=0;
-    if(blink>=0){b=bs[Math.floor(blink)];blink+=.33;if(blink>=5){blink=-1;nextBlink=now+2000+Math.random()*3500}}
-    if(now>nextLook){lx=Math.round(Math.random()*16-8);ly=Math.round(Math.random()*8-4);nextLook=now+1500+Math.random()*2500}
-    g.innerHTML='';const LX=36,RX=92,CY=37,w=30,h=28;
-    const T=(x,y,str,size)=>{const t=document.createElementNS(NS,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('font-size',size||8);t.setAttribute('font-family','monospace');t.setAttribute('font-weight',700);t.textContent=str;g.appendChild(t)};
-    const head=str=>{T(2,11,str);R(0,15,128,1,0)};
-    if(mood==='idle'){head('READY');eye(LX+lx,CY+ly,w,h*b);eye(RX+lx,CY+ly,w,h*b)}
-    else if(mood==='happy'){head('HELLO!');
-      [LX,RX].forEach(cx=>{R(cx-15,CY-12,30,26,11);const c=document.createElementNS(NS,'circle');c.setAttribute('cx',cx);c.setAttribute('cy',CY+12);c.setAttribute('r',16);c.setAttribute('fill','#05070d');g.appendChild(c)});
-      const sm=document.createElementNS(NS,'path');sm.setAttribute('d','M54 47 Q64 59 74 47');sm.setAttribute('fill','none');sm.setAttribute('stroke','#fff');sm.setAttribute('stroke-width','2');sm.setAttribute('stroke-linecap','round');g.appendChild(sm)}
-    else if(mood==='listen'){head('LISTENING');eye(LX,CY-3,w+4,(h+8)*b);eye(RX,CY-3,w+4,(h+8)*b);const ph=Math.floor(now/200)%3;for(let i=0;i<3;i++)C(50+i*14,59,i===ph?3:2)}
-    else if(mood==='think'){head('THINKING');const sw=10*Math.sin(now/350);eye(LX+sw,CY-4,w,h*b);eye(RX+sw,CY-4,w,h*b);const d=Math.floor(now/350)%4;for(let i=0;i<d;i++)C(50+i*14,59,3)}
-    else if(mood==='speak'){head('TALKING');eye(LX,CY-5,w,h*b);eye(RX,CY-5,w,h*b);const mh=4+5+5*Math.sin(now/90+Math.random()*2);R(50,53,28,mh,4)}
-    else if(mood==='sleep'){head('ZZZ');R(LX-15,CY,30,4,2);R(RX-15,CY,30,4,2);T(100+4*Math.sin(now/400),38,'z',16)}
+    let b=1;
+    if(blink>=0){b=bs[Math.floor(blink)];blink+=.2;if(blink>=5){blink=-1;nextBlink=now+2000+Math.random()*3500}}
+    if(now>nextLook){lx=Math.round(Math.random()*32-16);ly=Math.round(Math.random()*12-6);nextLook=now+1500+Math.random()*2500}
+    g.innerHTML='';P=g;
+    const c=COL[mood];
+    R(0,0,320,40,0,c);                                        // the coloured strip with the word
+    mk('text',{x:12,y:29,'font-size':26,'font-weight':900,'font-family':'monospace',fill:'#000'}).textContent=LAB[mood];
+    P=mk('g',{transform:'translate(20,48)'},g);               // the face picture starts here
+    const LX=70,RX=210,CY=78,ew=76,eh=84;
+    if(mood==='idle'){eye(LX+lx,CY+ly,ew,eh*b,c);eye(RX+lx,CY+ly,ew,eh*b,c)}
+    else if(mood==='happy'){
+      [LX,RX].forEach(cx=>{R(cx-36,CY-28,72,60,26,c);C(cx,CY+32,40,'#05070d');C(cx+(cx<140?-22:22),128,12,'#ff5a78')});
+      C(140,128,30,c);C(140,112,30,'#05070d')}
+    else if(mood==='listen'){eye(LX,CY-6,ew+8,(eh+20)*b,c);eye(RX,CY-6,ew+8,(eh+20)*b,c);const ph=Math.floor(now/200)%3;for(let i=0;i<3;i++)C(100+i*40,160,i===ph?10:6,c)}
+    else if(mood==='think'){const sw=22*Math.sin(now/350);eye(LX+sw,CY-8,ew,eh*b,c);eye(RX+sw,CY-8,ew,eh*b,c);const d=Math.floor(now/350)%4;for(let i=0;i<d;i++)C(100+i*40,160,9,c)}
+    else if(mood==='speak'){eye(LX,CY-10,ew,eh*b,c);eye(RX,CY-10,ew,eh*b,c);const mh=12+14+14*Math.sin(now/90+Math.random()*2);R(100,140,80,mh,10,'#ff7878')}
+    else if(mood==='sleep'){R(LX-36,CY+4,72,8,4,c);R(RX-36,CY+4,72,8,4,c);mk('text',{x:215+8*Math.sin(now/400),y:62,'font-size':44,'font-weight':900,'font-family':'monospace',fill:c}).textContent='z'}
     requestAnimationFrame(frame);
   }
   const mb=[...document.querySelectorAll('#moods .mood')];
-  const pick=b=>{mood=b.dataset.m;since=performance.now();mb.forEach(x=>x.classList.toggle('on',x===b))};
+  const pick=b=>{mood=b.dataset.m;mb.forEach(x=>x.classList.toggle('on',x===b))};
   mb.forEach(b=>b.onclick=()=>{b.classList.remove('on');void b.offsetWidth;pick(b)});
   pick(mb.find(x=>x.dataset.m==='happy'));
-  const tint=(top)=>{document.getElementById('tintTop').setAttribute('fill',top)};
-  const sw=[document.getElementById('cYB'),document.getElementById('cWB')];
-  const choose=(b,c)=>{tint(c);sw.forEach(x=>x.classList.toggle('on',x===b))};
-  sw[0].onclick=()=>choose(sw[0],'#ffd21f');sw[1].onclick=()=>choose(sw[1],'#ffffff');sw[0].classList.add('on');
   requestAnimationFrame(frame);
 })();
 

@@ -134,7 +134,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <span id="score" style="font-weight:700"></span>
   </div>
   <div class="msg" id="learnMsg">👆 Point at any hole!</div>
-  <div class="tip"><b>🧠 Remember</b>Holes in the <b>same column</b> on the <b>same side</b> of the middle groove are joined. The <b>long rails</b> at the top and bottom are joined all the way along.</div>
+  <div class="tip"><b>🧠 Remember</b>Holes in the <b>same column</b> on the <b>same side</b> of the middle groove are joined. The <b>long rails</b> are joined all the way along. <i>(On the big BB-102 board, each rail is cut in half in the middle, so power only travels along one half.)</i></div>
 </section>
 
 <!-- RULES -->
@@ -153,7 +153,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
 <!-- OOPS -->
 <section id="oops">
   <h2><span class="n">3</span>The classic mistake 😱</h2>
-  <p>Here are two wires. One carries the <b>GPIO17</b> signal and the other carries <b>GPIO18</b>. Switch between the wrong way and the right way.</p>
+  <p>Here are two wires. One carries the <b>GPIO9</b> signal and the other carries <b>GPIO10</b>. Switch between the wrong way and the right way.</p>
   <svg id="oopsBoard" class="boardsm" viewBox="0 20 380 520"></svg>
   <div class="controls">
     <button class="btn pink" id="bad">❌ Wrong way</button>
@@ -168,12 +168,12 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
 <section id="build">
   <h2><span class="n">4</span>Build it, step by step</h2>
   <p>Press <b>Next</b> and watch each part and wire get placed. The <span style="color:var(--pink);font-weight:800">pink pulsing circles</span> show exactly which holes to use. Copy what you see!</p>
-  <div class="grownup"><b>👩‍👧 Good to know</b>This picture matches the common ESP32-S3-DevKitC-1 layout (pin names <code>3V3 … 5V G</code> along one edge). <b>Always trust the labels printed on your own parts.</b> Pin order on the mic and amplifier can be different between brands. Column numbers here are counted from the left edge of the picture. You don't need the MB102 power module: the USB cable powers everything through the ESP32.</div>
+  <div class="grownup"><b>👩‍👧 Good to know</b>This picture matches the common ESP32-S3-DevKitC-1 layout (pin names <code>3V3 … 5V G</code> along one edge). <b>Always trust the labels printed on your own parts.</b> Pin order on the mic and amplifier can be different between brands. Column numbers here are counted from the left edge of the picture. The picture shows the <a href="https://www.amazon.com/dp/B07Q34YND5" target="_blank" rel="noopener">Makeronics BB-102</a> breadboard: <b>two long strips</b> with <b>four power rails</b>, and every rail is <b>cut in the middle</b> (between column 30 and 31), so all the power wires here stay in columns 1 to 30. The brain sits on strip 1 and the other parts on strip 2. If your breadboard is different, the same ideas work, but the column numbers will change. You don't need a power module: the USB cable powers everything through the ESP32.</div>
 
   <div class="buildgrid">
     <div class="bleft">
       <div class="boardwrap">
-        <svg id="buildBoard" class="board" viewBox="0 0 1380 800"></svg>
+        <svg id="buildBoard" class="board" viewBox="-202 175 1856 1160"></svg>
         <div class="zoombar">
           <button id="zin" title="Zoom in">＋</button><button id="zout" title="Zoom out">－</button>
           <button id="zstep" title="Focus on this step">🎯</button><button id="zall" title="Show the whole board">🏠</button>
@@ -199,7 +199,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
         <ul class="where" id="stepWhere"></ul>
         <div class="safe" id="stepOops" style="display:none"></div>
       </div>
-      <div style="font-weight:800;margin-top:10px">👇 The 13 steps (tap any one to jump):</div>
+      <div style="font-weight:800;margin-top:10px">👇 The 15 steps (tap any one to jump):</div>
       <div class="pbar"><i id="pfill"></i></div>
       <div class="dots" id="dots"></div>
       <div class="fltbar" id="flt"><b>👀 Too many wires? Show only:</b>
@@ -214,25 +214,29 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
   <h2><span class="n">5</span>Wiring checklist</h2>
   <p class="lead">Every wire in one place. Tick each one off as you plug it in. Wires are matched by <b>name</b>, like a matching game!</p>
   <div class="safe"><b>⚠️ Safety first!</b>Always <b>unplug the USB cable</b> before changing any wire. Ask a grown-up to check your wires before you plug in. A wire in the wrong place can break a part.</div>
-  <div class="tip"><b>🙌 Only the top row of the brain's pins is used!</b>On your breadboard the brain's bottom pins have no free holes, so everything plugs into the <b>top row</b> (through free <b>row a</b>). Turn the brain so the top row reads <b>G, 5V, 14, 13, 12, 11, 10, 9, 46, 3, 8, 18, 17, 16, 15, 7, 6, 5, 4, RST, 3V3, 3V3</b> from left to right, with the USB ports on the left. All the parts sit right way up on the top half.</div>
+  <div class="tip"><b>🙌 Only one row of the brain's pins is used!</b>On your breadboard the pins on one side have no free holes, so everything plugs into the row <b>next to the free holes</b>. In Breadboard Buddy's picture the free holes are at the bottom and that row reads <b>3V3, 3V3, RST, 4, 5, 6, 7, 15, 16, 17, 18, 8, 3, 46, 9, 10, 11, 12, 13, 14, 5V, G</b> (USB ports on the right). If your free holes are on the other side, the same row reads backwards: <b>G, 5V, 14, 13, 12, 11, 10, 9, 46, 3, 8, 18, 17, 16, 15, 7, 6, 5, 4, RST, 3V3, 3V3</b>. The brain is on <b>strip 1</b>. The screen, microphone and amplifier are on <b>strip 2</b>.</div>
 
   <h3>⚡ Power and ground</h3>
   <table>
     <tr><th>Wire</th><th>Goes to</th><th>Done?</th></tr>
-    <tr><td><span class="dot" style="background:#555"></span>Brain <b>G</b> pin (col 2)</td><td>top blue rail</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>3V3</b> pin (col 22)</td><td>top red rail (3.3V)</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>5V</b> pin (col 3)</td><td>the amplifier's <b>VIN</b> (see the amplifier below)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>Brain <b>G</b> pin</td><td>the blue rail under the brain (strip 1), then one more wire to the blue rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>3V3</b> pin</td><td>the red rail under the brain (strip 1), then one more wire to the red rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>5V</b> pin</td><td>the screen's <b>VCC</b> (one long wire)</td><td><input type="checkbox" class="c"></td></tr>
   </table>
 
-  <h3>😀 The face screen (4 wires)</h3>
+  <h3>😀 The face screen (8 wires)</h3>
   <table>
     <tr><th>Screen pin</th><th>Goes to</th><th>Done?</th></tr>
-    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the top blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>VDD</td><td>the top red rail (3V3) ⚠️ not 5V!</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#f7c948"></span>SCL</td><td><b>GPIO17</b></td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#5be38f"></span>SDA</td><td><b>GPIO18</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the blue ground rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>LED (backlight)</td><td>the red rail above strip 2 (3V3)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VCC</td><td>the brain's <b>5V</b> pin ⚠️ not the red rail!</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#4ea1ff"></span>CS</td><td><b>GPIO13</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#2ec4c4"></span>RESET</td><td><b>GPIO12</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff9b3d"></span>DC</td><td><b>GPIO11</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#5be38f"></span>SDI (MOSI)</td><td><b>GPIO10</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#f7c948"></span>SCK</td><td><b>GPIO9</b></td><td><input type="checkbox" class="c"></td></tr>
   </table>
-  <div class="tip"><b>👀 Read the tiny labels</b>Hold the screen with the 4 pins at the top. Left to right they say <code>GND</code> <code>VDD</code> <code>SCL</code> <code>SDA</code>. (<code>SCL</code> is the clock wire. A few screens print <code>SCK</code> instead. It is the same wire.) Match the <b>words</b>!</div>
+  <div class="tip"><b>👀 Read the names on the back of your screen</b>Turn the screen over. Every one of the 14 pins has its name printed next to it: <code>T_IRQ</code> <code>T_DO</code> <code>T_DIN</code> <code>T_CS</code> <code>T_CLK</code> <code>SDO</code> <code>LED</code> <code>SCK</code> <code>SDI</code> <code>DC</code> <code>RESET</code> <code>CS</code> <code>GND</code> <code>VCC</code>. Only <b>8</b> of them get wires. <b>SDO</b> and the five <b>T_</b> touch pins stay empty.</div>
 
   <h3>👂 The microphone (6 wires)</h3>
   <table>
@@ -240,9 +244,9 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <tr><td><span class="dot" style="background:#f7c948"></span>SCK</td><td><b>GPIO4</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#4ea1ff"></span>WS</td><td><b>GPIO5</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#5be38f"></span>SD</td><td><b>GPIO6</b></td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#555"></span>L/R</td><td>the top blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the top blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>VDD</td><td>the top red rail (3V3) ⚠️ not 5V!</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>L/R</td><td>the blue ground rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the blue ground rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VDD</td><td>the red rail above strip 2 (3V3) ⚠️ not 5V!</td><td><input type="checkbox" class="c"></td></tr>
   </table>
 
   <h3>📣 The amplifier and speaker</h3>
@@ -251,16 +255,16 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <tr><td><span class="dot" style="background:#f7c948"></span>BCLK</td><td><b>GPIO15</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#4ea1ff"></span>LRC</td><td><b>GPIO7</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#5be38f"></span>DIN</td><td><b>GPIO16</b></td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>VIN</td><td>the brain's <b>5V</b> pin (not the red rail!)</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the top blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VIN</td><td>a short red wire to the screen's <b>VCC</b> column (it borrows 5V)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the blue ground rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td>Speaker wires (2)</td><td>Amplifier <b>+</b> and <b>−</b> screw terminals (ask a grown-up to help attach them)</td><td><input type="checkbox" class="c"></td></tr>
   </table>
 
   <h3>🔘 The button</h3>
   <table>
     <tr><th>Button wire</th><th>Goes to</th><th>Done?</th></tr>
-    <tr><td><span class="dot" style="background:#a56bff"></span>NO (normally open)</td><td><b>GPIO9</b></td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#555"></span>C (common)</td><td>the top blue ground rail</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#a56bff"></span>NO (normally open)</td><td><b>GPIO14</b></td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#555"></span>C (common)</td><td>the blue ground rail under the brain (strip 1)</td><td><input type="checkbox" class="c"></td></tr>
   </table>
   <p style="margin:4px 0"><small>NC and the LED wires are not used. Leave them alone.</small></p>
 
@@ -280,7 +284,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     </svg>
     <figcaption>The big picture. Use the tables above for the exact pins.</figcaption>
   </figure>
-  <div class="safe"><b>🚫 Never use the dark red pins</b>On the brain's top row, <b>RST</b>, <b>3</b> and <b>46</b> are special pins. They can stop the brain from starting, so leave them alone. The bottom row can't be used at all on your breadboard.</div>
+  <div class="safe"><b>🚫 Never use the dark red pins</b>On the brain's pin row, <b>RST</b>, <b>3</b> and <b>46</b> are special pins. They can stop the brain from starting, so leave them alone. The pins on the other side of the brain can't be used at all on your breadboard.</div>
   <div class="card" style="text-align:center"><div style="font-size:56px">🏆</div><b>Now you're a breadboard pro!</b><br>Go back to the <a href="guide-kids.html">robot guide</a> and finish your talking friend.</div>
 </section>
 
@@ -291,37 +295,49 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
 /* ---------- geometry ---------- */
 const NS='http://www.w3.org/2000/svg', P=22;
 const YO=110;  // extra room above the board for wire lanes
-const Y={};Object.entries({bt:146,rt:168,a:214,b:236,c:258,d:280,e:302,f:356,g:378,h:400,i:422,j:444,rb:490,bb:512}).forEach(([k,v])=>Y[k]=v+YO);
+const S2=536;  // strip 2 sits this far below strip 1 (the wire lanes run in the space between)
+const Y={};Object.entries({bt:146,rt:168,a:214,b:236,c:258,d:280,e:302,f:356,g:378,h:400,i:422,j:444,rb:490,bb:512}).forEach(([k,v])=>{Y[k]=v+YO;Y[k+'2']=v+YO+S2});
 const TOP=['a','b','c','d','e'], BOT=['f','g','h','i','j'], RAILS=['bt','rt','rb','bb'];
-const COL={yellow:'#f7c948',blue:'#4ea1ff',green:'#38d27b',red:'#ff5a6a',gray:'#555',purple:'#a56bff',black:'#222'};
+const COL={yellow:'#f7c948',blue:'#4ea1ff',green:'#38d27b',red:'#ff5a6a',gray:'#555',purple:'#a56bff',black:'#222',teal:'#2ec4c4',orange:'#ff9b3d'};
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs||{})e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
 function txt(parent,x,y,s,size,fill,anchor,extra){return el('text',Object.assign({x,y,'font-size':size||10,fill:fill||'#2b2350','text-anchor':anchor||'middle','font-family':'Trebuchet MS,sans-serif','font-weight':700},extra||{}),parent).appendChild(document.createTextNode(s)).parentNode}
 
 function makeBoard(svg,c0,c1,opts={}){
+  // opts.two: draw the two strips of the Makeronics BB-102 (strip 2 keys end in "2"); opts.split: rails are cut after this column
   const X=c=>70+(c-c0)*P, pos=(c,r)=>[X(c),Y[r]];
-  const L=X(c0)-42,R=X(c1)+42;
-  el('rect',{x:L,y:Y.bt-28,width:R-L,height:418,rx:18,fill:'#f4efe2',stroke:'#cfc5a8','stroke-width':3},svg);
-  el('rect',{x:L+12,y:Y.e+16,width:R-L-24,height:24,rx:6,fill:'#dcd3b8'},svg);
-  // rail stripes
-  [['bt',-11,'#4b7bff'],['rt',11,'#ff5a6a'],['rb',-11,'#ff5a6a'],['bb',11,'#4b7bff']].forEach(([r,o,c])=>el('line',{x1:L+14,x2:R-14,y1:Y[r]+o,y2:Y[r]+o,stroke:c,'stroke-width':2.5,opacity:.7},svg));
-  [['bt','−'],['rt','+'],['rb','+'],['bb','−']].forEach(([r,s])=>txt(svg,L+16,Y[r]+4,s,13,s=='+'?'#ff5a6a':'#4b7bff'));
-  // x-ray strips
-  const xr=el('g',{class:'xray'},svg);
-  for(let c=c0;c<=c1;c++){
-    el('rect',{class:'strip',x:X(c)-6,y:Y.a-8,width:12,height:Y.e-Y.a+16,rx:5,fill:'#b7bcc8',opacity:.85},xr);
-    el('rect',{class:'strip',x:X(c)-6,y:Y.f-8,width:12,height:Y.j-Y.f+16,rx:5,fill:'#b7bcc8',opacity:.85},xr);
-  }
-  RAILS.forEach(r=>el('rect',{x:X(c0)-8,y:Y[r]-6,width:X(c1)-X(c0)+16,height:12,rx:5,fill:r[0]=='b'&&r!='bt'||r=='bt'?'#9db8ff':'#ffb0b8',opacity:.85},xr));
-  // labels
-  if(opts.labels!==false){
-    for(let c=c0;c<=c1;c++){txt(svg,X(c),Y.a-16,c,8,'#8a8470');txt(svg,X(c),Y.j+20,c,8,'#8a8470')}
-    [...TOP,...BOT].forEach(r=>{txt(svg,L+16,Y[r]+4,r,11,'#8a8470')});
-  }
+  const L=X(c0)-42,R=X(c1)+42, strips=opts.two?['','2']:[''];
+  if(opts.two)el('rect',{x:L-16,y:Y.bt-60,width:R-L+32,height:Y.bb2-Y.bt+106,rx:26,fill:'#14161c'},svg);   // the black base plate
+  const sx=opts.split?X(opts.split)+P/2:null;
+  strips.forEach(s=>{
+    const y=k=>Y[k+s];
+    el('rect',{x:L,y:y('bt')-28,width:R-L,height:418,rx:18,fill:'#f4efe2',stroke:'#cfc5a8','stroke-width':3},svg);
+    el('rect',{x:L+12,y:y('e')+16,width:R-L-24,height:24,rx:6,fill:'#dcd3b8'},svg);
+    // rail stripes (cut in two halves when the rails are split)
+    [['bt',-11,'#4b7bff'],['rt',11,'#ff5a6a'],['rb',-11,'#ff5a6a'],['bb',11,'#4b7bff']].forEach(([r,o,c])=>{
+      const segs=sx==null?[[L+14,R-14]]:[[L+14,sx-6],[sx+6,R-14]];
+      segs.forEach(([x1,x2])=>el('line',{x1,x2,y1:y(r)+o,y2:y(r)+o,stroke:c,'stroke-width':2.5,opacity:.7},svg))});
+    [['bt','−'],['rt','+'],['rb','+'],['bb','−']].forEach(([r,t])=>txt(svg,L+16,y(r)+4,t,13,t=='+'?'#ff5a6a':'#4b7bff'));
+    if(sx!=null)['bt','bb'].forEach(r=>txt(svg,sx,y(r)+(r=='bt'?-14:22),'✂ rail is cut here',8,'#c0392b'));
+    // x-ray strips
+    const xr=el('g',{class:'xray'},svg);
+    for(let c=c0;c<=c1;c++){
+      el('rect',{class:'strip',x:X(c)-6,y:y('a')-8,width:12,height:y('e')-y('a')+16,rx:5,fill:'#b7bcc8',opacity:.85},xr);
+      el('rect',{class:'strip',x:X(c)-6,y:y('f')-8,width:12,height:y('j')-y('f')+16,rx:5,fill:'#b7bcc8',opacity:.85},xr);
+    }
+    RAILS.forEach(r=>{
+      const segs=sx==null?[[X(c0)-8,X(c1)+8]]:[[X(c0)-8,sx-6],[sx+6,X(c1)+8]];
+      segs.forEach(([x1,x2])=>el('rect',{x:x1,y:y(r)-6,width:x2-x1,height:12,rx:5,fill:r[0]=='b'?'#9db8ff':'#ffb0b8',opacity:.85},xr))});
+    // labels
+    if(opts.labels!==false){
+      for(let c=c0;c<=c1;c++){txt(svg,X(c),y('a')-16,c,8,'#8a8470');txt(svg,X(c),y('j')+20,c,8,'#8a8470')}
+      [...TOP,...BOT].forEach(r=>{txt(svg,L+16,y(r)+4,r,11,'#8a8470')});
+    }
+  });
   // holes
   const holes=el('g',{},svg);
-  for(let c=c0;c<=c1;c++)[...TOP,...BOT,...RAILS].forEach(r=>{
-    const h=el('circle',{class:'h',cx:X(c),cy:Y[r],r:opts.big?5:4.2,'data-c':c,'data-r':r},holes);
-  });
+  strips.forEach(s=>{for(let c=c0;c<=c1;c++)[...TOP,...BOT,...RAILS].forEach(r=>{
+    el('circle',{class:'h',cx:X(c),cy:Y[r+s],r:opts.big?5:4.2,'data-c':c,'data-r':r+s},holes);
+  })});
   return {X,pos,holes};
 }
 function connected(c,r){ // list of [c,r] joined to this hole
@@ -407,77 +423,82 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
 /* ================= BUILD STEPPER ================= */
 (function(){
   const svg=document.getElementById('buildBoard');
-  const B=makeBoard(svg,1,56), X=B.X, pos=B.pos;
-  // The rails we use: top red = 3.3 V, top blue = ground. The bottom rails are not used.
-  [['rt','3V3',COL.red],['bt','GND','#4b7bff']].forEach(([r,t,c])=>{
-    el('rect',{x:X(56)+2,y:Y[r]-9,width:38,height:18,rx:6,fill:c},svg);txt(svg,X(56)+21,Y[r]+4,t,10,'#fff')});
+  const SPLIT=30;   // every power rail is cut in two halves: columns 1-30 and 31-61
+  const B=makeBoard(svg,1,61,{two:true,split:SPLIT}), X=B.X, pos=B.pos;
+  const DY=S2;      // how far strip 2 sits below strip 1
+  const WHOLE=[-202,175,1856,1160];   // camera rectangle that shows both strips
+  // The rails we use: red = 3.3 V, blue = ground. Strip 1 uses the rails under it, strip 2 the rails above it.
+  [['rb','3V3',COL.red],['bb','GND','#4b7bff'],['rt2','3V3',COL.red],['bt2','GND','#4b7bff']].forEach(([r,t,c])=>{
+    el('rect',{x:X(61)+2,y:Y[r]-9,width:38,height:18,rx:6,fill:c},svg);txt(svg,X(61)+21,Y[r]+4,t,10,'#fff')});
+  txt(svg,X(2)-8,Y.bt-34,'STRIP 1: the brain',13,'#fff','start');
+  txt(svg,X(33),Y.bt2-34,'STRIP 2: the parts',13,'#fff','start');
   const gP=el('g',{},svg), gW=el('g',{},svg), gR=el('g',{},svg);
 
-  /* ---- the brain: only the TOP row (row b) can be reached, through the free holes in row a ---- */
-  // Turned so the USB ports are on the LEFT, the top row reads, left to right:
-  const TOPROW=['G','5V','14','13','12','11','10','9','46','3','8','18','17','16','15','7','6','5','4','RST','3V3','3V3'];
-  // The bottom row (row j) has no free holes on a breadboard, so none of its pins can be used.
-  const BOTROW=['GND','GND','19','20','21','47','48','45','0','35','36','37','38','39','40','41','42','2','1','RX','TX','GND'];
-  const used={2:COL.gray,3:COL.red,9:COL.purple,13:COL.green,14:COL.yellow,15:COL.green,16:COL.yellow,17:COL.blue,18:COL.green,19:COL.blue,20:COL.yellow,22:COL.red};
+  /* ---- the brain: only ONE row of pins (next to the free holes) can be reached ---- */
+  // In this picture the free holes are at the bottom of strip 1 and the USB ports are on the right. That row reads, left to right:
+  const FREE=['3V3','3V3','RST','4','5','6','7','15','16','17','18','8','3','46','9','10','11','12','13','14','5V','G'];
+  // The row on the far side has no free holes on a breadboard, so none of its pins can be used.
+  const FAR=['GND','TX','RX','1','2','42','41','40','39','38','37','36','35','0','45','48','47','21','20','19','GND','GND'];
+  const used={2:COL.red,5:COL.yellow,6:COL.blue,7:COL.green,8:COL.blue,9:COL.yellow,10:COL.green,16:COL.yellow,17:COL.green,18:COL.orange,19:COL.teal,20:COL.blue,21:COL.purple,22:COL.red,23:COL.gray};
   const danger=['RST','3','46'];
 
-  /* ---- where the parts go (all on the top half, right way up) ---- */
-  const MIC=['SCK','WS','SD','L/R','VDD','GND'], MIC0=27;
-  const AMP=['LRC','BCLK','DIN','GAIN','SD','GND','VIN'], AMP0=36;
-  const OLED=['GND','VDD','SCL','SDA'], OLED0=48;
-  const sig={SCK:COL.yellow,SCL:COL.yellow,BCLK:COL.yellow,WS:COL.blue,LRC:COL.blue,SD:COL.green,SDA:COL.green,DIN:COL.green,VDD:COL.red,VIN:COL.red,GND:COL.gray,'L/R':COL.gray};
-  const micC=n=>MIC0+MIC.indexOf(n), ampC=n=>AMP0+AMP.indexOf(n), oledC=n=>OLED0+OLED.indexOf(n);
-  const topCol={'G':2,'5V':3,'9':9,'18':13,'17':14,'16':15,'15':16,'7':17,'6':18,'5':19,'4':20,'3V3':22};
-  const T=n=>[topCol[n],'a'];
-  const BTN=[X(10),58], SPK=[X(38),612+YO];
-  const AMP_T1=[X(37),460+YO], AMP_T2=[X(39),460+YO];
+  /* ---- where the parts go (all on strip 2, columns 1-30 so the rails reach them) ---- */
+  const MIC=['SCK','WS','SD','L/R','VDD','GND'], MIC0=1;
+  const AMP=['LRC','BCLK','DIN','GAIN','SD','GND','VIN'], AMP0=8;
+  // the colour screen's 14 pins, in the order printed on its back
+  const TFT=['T_IRQ','T_DO','T_DIN','T_CS','T_CLK','SDO','LED','SCK','SDI','DC','RESET','CS','GND','VCC'], TFT0=16;
+  const sig={SCK:COL.yellow,BCLK:COL.yellow,WS:COL.blue,LRC:COL.blue,CS:COL.blue,SD:COL.green,SDI:COL.green,DIN:COL.green,DC:COL.orange,RESET:COL.teal,VDD:COL.red,VIN:COL.red,VCC:COL.red,LED:COL.red,GND:COL.gray,'L/R':COL.gray};
+  const micC=n=>MIC0+MIC.indexOf(n), ampC=n=>AMP0+AMP.indexOf(n), tftC=n=>TFT0+TFT.indexOf(n);
+  const pinCol={'3V3':2,'4':5,'5':6,'6':7,'7':8,'15':9,'16':10,'9':16,'10':17,'11':18,'12':19,'13':20,'14':21,'5V':22,'G':23};
+  const T=n=>[pinCol[n],'j'];           // the free hole of that brain pin
+  const BTN=[X(28),Y.g], SPK=[X(AMP0+2),612+YO+DY];
+  const AMP_T1=[X(AMP0+1),460+YO+DY], AMP_T2=[X(AMP0+3),460+YO+DY];
 
   /* ---- part drawers ---- */
   function partGroup(anim){return el('g',{class:anim?'drop':''},gP)}
   function pinRow(g,c0,labels,row){labels.forEach((n,i)=>{const [x,y]=pos(c0+i,row);el('circle',{cx:x,cy:y,r:4.4,fill:'#d9b44a'},g);
-    el('rect',{x:x-11,y:y+8,width:22,height:14,rx:4,fill:sig[n]||'#8a8a8a'},g);txt(g,x,y+19,n,n.length>3?7:8.2,'#fff')})}
+    el('rect',{x:x-11,y:y+8,width:22,height:14,rx:4,fill:sig[n]||'#8a8a8a'},g);txt(g,x,y+19,n,n.length>4?6:(n.length>3?7:8.2),'#fff')})}
   const draw={
     esp(anim){const g=partGroup(anim);
-      const x1=X(2)-13,x2=X(23)+13,y1=Y.b-13,y2=Y.j+13,mid=(y1+y2)/2;
-      el('rect',{x:x1-30,y:mid-26,width:34,height:52,rx:8,fill:'#9aa0ad',stroke:'#6d7380','stroke-width':2},g);
-      txt(g,x1-13,mid+3,'USB',8,'#fff');
+      const x1=X(2)-13,x2=X(23)+13,y1=Y.a-13,y2=Y.i+13,mid=(y1+y2)/2;
+      el('rect',{x:x2-4,y:mid-26,width:34,height:52,rx:8,fill:'#9aa0ad',stroke:'#6d7380','stroke-width':2},g);
+      txt(g,x2+14,mid+3,'USB',8,'#fff');
       el('rect',{x:x1,y:y1,width:x2-x1,height:y2-y1,rx:10,fill:'#1f3b57',stroke:'#0f2236','stroke-width':3},g);
       el('rect',{x:X(9),y:mid-34,width:X(17)-X(9),height:68,rx:6,fill:'#141922'},g);
       txt(g,(X(9)+X(17))/2,mid-4,'ESP32-S3',16,'#fff');txt(g,(X(9)+X(17))/2,mid+16,'the brain 🧠',11,'#9fd8ff');
       const chip=(x,y,n,fill,col)=>{el('rect',{x:x-10,y,width:20,height:14,rx:4,fill},g);txt(g,x,y+11,n,n.length>2?7.5:9,col||'#fff')};
-      TOPROW.forEach((n,i)=>{const c=2+i,[x,y]=pos(c,'b');el('circle',{cx:x,cy:y,r:4.4,fill:'#d9b44a'},g);
-        chip(x,y+7,n,used[c]||(danger.includes(n)?'#7a2a2a':'#2f5478'))});
-      BOTROW.forEach((n,i)=>{const c=2+i,[x,y]=pos(c,'j');el('circle',{cx:x,cy:y,r:4.4,fill:'#8a8f99'},g);
-        chip(x,y-21,n,'#33384a','#8f96ad')});
-      txt(g,X(12.5),Y.j-34,'⛔ bottom row: no free holes, do not use',9,'#ff9b9b');
-      txt(g,X(2)-8,Y.a-28,'⬆ top row: use these',10,'#2b2350','start');
+      FREE.forEach((n,i)=>{const c=2+i,[x,y]=pos(c,'i');el('circle',{cx:x,cy:y,r:4.4,fill:'#d9b44a'},g);
+        chip(x,y-21,n,used[c]||(danger.includes(n)?'#7a2a2a':'#2f5478'))});
+      FAR.forEach((n,i)=>{const c=2+i,[x,y]=pos(c,'a');el('circle',{cx:x,cy:y,r:4.4,fill:'#8a8f99'},g);
+        chip(x,y+7,n,'#33384a','#8f96ad')});
+      txt(g,X(12.5),Y.a+44,'⛔ top row: no free holes, do not use',9,'#ff9b9b');
+      txt(g,X(32),Y.j+4,'⬅ the free row: use this one',10,'#2b2350','start');
     },
     amp(anim){const g=partGroup(anim);
       const x1=X(AMP0)-13,x2=X(AMP0+6)+13;
-      el('rect',{x:x1,y:Y.e-8,width:x2-x1,height:170,rx:8,fill:'#b8322a',stroke:'#7d1f19','stroke-width':3},g);
-      el('rect',{x:(x1+x2)/2-26,y:Y.g+6,width:52,height:36,rx:4,fill:'#141922'},g);txt(g,(x1+x2)/2,Y.g+28,'chip',10,'#fff');
-      txt(g,(x1+x2)/2,Y.h+22,'Amplifier 📣',10,'#fff');
-      pinRow(g,AMP0,AMP,'e');
-      [[AMP0+1,'+'],[AMP0+3,'−']].forEach(([c,s])=>{const x=X(c);el('rect',{x:x-14,y:438+YO,width:28,height:22,rx:3,fill:'#2fa66a',stroke:'#1b6e45','stroke-width':2},g);txt(g,x,454+YO,s,13,'#fff')});
-      txt(g,X(AMP0+2),474+YO,'OUT+ / OUT−',9,'#fff');
+      el('rect',{x:x1,y:Y.e2-8,width:x2-x1,height:170,rx:8,fill:'#b8322a',stroke:'#7d1f19','stroke-width':3},g);
+      el('rect',{x:(x1+x2)/2-26,y:Y.g2+6,width:52,height:36,rx:4,fill:'#141922'},g);txt(g,(x1+x2)/2,Y.g2+28,'chip',10,'#fff');
+      txt(g,(x1+x2)/2,Y.h2+22,'Amplifier 📣',10,'#fff');
+      pinRow(g,AMP0,AMP,'e2');
+      [[AMP0+1,'+'],[AMP0+3,'−']].forEach(([c,s])=>{const x=X(c);el('rect',{x:x-14,y:438+YO+DY,width:28,height:22,rx:3,fill:'#2fa66a',stroke:'#1b6e45','stroke-width':2},g);txt(g,x,454+YO+DY,s,13,'#fff')});
+      txt(g,X(AMP0+2),474+YO+DY,'OUT+ / OUT−',9,'#fff');
     },
     mic(anim){const g=partGroup(anim);
       const x1=X(MIC0)-13,x2=X(MIC0+5)+13,cx=(x1+x2)/2;
-      el('rect',{x:x1,y:Y.e-8,width:x2-x1,height:118,rx:8,fill:'#2a4fb5',stroke:'#1b3580','stroke-width':3},g);
-      el('circle',{cx,cy:Y.g+30,r:17,fill:'#c9ced8',stroke:'#7b8190','stroke-width':3},g);el('circle',{cx,cy:Y.g+30,r:6,fill:'#222'},g);
-      txt(g,cx,Y.h+50,'Microphone 👂',10,'#fff');
-      pinRow(g,MIC0,MIC,'e');
+      el('rect',{x:x1,y:Y.e2-8,width:x2-x1,height:118,rx:8,fill:'#2a4fb5',stroke:'#1b3580','stroke-width':3},g);
+      el('circle',{cx,cy:Y.g2+30,r:17,fill:'#c9ced8',stroke:'#7b8190','stroke-width':3},g);el('circle',{cx,cy:Y.g2+30,r:6,fill:'#222'},g);
+      txt(g,cx,Y.h2+50,'Microphone 👂',10,'#fff');
+      pinRow(g,MIC0,MIC,'e2');
     },
-    oled(anim){const g=partGroup(anim);
-      const cx=(X(OLED0)+X(OLED0+3))/2, x1=cx-112, x2=cx+112, y1=Y.e-8, y2=y1+214;
-      el('rect',{x:x1,y:y1,width:x2-x1,height:y2-y1,rx:10,fill:'#1c3f9e',stroke:'#0e2466','stroke-width':3},g);
-      [[x1+16,y1+16],[x2-16,y1+16],[x1+16,y2-16],[x2-16,y2-16]].forEach(([mx,my])=>{el('circle',{cx:mx,cy:my,r:9,fill:'#dfe3ea',stroke:'#8b93a3','stroke-width':2},g);el('circle',{cx:mx,cy:my,r:4,fill:'#1c3f9e'},g)});
-      el('rect',{x:x1+8,y:y1+58,width:x2-x1-16,height:116,rx:4,fill:'#111',stroke:'#000','stroke-width':2},g);
-      el('rect',{x:x1+8,y:y1+58,width:x2-x1-16,height:28,rx:3,fill:'#1a1a12'},g);
-      el('rect',{x:cx-62,y:y1+100,width:30,height:44,rx:12,fill:'#5ec8ff'},g);el('rect',{x:cx+32,y:y1+100,width:30,height:44,rx:12,fill:'#5ec8ff'},g);
-      txt(g,cx-70,y1+78,'READY',10,'#ffd84a');
-      txt(g,cx,y2+16,'Face screen 😀',10,'#2b2350');
-      pinRow(g,OLED0,OLED,'e');
+    tft(anim){const g=partGroup(anim);
+      const x1=X(TFT0)-22,x2=X(TFT0+13)+22,y1=Y.e2-8,h=300,cx=(x1+x2)/2;
+      el('rect',{x:x1,y:y1,width:x2-x1,height:h,rx:8,fill:'#c0282d',stroke:'#7d1519','stroke-width':3},g);
+      el('rect',{x:x1+14,y:y1+64,width:x2-x1-28,height:150,rx:6,fill:'#0b0f1a',stroke:'#222','stroke-width':2},g);
+      el('rect',{x:cx-64,y:y1+104,width:38,height:46,rx:13,fill:'#00dcff'},g);el('rect',{x:cx+26,y:y1+104,width:38,height:46,rx:13,fill:'#00dcff'},g);
+      el('rect',{x:cx-26,y:y1+172,width:52,height:10,rx:5,fill:'#ffdc3c'},g);
+      txt(g,cx,y1+238,'Face screen 😀',11,'#fff');
+      txt(g,cx,y1+256,'(most of it hangs off the edge)',9,'#ffd0d0');
+      pinRow(g,TFT0,TFT,'e2');
     },
     btn(anim){const g=partGroup(anim);
       el('circle',{cx:BTN[0],cy:BTN[1],r:30,fill:'#b7bcc8',stroke:'#7b8190','stroke-width':4},g);
@@ -492,69 +513,79 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
   };
 
   /* ---- wires ---- */
-  // short straight wire, or a "lane" wire that runs along its own straight line above the board
+  // short straight wire, or a "lane" wire that runs along its own straight line in the gap between the two strips
   const W=(a,b,color,grp)=>({k:'w',a,b,color,lift:0,dx:0,grp});
-  const LT=n=>Y.bt-125+n*9;          // lane 0 is the highest, lane 8 the lowest
+  const LT=n=>Y.bb+40+n*9;           // lane 0 is the highest, lane 8 the lowest
   const L=(a,b,color,lane,grp)=>({k:'w',a,b,color,lift:0,dx:0,lane,grp});
 
   const STEPS=[
    {t:'Put the brain on the board 🧠',
-    say:'On your breadboard you can only reach <b>one</b> row of the brain\'s pins: the top one. Turn the brain so the <b>USB-C ports are on the LEFT</b>. Make it <b>straddle the middle groove</b>, like sitting on a horse, with its pins in <b>row B</b> (top) and <b>row J</b> (bottom). Push down gently and evenly. Then read the names on the <b>top row</b>. From left to right they must say: <b>G, 5V, 14, 13, 12, 11, 10, 9, 46, 3, 8, 18, 17, 16, 15, 7, 6, 5, 4, RST, 3V3, 3V3</b>. If they say <b>GND, TX, RX, 1, 2…</b> instead, turn the brain half a turn around.',
-    where:[['The left pin end goes in column 2',COL.gray],['The right pin end goes in column 23',COL.red],['Only <b>row a</b> (above the top pins) is free. The bottom pins sit in the last row, so they <b>cannot</b> be used',COL.green]],
-    oops:'Columns 2 to 23 belong to the brain. Only <b>wires that go to the brain\'s top pins</b> use the free holes in row a there. Never put a part or any other wire in those columns. The dark red names (RST, 3, 46) are special pins. Never use them. <b>If your top row does not read G, 5V, 14, 13…, stop and ask a grown-up before wiring.</b>',
-    items:[{k:'part',n:'esp'}], rings:[[2,'b'],[23,'b'],[2,'a'],[23,'a']]},
+    say:'Your breadboard has <b>two long strips</b>. The <b>brain</b> goes on <b>strip 1</b> (the top one in this picture), and all the other parts go on strip 2. On your breadboard you can only reach <b>one</b> row of the brain\'s pins: the row next to the free holes. Make the brain <b>straddle the middle groove</b>, like sitting on a horse. Push down gently and evenly, until it sits flat and <b>every pin is in</b>. Turn it so the free holes are at the <b>bottom</b>, with the USB ports on the <b>right</b>. Then the row next to the free holes reads, left to right: <b>3V3, 3V3, RST, 4, 5, 6, 7, 15, 16, 17, 18, 8, 3, 46, 9, 10, 11, 12, 13, 14, 5V, G</b>. If that row reads <b>G, 5V, 14, 13 …</b> backwards, or says <b>GND, TX, RX, 1, 2…</b> instead, turn the brain half a turn around.',
+    where:[['The left pin end goes in column 2',COL.red],['The right pin end goes in column 23',COL.gray],['Only the <b>free row</b> (the bottom one) has holes left. The pins on the other side <b>cannot</b> be used',COL.green]],
+    oops:'Columns 2 to 23 of strip 1 belong to the brain. Only <b>wires that go to the brain\'s pins</b> use the free holes there. Never put a part or any other wire in those columns. The dark red names (RST, 3, 46) are special pins. Never use them. <b>If the row next to your free holes does not show those names, stop and ask a grown-up before wiring.</b>',
+    items:[{k:'part',n:'esp'}], rings:[[2,'a'],[23,'a'],[2,'i'],[23,'i']]},
    {t:'Make the ground highway 🛣️',
-    say:'Ground (GND) is the "return road" for electricity. Everything needs to reach it. The top row has one <b>G</b> pin, the first one on the left. Run <b>one wire</b> from it to the <b>top blue rail</b>. Now the whole rail is ground, and every part can share it!',
-    where:[['G pin (col 2, row a) → top blue rail (col 2)',COL.gray]],
-    oops:'Blue rail = ground only. Some long boards have rails that are <b>split in the middle</b>. Ask a grown-up to check with a multimeter (continuity mode) that the top blue rail is joined from column 2 all the way to column 48. If not, add one extra bridging wire.',
-    items:[W([2,'a'],[2,'bt'],COL.gray,'power')]},
+    say:'Ground (GND) is the "return road" for electricity. Everything needs to reach it. The pin row has one <b>G</b> pin, at the right end. Run <b>one wire</b> from it to the <b>blue rail</b> just below the brain. Then carry the ground over to strip 2 with a second wire, from that blue rail to the <b>blue rail above strip 2</b>. Now both rails are ground, and every part can share it!',
+    where:[['Gray: G pin (col 23, free row) → strip 1 blue rail (col 23)',COL.gray],['Gray: strip 1 blue rail (col 12) → strip 2 blue rail (col 12)',COL.gray]],
+    oops:'Blue rail = ground only. Your breadboard\'s rails are <b>cut in the middle</b> (a little gap after column 30), so always stay in <b>columns 1 to 30</b>, which are the powered half. The two strips have separate rails, which is why the second wire is needed. A grown-up can check with a multimeter (continuity mode) that a blue rail is joined from column 1 to column 30.',
+    items:[W([23,'j'],[23,'bb'],COL.gray,'power'),W([12,'bb'],[12,'bt2'],COL.gray,'power')]},
    {t:'Make the 3.3V power highway ⚡',
-    say:'The microphone and the face screen drink <b>3.3 volts</b>. The brain has two <b>3V3</b> pins at the right end of the top row. Run one wire from the pin at column 22 to the <b>top red rail</b>. Now the whole red rail is 3.3 volts.',
-    where:[['Red: 3V3 pin (col 22, row a) → top red rail (col 22)',COL.red]],
-    oops:'The red rail is <b>3.3V only</b>. The loud amplifier needs 5V, which comes straight from the brain\'s <b>5V</b> pin later. Never connect the 5V pin to this rail.',
-    items:[W([22,'a'],[22,'rt'],COL.red,'power')]},
-   {t:'Give it a face! 😀',
-    say:'The little OLED screen is your robot\'s <b>face</b>. Hold it with the 4 pins at the top, so you can read its words. Push the pins into row <b>e</b>, columns <b>48 to 51</b>. The screen will lie flat over the holes below it, and that\'s fine. Then add 4 wires: power, ground and two wires that carry the picture.',
-    where:[['Pins → row e, columns 48 to 51 (GND, VDD, SCL, SDA)',COL.green],['Gray: screen GND (col 48, row b) → top blue rail',COL.gray],['Red: top red rail → VDD (col 49, row b)',COL.red],['Yellow: pin 17 (col 14, row a) → SCL (col 50, row b)',COL.yellow],['Green: pin 18 (col 13, row a) → SDA (col 51, row b)',COL.green]],
-    oops:'Match the words printed on YOUR screen: <b>GND, VDD, SCL, SDA</b> (pin 1 is GND). <b>SCL</b> is the clock wire. A few screens print SCK instead. It is the same wire. Swapping VDD and GND can break the screen. Red goes to the 3.3V rail only!',
-    items:[{k:'part',n:'oled'},W([oledC('VDD'),'rt'],[oledC('VDD'),'b'],COL.red,'face'),W([oledC('GND'),'b'],[oledC('GND'),'bt'],COL.gray,'face'),
-           L(T('18'),[oledC('SDA'),'b'],COL.green,LT(1),'face'),L(T('17'),[oledC('SCL'),'b'],COL.yellow,LT(2),'face')],
-    rings:[[48,'e'],[51,'e']]},
+    say:'The microphone and the screen\'s backlight drink <b>3.3 volts</b>. The brain has two <b>3V3</b> pins at the left end of the row. Run one wire from the first one (column 2) to the <b>red rail</b> just below the brain. Then carry it over to strip 2 with a second wire, from that red rail to the <b>red rail above strip 2</b>. Now both red rails are 3.3 volts.',
+    where:[['Red: 3V3 pin (col 2, free row) → strip 1 red rail (col 2)',COL.red],['Red: strip 1 red rail (col 11) → strip 2 red rail (col 11)',COL.red]],
+    oops:'The red rails are <b>3.3V only</b>. The loud parts need 5V, which comes from the brain\'s <b>5V</b> pin. Never connect the 5V pin to a rail. Remember the rails are cut after column 30, so keep every power wire in <b>columns 1 to 30</b>.',
+    items:[W([2,'j'],[2,'rb'],COL.red,'power'),W([11,'rb'],[11,'rt2'],COL.red,'power')]},
+   {t:'Add the face screen 😀',
+    say:'The big colour screen is your robot\'s <b>face</b>. Look at the <b>back</b> of the screen: it has a row of <b>14 pins</b>, and every pin has its name printed beside it. Push the 14 pins into row <b>e</b> of <b>strip 2</b>, columns <b>16 to 29</b>, with the pin named <b>T_IRQ</b> on the left and <b>VCC</b> on the right. Most of the screen will hang off the edge of the breadboard, and that\'s fine. Only <b>8</b> of the 14 pins get wires.',
+    where:[['Pins → strip 2, row e, columns 16 to 29 (T_IRQ … VCC, left to right)',COL.green],['Only these 8 get wires: LED, SCK, SDI, DC, RESET, CS, GND, VCC',COL.yellow],['The touch pins (T_…) and SDO stay empty',COL.black]],
+    oops:'Check the names on <b>your</b> screen. If VCC is at the other end, turn the screen around. Never put wires on the <b>T_</b> touch pins or on <b>SDO</b>. The screen\'s 14 pins use their own 14 columns. Nothing else goes in those columns.',
+    items:[{k:'part',n:'tft'}], rings:[[16,'e2'],[29,'e2']]},
+   {t:'Power the face ⚡',
+    say:'The screen needs three power wires. <b>GND</b> goes to the blue ground rail above strip 2. <b>LED</b> (the backlight) goes to the red 3.3V rail above strip 2. <b>VCC</b> goes to the brain\'s <b>5V</b> pin, the second pin from the right end of the row. That long wire carries 5V to the screen.',
+    where:[['Gray: GND (col 28, row b) → strip 2 blue rail',COL.gray],['Red: strip 2 red rail → LED (col 22, row b)',COL.red],['Red: 5V pin (col 22, free row) → VCC (col 29, row b)',COL.red]],
+    oops:'Two red wires, two different jobs! <b>LED</b> goes to the <b>red rail</b> (3.3V). <b>VCC</b> goes to the brain\'s <b>5V</b> pin. Never put 5V on LED.',
+    items:[W([tftC('GND'),'b2'],[tftC('GND'),'bt2'],COL.gray,'face'),W([tftC('LED'),'rt2'],[tftC('LED'),'b2'],COL.red,'face'),
+           L(T('5V'),[tftC('VCC'),'b2'],COL.red,LT(0),'face')]},
+   {t:'Hook up the face\'s picture wires 🎨',
+    say:'Five thin wires carry the picture from the brain to the screen: <b>pin 13 → CS</b>, <b>pin 12 → RESET</b>, <b>pin 11 → DC</b>, <b>pin 10 → SDI</b>, <b>pin 9 → SCK</b>. Match the names! They run along their own lanes in the gap between the two strips.',
+    where:[['Blue: pin 13 (col 20) → CS (col 27, row b)',COL.blue],['Teal: pin 12 (col 19) → RESET (col 26, row b)',COL.teal],['Orange: pin 11 (col 18) → DC (col 25, row b)',COL.orange],['Green: pin 10 (col 17) → SDI (col 24, row b)',COL.green],['Yellow: pin 9 (col 16) → SCK (col 23, row b)',COL.yellow]],
+    oops:'The screen only listens, so <b>SDO</b> stays empty. If two of these wires are swapped, the screen stays dark or shows static. Wires in their own lanes never touch.',
+    items:[L(T('13'),[tftC('CS'),'b2'],COL.blue,LT(1),'face'),L(T('12'),[tftC('RESET'),'b2'],COL.teal,LT(2),'face'),L(T('11'),[tftC('DC'),'b2'],COL.orange,LT(3),'face'),
+           L(T('10'),[tftC('SDI'),'b2'],COL.green,LT(4),'face'),L(T('9'),[tftC('SCK'),'b2'],COL.yellow,LT(5),'face')]},
    {t:'Add the ear 👂 (microphone)',
-    say:'Push the microphone\'s 6 pins into row <b>e</b> of columns <b>27 to 32</b>. It is far from the brain and the face screen, so no column is shared.',
-    where:[['First pin (SCK) → column 27, row e',COL.yellow],['Last pin (GND) → column 32, row e',COL.gray]],
-    oops:'Check: the mic must NOT be in the same columns as the brain (2–23) or the other parts.',
-    items:[{k:'part',n:'mic'}], rings:[[27,'e'],[32,'e']]},
+    say:'Push the microphone\'s 6 pins into row <b>e</b> of <b>strip 2</b>, columns <b>1 to 6</b>. It is far from the screen, so no column is shared.',
+    where:[['First pin (SCK) → strip 2, column 1, row e',COL.yellow],['Last pin (GND) → column 6, row e',COL.gray]],
+    oops:'Check: the mic must NOT be in the same columns as the other parts.',
+    items:[{k:'part',n:'mic'}], rings:[[1,'e2'],[6,'e2']]},
    {t:'Power the microphone ⚡',
-    say:'The mic drinks <b>3.3 volts</b>. Connect its <b>VDD</b> to the top red rail (red wire). Ground it: <b>GND</b> to the top blue rail. Then tie <b>L/R</b> to the blue rail too, to say "use the left channel".',
-    where:[['Red: top red rail → VDD (col 31, row b)',COL.red],['Gray: GND (col 32, row b) → top blue rail',COL.gray],['Gray: L/R (col 30, row b) → top blue rail',COL.gray]],
+    say:'The mic drinks <b>3.3 volts</b>. Connect its <b>VDD</b> to the red rail above strip 2 (red wire). Ground it: <b>GND</b> to the blue rail above strip 2. Then tie <b>L/R</b> to the blue rail too, to say "use the left channel".',
+    where:[['Red: strip 2 red rail → VDD (col 5, row b)',COL.red],['Gray: GND (col 6, row b) → strip 2 blue rail',COL.gray],['Gray: L/R (col 4, row b) → strip 2 blue rail',COL.gray]],
     oops:'VDD must go to the <b>red rail</b> (3.3V). Never to the brain\'s 5V pin. 5V can damage the mic!',
-    items:[W([micC('VDD'),'rt'],[micC('VDD'),'b'],COL.red,'ear'),W([micC('GND'),'b'],[micC('GND'),'bt'],COL.gray,'ear'),W([micC('L/R'),'b'],[micC('L/R'),'bt'],COL.gray,'ear')]},
+    items:[W([micC('VDD'),'rt2'],[micC('VDD'),'b2'],COL.red,'ear'),W([micC('GND'),'b2'],[micC('GND'),'bt2'],COL.gray,'ear'),W([micC('L/R'),'b2'],[micC('L/R'),'bt2'],COL.gray,'ear')]},
    {t:'Hook up the microphone\'s signals 🎤',
-    say:'Three thin wires carry sound data from the mic to the brain: <b>pin 4 → SCK</b>, <b>pin 5 → WS</b>, <b>pin 6 → SD</b>. They run along their own lanes above the board.',
-    where:[['Yellow: pin 4 (col 20, row a) → SCK (col 27, row b)',COL.yellow],['Blue: pin 5 (col 19, row a) → WS (col 28, row b)',COL.blue],['Green: pin 6 (col 18, row a) → SD (col 29, row b)',COL.green]],
+    say:'Three thin wires carry sound data from the mic to the brain: <b>pin 4 → SCK</b>, <b>pin 5 → WS</b>, <b>pin 6 → SD</b>. They run along their own lanes in the gap between the two strips.',
+    where:[['Yellow: pin 4 (col 5) → SCK (col 1, row b)',COL.yellow],['Blue: pin 5 (col 6) → WS (col 2, row b)',COL.blue],['Green: pin 6 (col 7) → SD (col 3, row b)',COL.green]],
     oops:'Match the <b>names</b> on the mic and on the brain. Wires in their own lanes never touch.',
-    items:[L(T('4'),[micC('SCK'),'b'],COL.yellow,LT(8),'ear'),L(T('5'),[micC('WS'),'b'],COL.blue,LT(7),'ear'),L(T('6'),[micC('SD'),'b'],COL.green,LT(6),'ear')]},
+    items:[L(T('4'),[micC('SCK'),'b2'],COL.yellow,LT(6),'ear'),L(T('5'),[micC('WS'),'b2'],COL.blue,LT(7),'ear'),L(T('6'),[micC('SD'),'b2'],COL.green,LT(8),'ear')]},
    {t:'Add the voice box 📣 (amplifier)',
-    say:'Push the amplifier\'s 7 pins into row <b>e</b>, columns <b>36 to 42</b>. The speaker wires will come out of its green screw blocks.',
-    where:[['First pin (LRC) → column 36, row e',COL.blue],['Last pin (VIN) → column 42, row e',COL.red]],
+    say:'Push the amplifier\'s 7 pins into row <b>e</b> of <b>strip 2</b>, columns <b>8 to 14</b>. The speaker wires will come out of its green screw blocks.',
+    where:[['First pin (LRC) → strip 2, column 8, row e',COL.blue],['Last pin (VIN) → column 14, row e',COL.red]],
     oops:'The <code>GAIN</code> and <code>SD</code> pins stay empty. No wires there!',
-    items:[{k:'part',n:'amp'}], rings:[[36,'e'],[42,'e']]},
+    items:[{k:'part',n:'amp'}], rings:[[8,'e2'],[14,'e2']]},
    {t:'Power the amplifier ⚡',
-    say:'The amplifier needs the strong <b>5V</b>. Connect the brain\'s <b>5V</b> pin (the second pin from the left on the top row) to the amp\'s <b>VIN</b>. It is a long red wire. Then connect the amp\'s <b>GND</b> to the top blue rail.',
-    where:[['Red: 5V pin (col 3, row a) → VIN (col 42, row b)',COL.red],['Gray: amp GND (col 41, row b) → top blue rail',COL.gray]],
-    oops:'Mixing up VIN and GND can break the amplifier. Red = power, gray = ground. Never put the 5V wire on the red rail. Double check with a grown-up!',
-    items:[L(T('5V'),[ampC('VIN'),'b'],COL.red,LT(0),'voice'),W([ampC('GND'),'b'],[ampC('GND'),'bt'],COL.gray,'voice')]},
+    say:'The amplifier needs the strong <b>5V</b> too. The screen\'s <b>VCC</b> already has 5V, so we <b>borrow</b> it: one red wire from a free hole in the <b>VCC column</b> to a free hole in the amplifier\'s <b>VIN column</b>. Then connect the amp\'s <b>GND</b> to the blue rail above strip 2.',
+    where:[['Red: free hole in the screen\'s VCC column (col 29, row d) → free hole in the amp\'s VIN column (col 14, row d)',COL.red],['Gray: amp GND (col 13, row b) → strip 2 blue rail',COL.gray]],
+    oops:'Use <b>row d</b> for the red wire so it stays out of the way. Both holes must be in the <b>same column as the pin</b>. Mixing up VIN and GND can break the amplifier. Red = power, gray = ground. Double check with a grown-up!',
+    items:[W([tftC('VCC'),'d2'],[ampC('VIN'),'d2'],COL.red,'voice'),W([ampC('GND'),'b2'],[ampC('GND'),'bt2'],COL.gray,'voice')]},
    {t:'Hook up the amplifier\'s signals 📡',
-    say:'Three data wires take the voice from the brain to the amp: <b>pin 7 → LRC</b>, <b>pin 15 → BCLK</b>, <b>pin 16 → DIN</b>.',
-    where:[['Blue: pin 7 (col 17, row a) → LRC (col 36, row b)',COL.blue],['Yellow: pin 15 (col 16, row a) → BCLK (col 37, row b)',COL.yellow],['Green: pin 16 (col 15, row a) → DIN (col 38, row b)',COL.green]],
+    say:'Three data wires take the voice from the brain to the amp: <b>pin 7 → LRC</b>, <b>pin 15 → BCLK</b>, <b>pin 16 → DIN</b>. Each one drops straight down from the brain to the amp.',
+    where:[['Blue: pin 7 (col 8) → LRC (col 8, row b)',COL.blue],['Yellow: pin 15 (col 9) → BCLK (col 9, row b)',COL.yellow],['Green: pin 16 (col 10) → DIN (col 10, row b)',COL.green]],
     oops:'Careful! LRC and BCLK sit next to each other. Read the little labels on the amp before you plug in.',
-    items:[L(T('7'),[ampC('LRC'),'b'],COL.blue,LT(5),'voice'),L(T('15'),[ampC('BCLK'),'b'],COL.yellow,LT(4),'voice'),L(T('16'),[ampC('DIN'),'b'],COL.green,LT(3),'voice')]},
+    items:[W(T('7'),[ampC('LRC'),'b2'],COL.blue,'voice'),W(T('15'),[ampC('BCLK'),'b2'],COL.yellow,'voice'),W(T('16'),[ampC('DIN'),'b2'],COL.green,'voice')]},
    {t:'Add the big button 🔘',
-    say:'Your button has several wires. The switch ones are labelled <b>C</b>, <b>NO</b> and <b>NC</b>. We only use <b>two</b>: <b>NO</b> goes to brain pin <b>9</b> and <b>C</b> goes to the <b>top blue ground rail</b>. When you push the button, pin 9 touches ground, and the brain knows you want to talk!',
-    where:[['Purple: <b>NO</b> (normally open) → pin 9 (col 9, row a)',COL.purple],['Gray: <b>C</b> (common) → top blue rail (col 11)',COL.gray],['<b>NC</b> and the LED wires (+ and −): leave them alone',COL.black]],
-    oops:'<b>C</b> = Common, the shared wire. <b>NO</b> = Normally Open: not connected until you push (this is the one we want). <b>NC</b> = Normally Closed: connected until you push. If you use NC by mistake, the robot thinks the button is always pressed! The button itself is not on the breadboard, only its wires. <b>Never connect the LED wires of a 12V, 24V or 220V button to this board.</b> <b>Not sure which wire is which?</b> Use the Button Finder: upload <code>arduino / Button_Test / Button_Test.ino</code>, then touch one wire to the pin 9 hole and another to the blue ground rail. The right pair says <b>PRESSED</b> only while you push.',
-    items:[{k:'part',n:'btn'},W([BTN[0]-22,BTN[1]+30],T('9'),COL.purple,'button'),W([BTN[0]+22,BTN[1]+30],[11,'bt'],COL.gray,'button')]},
+    say:'Your button has several wires. The switch ones are labelled <b>C</b>, <b>NO</b> and <b>NC</b>. We only use <b>two</b>: <b>NO</b> goes to brain pin <b>14</b> and <b>C</b> goes to the <b>blue ground rail</b> under the brain. When you push the button, pin 14 touches ground, and the brain knows you want to talk!',
+    where:[['Purple: <b>NO</b> (normally open) → pin 14 (col 21, free row)',COL.purple],['Gray: <b>C</b> (common) → strip 1 blue rail (col 29)',COL.gray],['<b>NC</b> and the LED wires (+ and −): leave them alone',COL.black]],
+    oops:'<b>C</b> = Common, the shared wire. <b>NO</b> = Normally Open: not connected until you push (this is the one we want). <b>NC</b> = Normally Closed: connected until you push. If you use NC by mistake, the robot thinks the button is always pressed! The button itself is not on the breadboard, only its wires. <b>Never connect the LED wires of a 12V, 24V or 220V button to this board.</b> <b>Not sure which wire is which?</b> Use the Button Finder: upload <code>arduino / Button_Test / Button_Test.ino</code>, then touch one wire to the pin 14 hole and another to the blue ground rail. The right pair says <b>PRESSED</b> only while you push.',
+    items:[{k:'part',n:'btn'},W([BTN[0]-22,BTN[1]+30],T('14'),COL.purple,'button'),W([BTN[0]+22,BTN[1]+30],[29,'bb'],COL.gray,'button')]},
    {t:'Connect the speaker 🔊',
     say:'The speaker has 2 wires. Ask a grown-up to help you screw them into the green <b>OUT+</b> and <b>OUT−</b> blocks on the amplifier. Turn the little screw to the left to open, slide the bare wire in, and tighten to the right.',
     where:[['Red wire: speaker + → amp OUT+',COL.red],['Black wire: speaker − → amp OUT−',COL.black]],
@@ -562,16 +593,16 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     items:[{k:'part',n:'spk'},W([SPK[0]-16,SPK[1]-40],AMP_T1,COL.red,'voice'),W([SPK[0]+16,SPK[1]-40],AMP_T2,COL.black,'voice')]},
    {t:'Final strip check ✅',
     say:'Look at your board. <b>Every column should have ONE job.</b> Too many wires? Use the buttons under the picture to show just one part\'s wires. Then ask a grown-up to double-check before plugging in the USB cable!',
-    where:[['Brain in columns 2–23, USB ports on the left, wires only in row a',COL.green],['Microphone in 27–32, amplifier in 36–42, face screen in 48–51, all on the top half',COL.green],['Red rail = 3.3V (mic and face). The amplifier gets 5V from the brain\'s 5V pin',COL.red],['Blue rail: brain G, face, mic ×2, amp, button',COL.gray]],
+    where:[['Strip 1: the brain in columns 2–23, wires only in the free row',COL.green],['Strip 2: microphone in 1–6, amplifier in 8–14, face screen in 16–29',COL.green],['Red rails = 3.3V (mic and screen backlight). The 5V wire goes to the screen\'s VCC, then is borrowed by the amplifier',COL.red],['Blue rails: brain G, screen GND, mic ×2, amp, button. All power wires stay in columns 1–30',COL.gray]],
     oops:'',
     items:[], rings:[]}
   ];
 
   /* ---------- rendering ---------- */
   const dots=document.getElementById('dots');
-  const SHORT=['Brain','Ground','Power','Face','Ear','Ear power','Ear data','Voice box','Voice power','Voice data','Button','Speaker','Check'];
+  const SHORT=['Brain','Ground','Power','Face','Face power','Face wires','Ear','Ear power','Ear data','Voice box','Voice power','Voice data','Button','Speaker','Check'];
   STEPS.forEach((s,i)=>{const d=document.createElement('button');d.title=s.t;d.innerHTML=`<b>${i+1}</b>${SHORT[i]}`;d.onclick=()=>go(i);dots.appendChild(d)});
-  let cur=0, flt='all', closeUp=true, vb=[0,0,1380,800], tvb=[0,0,1380,800], raf=null;
+  let cur=0, flt='all', closeUp=true, vb=WHOLE.slice(), tvb=WHOLE.slice(), raf=null;
   const LAST=STEPS.length-1;
   const pt=p=>Array.isArray(p)?(typeof p[1]==='string'?pos(p[0],p[1]):p):p;
 
@@ -584,17 +615,17 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     if(cls.length)g.setAttribute('class',cls.join(' '));
   }
   function stepPoints(s){
-    const pts=[], cxo=(X(OLED0)+X(OLED0+3))/2;
+    const pts=[];
     s.items.forEach(it=>{
       if(it.k=='part'){
-        const r={esp:[X(2)-40,Y.b-20,X(23)+20,Y.j+20],mic:[X(MIC0)-20,Y.e-20,X(MIC0+5)+20,Y.e+125],amp:[X(AMP0)-20,Y.e-20,X(AMP0+6)+20,480+YO],oled:[cxo-120,Y.e-20,cxo+120,Y.e+225],btn:[BTN[0]-70,BTN[1]-40,BTN[0]+140,BTN[1]+40],spk:[SPK[0]-60,SPK[1]-60,SPK[0]+140,SPK[1]+60]}[it.n];
+        const r={esp:[X(2)-20,Y.a-20,X(23)+40,Y.j+20],mic:[X(MIC0)-20,Y.e2-20,X(MIC0+5)+20,Y.e2+125],amp:[X(AMP0)-20,Y.e2-20,X(AMP0+6)+20,480+YO+DY],tft:[X(TFT0)-30,Y.e2-20,X(TFT0+13)+30,Y.e2+310],btn:[BTN[0]-70,BTN[1]-40,BTN[0]+140,BTN[1]+40],spk:[SPK[0]-60,SPK[1]-60,SPK[0]+140,SPK[1]+60]}[it.n];
         pts.push([r[0],r[1]],[r[2],r[3]]);
       }else{const a=pt(it.a),b=pt(it.b);pts.push(a,b);if(it.lane!=null)pts.push([a[0],it.lane],[b[0],it.lane]);else if(it.feed)pts.push([X(1),Y.a-16]);}
     });
     return pts;
   }
   function fit(pts,minW=420,margin=70){
-    if(!pts.length)return[0,30,1380,800];
+    if(!pts.length)return WHOLE;
     let x1=Math.min(...pts.map(p=>p[0]))-margin,x2=Math.max(...pts.map(p=>p[0]))+margin,y1=Math.min(...pts.map(p=>p[1]))-margin,y2=Math.max(...pts.map(p=>p[1]))+margin;
     let w=Math.max(x2-x1,minW),h=Math.max(y2-y1,w/1.6);
     if(w/h<1.6)w=h*1.6;else h=w/1.6;
@@ -631,12 +662,12 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
   document.getElementById('zin').onclick=()=>zoomAt(...centre(),1/1.4);
   document.getElementById('zout').onclick=()=>zoomAt(...centre(),1.4);
   document.getElementById('zstep').onclick=()=>{stopCam();camTo(fit(stepPoints(STEPS[cur])))};
-  document.getElementById('zall').onclick=()=>{stopCam();camTo([0,20,1380,800])};
+  document.getElementById('zall').onclick=()=>{stopCam();camTo(WHOLE)};
 
   // ---- camera: zoom in close so the connector names are easy to read, and follow each wire ----
   let camTimers=[];
   const camTo=r=>{tvb=r;animateVB()};
-  const focusPt=p=>{const w=380,h=w/1.6,cy=p[1]+(p[1]<Y.e?45:(p[1]>Y.f?-45:0));return[p[0]-w/2,cy-h/2,w,h]};
+  const focusPt=p=>{const w=380,h=w/1.6,cy=p[1];return[p[0]-w/2,cy-h/2,w,h]};
   const dist=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
   const isFar=it=>it.k=='w'&&dist(pt(it.a),pt(it.b))>380;
   let stepSecs=3;   // how long the current step's animation lasts (used by auto-play)
@@ -665,7 +696,7 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     s.items.forEach(it=>{if(it.k=='w'){ring(it.a);ring(it.b)}});
     (s.rings||[]).forEach(r=>ring(r[0],r[1]));
     stepSecs=anim?Math.max(endT,3):3;
-    if(n==LAST){camTo([0,20,1380,800]);return}
+    if(n==LAST){camTo(WHOLE);return}
     if(anim&&closeUp&&timeline.length){
       const part=s.items.filter(it=>it.k=='part');
       camTo(part.length?fit(stepPoints({items:part})):timeline[0][1]);
@@ -727,7 +758,7 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     g.innerHTML='';svg.querySelectorAll('.strip').forEach(s=>s.classList.remove('glow'));
     svg.classList.add('showx');
     const a=[B.X(3),70], b=[B.X(bad?3:5),70];
-    chip(B.X(3)-10,'GPIO17',COL.yellow);chip(B.X(6)+ (bad?-10:14),'GPIO18',COL.blue);
+    chip(B.X(3)-10,'GPIO9',COL.yellow);chip(B.X(6)+ (bad?-10:14),'GPIO10',COL.green);
     const p1=B.pos(4,'b'), p2=bad?B.pos(4,'c'):B.pos(6,'b');
     drawWire(g,[B.X(3)-10,72+YO],p1,COL.yellow,8,-14,true,0);
     drawWire(g,[B.X(6)+(bad?-10:14),72+YO],p2,COL.blue,8,bad?22:10,true,.6);
@@ -737,10 +768,10 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
       const idx=(4-1)*2; strips[idx].classList.add('glow');
       txt(g,B.X(4)+34,B.pos(4,'d')[1]+4,'⚡',38,'#ff5a6a','middle',{class:'zap'});
       msg.className='msg bad';
-      msg.innerHTML='❌ <b>Short circuit!</b> Both wires are in <b>column 4</b> (top half). The hidden strip joins them, so GPIO17 and GPIO18 are now the <u>same</u> wire. Nothing works, and parts can get damaged.';
+      msg.innerHTML='❌ <b>Short circuit!</b> Both wires are in <b>column 4</b> (top half). The hidden strip joins them, so GPIO9 and GPIO10 are now the <u>same</u> wire. Nothing works, and parts can get damaged.';
     }else{
       msg.className='msg good';
-      msg.innerHTML='✅ <b>Perfect!</b> GPIO17 is in column 4 and GPIO18 is in column 6. Each has its own strip. Even <i>neighbouring</i> columns (like 4 and 5) are separate.';
+      msg.innerHTML='✅ <b>Perfect!</b> GPIO9 is in column 4 and GPIO10 is in column 6. Each has its own strip. Even <i>neighbouring</i> columns (like 4 and 5) are separate.';
     }
   }
   document.getElementById('bad').onclick=()=>scene(true);

@@ -22,7 +22,7 @@
 // ==========================================================
 
 // --- Which pin is each part plugged into? ---
-// All of them are on the brain's TOP row of pins (the row next to breadboard row A).
+// All of them are on the brain's pin row that sits next to the breadboard's free holes.
 // INMP441 microphone (the EAR)
 #define PIN_MIC_SCK 4
 #define PIN_MIC_WS  5
@@ -34,7 +34,7 @@
 #define PIN_SPK_DIN  16
 
 // The big push button. Push it to start or stop a conversation.
-#define PIN_BUTTON 9
+#define PIN_BUTTON 14
 
 // --- Sound settings (please leave these alone) ---
 #define MIC_RATE_HZ     16000   // how many sound snapshots per second going IN to Gemini
@@ -56,12 +56,17 @@
 // After this many quiet seconds the robot hangs up and goes back to sleep.
 #define SESSION_IDLE_SECONDS 15
 
-// --- The face (the little screen) ---
+// --- The face (the big 2.4" colour screen, 240 x 320, ILI9341) ---
 // 1 = use the face, 0 = run without it
 #define FACE_ENABLED 1
-#define PIN_OLED_SDA 18
-#define PIN_OLED_SCL 17
-#define OLED_ADDR    0x3C
-// The screen sits right way up on the breadboard (pins at the top).
-// If your picture shows upside down, change this to 1.
-#define FACE_FLIP    0
+// The screen's 5 data wires. The names on the screen's pins are in the comments.
+#define PIN_TFT_CS   13   // screen pin CS
+#define PIN_TFT_RST  12   // screen pin RESET
+#define PIN_TFT_DC   11   // screen pin DC
+#define PIN_TFT_MOSI 10   // screen pin SDI (MOSI)
+#define PIN_TFT_SCK  9    // screen pin SCK
+// How fast the data wires talk. If you see static or strange colours, try 4000000.
+#define TFT_SPI_HZ   10000000
+// The face is WIDE (320 across), so use 1 or 3 only. If the face is upside down, change it
+// to the other one. (0 and 2 are the tall screen and are not allowed.)
+#define TFT_ROTATION 1

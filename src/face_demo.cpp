@@ -1,4 +1,4 @@
-// STEP 1 FOR KIDS: only the ESP32 + the OLED screen. No mic, speaker or WiFi needed.
+// STEP 1 FOR KIDS: only the ESP32 + the big colour screen. No mic, speaker or WiFi needed.
 // Upload with:  pio run -e face_demo -t upload
 #include <Arduino.h>
 #include "face.h"
@@ -8,7 +8,9 @@ static const char *names[] = {"happy", "idle", "listening", "thinking", "speakin
 
 void setup() {
     Serial.begin(115200);
-    if (!faceBegin()) Serial.println("Check the 4 OLED wires: GND, VDD, SCL, SDA");
+    delay(2500);  // wait for the Serial Monitor to connect, so no message gets lost
+    if (faceBegin()) Serial.println("Face started. The screen should light up now!");
+    else Serial.println("Face could not start. See the message above.");
 }
 
 void loop() {

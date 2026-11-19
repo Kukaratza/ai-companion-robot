@@ -11,6 +11,6 @@ enum FaceMood {
 };
 
 // Starts the face animation task. Returns false (and does nothing) if no
-// OLED is found, so the rest of the robot keeps working without a screen.
+// screen can be started (there is no way to ask the screen if it is plugged in), and the rest of the robot works either way.
 bool faceBegin();
 void faceSet(FaceMood m);  // cheap; safe to call every loop
