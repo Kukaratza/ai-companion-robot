@@ -92,3 +92,6 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 - Power: brain G -> strip 1 blue rail, brain 3V3 (col 2) -> strip 1 red rail, then one bridge wire each to the strip 2 rails (cols 12 and 11). All rail holes are kept in columns 1-30, so no rail needs a bridge across the cut. The button sits beside the brain: NO -> pin 14, C -> strip 1 blue rail.
 - The pins and the firmware did not change. Screen VCC is still on the 5V pin; the author's backlight lit with VCC on 3V3, so VCC may move to the red rail once the full face is confirmed on 3.3V.
 - `tools/verify_breadboard_design.js` now checks two strips, the rail cut, wire crossings with real geometry (currently 0) and the pin set. The new picture was only checked by script (and a syntax check); it has not been looked at in a browser by the assistant, and the wiring has not been tried on the real board.
+
+## Update: shorter Robot Guide
+- `guide-kids.html` was cut from about 6,400 words and 700 lines of embedded code to about 3,000 words. Section 9 now has the Robot Maker, three "change the face" tries, four challenges and a one-line-per-file tour; the real code is no longer embedded (`tools/embed_code_in_kids_guide.py` finds no markers and does nothing). Set up, Stuck and What next are short lists. A backup of the long version is in git history (commit 2b6dfe1).

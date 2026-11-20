@@ -442,13 +442,13 @@ body.bands #facesim{border-color:var(--ink)}
 body.bands .hero{color:var(--ink);text-align:center;background:none;border:0;box-shadow:none;border-radius:0;margin:0;padding:54px 0 96px}
 body.bands .hero::before{
   top:0;
-  background:radial-gradient(circle at 12% 30%,rgba(255,255,255,.55),transparent 22%),radial-gradient(circle at 90% 70%,rgba(255,255,255,.4),transparent 26%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Ccircle cx='5' cy='5' r='2.6' fill='%23e8590c' fill-opacity='.22'/%3E%3C/svg%3E"),#ffc42e;
+  background:radial-gradient(circle at 10% 20%,rgba(255,255,255,.9),transparent 26%),radial-gradient(circle at 92% 80%,rgba(255,236,170,.7),transparent 30%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Ccircle cx='5' cy='5' r='2.6' fill='%234f9be8' fill-opacity='.22'/%3E%3C/svg%3E"),linear-gradient(180deg,#d8ecff,#eef6ff);
 }
 body.bands .hero .robot{font-size:96px;filter:drop-shadow(0 8px 0 rgba(35,31,71,.18));animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-10px) rotate(4deg)}}
 body.bands .hero h1{color:var(--ink);-webkit-text-fill-color:var(--ink);font-size:clamp(34px,6vw,60px);font-weight:900;letter-spacing:-1.2px}
-body.bands .hero p{color:#4a3b00;font-weight:600;font-size:20px}
+body.bands .hero p{color:#3c4a78;font-weight:600;font-size:20px}
 body.bands .chips .chip:nth-child(n){background:#fff;box-shadow:0 3px 0 rgba(35,31,71,.18)}
 body.bands footer{margin-top:0;padding:40px 0 10px;border:0;color:var(--muted)}
 
@@ -457,3 +457,16 @@ body.bands footer{margin-top:0;padding:40px 0 10px;border:0;color:var(--muted)}
   body.bands section h2{padding-right:70px;min-height:60px}
   body.bands section h2::after{width:56px;height:56px;font-size:30px;margin-top:-28px}
 }
+
+/* code blocks: light box with dark text */
+body.bands pre,pre{background:#f4f1fb;color:#14141c;border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px}
+body.bands pre code,body.bands section pre code,body.bands :is(.card,.pcard,.tip,.safe,.grownup,.steps li,details,.filecard,.maker,.ospick,.lvl) pre code{background:none;color:inherit;padding:0;border-radius:0}
+.codewrap .fn{background:#e4def5;color:#14141c;border:1px solid var(--line);border-bottom:0;border-radius:12px 12px 0 0}
+.cm,body.bands .cm{color:#5b7a66}
+.hl{background:rgba(245,179,1,.35);color:#14141c}
+pre .kw{color:#a626a4}pre .st{color:#a0620a}pre .nm{color:#0b7285}pre .fnm{color:#1c4fd8}pre .pp{color:#6a4cff}
+
+/* hero banner picture */
+body.bands .hero{padding:44px 0 92px}
+.banner{display:block;width:min(100%,780px);height:auto;margin:0 auto 24px;border-radius:26px;border:6px solid #fff;box-shadow:0 16px 38px rgba(35,31,71,.22);background:#fff}
+@media(max-width:700px){.banner{border-width:4px;border-radius:18px}}
