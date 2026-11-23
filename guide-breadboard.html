@@ -223,7 +223,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <tr><th>Wire</th><th>Goes to</th><th>Done?</th></tr>
     <tr><td><span class="dot" style="background:#555"></span>Brain <b>G</b> pin</td><td>the blue rail under the brain (strip 1), then one more wire to the blue rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>3V3</b> pin</td><td>the red rail under the brain (strip 1), then one more wire to the red rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>5V</b> pin</td><td>the screen's <b>VCC</b> (one long wire)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>Brain <b>5V</b> pin</td><td>the amplifier's <b>VIN</b> (one long wire to column 30, then a short one to VIN)</td><td><input type="checkbox" class="c"></td></tr>
   </table>
 
   <h3>😀 The face screen (8 wires)</h3>
@@ -231,7 +231,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <tr><th>Screen pin</th><th>Goes to</th><th>Done?</th></tr>
     <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the blue ground rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#ff6b7d"></span>LED (backlight)</td><td>the red rail above strip 2 (3V3)</td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>VCC</td><td>the brain's <b>5V</b> pin ⚠️ not the red rail!</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VCC</td><td>the red rail above strip 2 (3V3) ⚠️ not the 5V pin: this screen does not work on 5V!</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#4ea1ff"></span>CS</td><td><b>GPIO13</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#2ec4c4"></span>RESET</td><td><b>GPIO12</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#ff9b3d"></span>DC</td><td><b>GPIO11</b></td><td><input type="checkbox" class="c"></td></tr>
@@ -257,7 +257,7 @@ footer{text-align:center;color:var(--muted);margin-top:60px}
     <tr><td><span class="dot" style="background:#f7c948"></span>BCLK</td><td><b>GPIO15</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#4ea1ff"></span>LRC</td><td><b>GPIO7</b></td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#5be38f"></span>DIN</td><td><b>GPIO16</b></td><td><input type="checkbox" class="c"></td></tr>
-    <tr><td><span class="dot" style="background:#ff6b7d"></span>VIN</td><td>a short red wire to the screen's <b>VCC</b> column (it borrows 5V)</td><td><input type="checkbox" class="c"></td></tr>
+    <tr><td><span class="dot" style="background:#ff6b7d"></span>VIN</td><td>the brain's <b>5V</b> pin (long wire to column 30, then a short wire along row d)</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td><span class="dot" style="background:#555"></span>GND</td><td>the blue ground rail above strip 2</td><td><input type="checkbox" class="c"></td></tr>
     <tr><td>Speaker wires (2)</td><td>Amplifier <b>+</b> and <b>−</b> screw terminals (ask a grown-up to help attach them)</td><td><input type="checkbox" class="c"></td></tr>
   </table>
@@ -542,11 +542,11 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     oops:'Check the names on <b>your</b> screen. If VCC is at the other end, turn the screen around. Never put wires on the <b>T_</b> touch pins or on <b>SDO</b>. The screen\'s 14 pins use their own 14 columns. Nothing else goes in those columns.',
     items:[{k:'part',n:'tft'}], rings:[[16,'e2'],[29,'e2']]},
    {t:'Power the face ⚡',
-    say:'The screen needs three power wires. <b>GND</b> goes to the blue ground rail above strip 2. <b>LED</b> (the backlight) goes to the red 3.3V rail above strip 2. <b>VCC</b> goes to the brain\'s <b>5V</b> pin, the second pin from the right end of the row. That long wire carries 5V to the screen.',
-    where:[['Gray: GND (col 28, row b) → strip 2 blue rail',COL.gray],['Red: strip 2 red rail → LED (col 22, row b)',COL.red],['Red: 5V pin (col 22, free row) → VCC (col 29, row b)',COL.red]],
-    oops:'Two red wires, two different jobs! <b>LED</b> goes to the <b>red rail</b> (3.3V). <b>VCC</b> goes to the brain\'s <b>5V</b> pin. Never put 5V on LED.',
+    say:'The screen needs three power wires, and all three come from the rails above strip 2. <b>GND</b> goes to the <b>blue</b> ground rail. <b>LED</b> (the backlight) and <b>VCC</b> both go to the <b>red 3.3V</b> rail. This screen works on 3.3 volts, so it never touches the 5V pin.',
+    where:[['Gray: GND (col 28, row b) → strip 2 blue rail',COL.gray],['Red: strip 2 red rail → LED (col 22, row b)',COL.red],['Red: strip 2 red rail → VCC (col 29, row b)',COL.red]],
+    oops:'Both red wires go to the <b>red 3.3V rail</b>. <b>Never put VCC on the brain\'s 5V pin:</b> this screen does not work with it (it flickers or stays dark).',
     items:[W([tftC('GND'),'b2'],[tftC('GND'),'bt2'],COL.gray,'face'),W([tftC('LED'),'rt2'],[tftC('LED'),'b2'],COL.red,'face'),
-           L(T('5V'),[tftC('VCC'),'b2'],COL.red,LT(0),'face')]},
+           W([tftC('VCC'),'rt2'],[tftC('VCC'),'b2'],COL.red,'face')]},
    {t:'Hook up the face\'s picture wires 🎨',
     say:'Five thin wires carry the picture from the brain to the screen: <b>pin 13 → CS</b>, <b>pin 12 → RESET</b>, <b>pin 11 → DC</b>, <b>pin 10 → SDI</b>, <b>pin 9 → SCK</b>. Match the names! They run along their own lanes in the gap between the two strips.',
     where:[['Blue: pin 13 (col 20) → CS (col 27, row b)',COL.blue],['Teal: pin 12 (col 19) → RESET (col 26, row b)',COL.teal],['Orange: pin 11 (col 18) → DC (col 25, row b)',COL.orange],['Green: pin 10 (col 17) → SDI (col 24, row b)',COL.green],['Yellow: pin 9 (col 16) → SCK (col 23, row b)',COL.yellow]],
@@ -574,10 +574,10 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     oops:'The <code>GAIN</code> and <code>SD</code> pins stay empty. No wires there!',
     items:[{k:'part',n:'amp'}], rings:[[8,'e2'],[14,'e2']]},
    {t:'Power the amplifier ⚡',
-    say:'The amplifier needs the strong <b>5V</b> too. The screen\'s <b>VCC</b> already has 5V, so we <b>borrow</b> it: one red wire from a free hole in the <b>VCC column</b> to a free hole in the amplifier\'s <b>VIN column</b>. Then connect the amp\'s <b>GND</b> to the blue rail above strip 2.',
-    where:[['Red: free hole in the screen\'s VCC column (col 29, row d) → free hole in the amp\'s VIN column (col 14, row d)',COL.red],['Gray: amp GND (col 13, row b) → strip 2 blue rail',COL.gray]],
-    oops:'Use <b>row d</b> for the red wire so it stays out of the way. Both holes must be in the <b>same column as the pin</b>. Mixing up VIN and GND can break the amplifier. Red = power, gray = ground. Double check with a grown-up!',
-    items:[W([tftC('VCC'),'d2'],[ampC('VIN'),'d2'],COL.red,'voice'),W([ampC('GND'),'b2'],[ampC('GND'),'bt2'],COL.gray,'voice')]},
+    say:'The amplifier needs the strong <b>5V</b>. Run a long red wire from the brain\'s <b>5V</b> pin (second pin from the right end of the row) to <b>column 30, row b</b> on strip 2. Then a short red wire along <b>row d</b> carries it from column 30 to the amplifier\'s <b>VIN</b> column. Last, connect the amp\'s <b>GND</b> to the blue rail above strip 2.',
+    where:[['Red: 5V pin (col 22, free row) → column 30, row b',COL.red],['Red: column 30, row d → free hole in the amp\'s VIN column (col 14, row d)',COL.red],['Gray: amp GND (col 13, row b) → strip 2 blue rail',COL.gray]],
+    oops:'Column 30 has no part in it, so the 5V wire has its own column. Use <b>row d</b> for the short red wire so it stays out of the way. Both ends must be in the <b>same column as their pin or wire</b>. Mixing up VIN and GND can break the amplifier. Red = power, gray = ground. Double check with a grown-up!',
+    items:[L(T('5V'),[30,'b2'],COL.red,LT(0),'voice'),W([30,'d2'],[ampC('VIN'),'d2'],COL.red,'voice'),W([ampC('GND'),'b2'],[ampC('GND'),'bt2'],COL.gray,'voice')]},
    {t:'Hook up the amplifier\'s signals 📡',
     say:'Three data wires take the voice from the brain to the amp: <b>pin 7 → LRC</b>, <b>pin 15 → BCLK</b>, <b>pin 16 → DIN</b>. Each one drops straight down from the brain to the amp.',
     where:[['Blue: pin 7 (col 8) → LRC (col 8, row b)',COL.blue],['Yellow: pin 15 (col 9) → BCLK (col 9, row b)',COL.yellow],['Green: pin 16 (col 10) → DIN (col 10, row b)',COL.green]],
@@ -595,7 +595,7 @@ function drawWire(parent,p1,p2,color,lift=50,dx=0,anim=false,delay=0,lane=null,d
     items:[{k:'part',n:'spk'},W([SPK[0]-16,SPK[1]-40],AMP_T1,COL.red,'voice'),W([SPK[0]+16,SPK[1]-40],AMP_T2,COL.black,'voice')]},
    {t:'Final strip check ✅',
     say:'Look at your board. <b>Every column should have ONE job.</b> Too many wires? Use the buttons under the picture to show just one part\'s wires. Then ask a grown-up to double-check before plugging in the USB cable!',
-    where:[['Strip 1: the brain in columns 2–23, wires only in the free row',COL.green],['Strip 2: microphone in 1–6, amplifier in 8–14, face screen in 16–29',COL.green],['Red rails = 3.3V (mic and screen backlight). The 5V wire goes to the screen\'s VCC, then is borrowed by the amplifier',COL.red],['Blue rails: brain G, screen GND, mic ×2, amp, button. All power wires stay in columns 1–30',COL.gray]],
+    where:[['Strip 1: the brain in columns 2–23, wires only in the free row',COL.green],['Strip 2: microphone in 1–6, amplifier in 8–14, face screen in 16–29',COL.green],['Red rails = 3.3V (mic, screen backlight and screen VCC). Only the amplifier gets 5V, from the brain\'s 5V pin',COL.red],['Blue rails: brain G, screen GND, mic ×2, amp, button. All power wires stay in columns 1–30',COL.gray]],
     oops:'',
     items:[], rings:[]}
   ];

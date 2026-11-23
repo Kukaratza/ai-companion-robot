@@ -135,7 +135,7 @@ footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
     <div class="part"><img class="pimg" src="images/button.jpg" alt="Metal push button" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><circle cx="100" cy="42" r="30" fill="#aab" stroke="#667" stroke-width="4"/><circle cx="100" cy="42" r="20" fill="#3ee6c3"/></svg><b>Metal push button</b><small>Push-to-talk / cancel.</small><br><span class="tag use">REQUIRED</span></div>
     <div class="part"><img class="pimg" src="images/breadboard.jpg" alt="Makeronics BB-102 breadboard and jumper wires" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="20" y="10" width="160" height="64" rx="5" fill="#eee"/><g fill="#999"><rect x="28" y="16" width="144" height="4"/><rect x="28" y="64" width="144" height="4"/></g><g stroke="#e74c3c" stroke-width="3"><path d="M50 30 Q80 10 110 42"/></g><g stroke="#3498db" stroke-width="3"><path d="M90 60 Q130 20 160 50"/></g></svg><b>Breadboard + jumper wires</b><small>Solder-free connections. We use the <a href="https://www.amazon.com/dp/B07Q34YND5" target="_blank" rel="noopener">Makeronics BB-102</a>: two strips with four power rails, each rail cut in the middle. The USB cable powers everything, so no power module is needed.</small><br><span class="tag use">REQUIRED</span></div>
     <div class="part"><img class="pimg" src="images/tft.jpg" alt="2.4 inch colour TFT screen" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="40" y="8" width="120" height="68" rx="6" fill="#c0282d"/><rect x="48" y="14" width="104" height="48" fill="#0b0f1a"/><rect x="66" y="26" width="18" height="22" rx="7" fill="#00dcff"/><rect x="116" y="26" width="18" height="22" rx="7" fill="#00dcff"/></svg><b>2.4" colour TFT face (ILI9341)</b><small>240×320, SPI, 14-pin header (touch and SD slot unused). Shows the robot's animated face in colour.</small><br><span class="tag use">REQUIRED</span></div>
-    <div class="part"><img class="pimg" src="images/battery.jpg" alt="18650 battery and TP4056" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="40" y="20" width="120" height="44" rx="22" fill="#b8c2cc"/><rect x="48" y="26" width="20" height="32" fill="#f5c26b"/></svg><b>18650 + TP4056 charger</b><small>Battery power. Needs a 5 V boost converter (not in your kit).</small><br><span class="tag opt">LATER</span></div>
+    <div class="part"><img class="pimg" src="images/battery_usb.jpg" alt="TP4056 USB-C charger and 803450 LiPo battery" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="40" y="20" width="120" height="44" rx="22" fill="#b8c2cc"/><rect x="48" y="26" width="20" height="32" fill="#f5c26b"/></svg><b>18650 + TP4056 charger</b><small>Battery power. Needs a 5 V boost converter (not in your kit).</small><br><span class="tag opt">LATER</span></div>
     <div class="part"><img class="pimg" src="images/servo.jpg" alt="MG90S servo" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><rect x="60" y="22" width="80" height="44" rx="4" fill="#2457c5"/><rect x="92" y="8" width="16" height="16" fill="#eee"/></svg><b>MG90S servo</b><small>Head nod / ear wiggle. Phase 2.</small><br><span class="tag opt">LATER</span></div>
     <div class="part"><img class="pimg" src="images/other.jpg" alt="N20 motor and TTP223" onload="this.style.display='block';this.nextElementSibling.style.display='none'" onerror="this.remove()"><svg viewBox="0 0 200 84"><circle cx="100" cy="42" r="24" fill="#555"/><rect x="100" y="36" width="44" height="12" fill="#999"/></svg><b>N20 motor · TTP223</b><small>Not needed for this build.</small><br><span class="tag no">NOT USED</span></div>
   </div>
@@ -264,7 +264,7 @@ footer{margin-top:80px;color:var(--muted);font-size:13px;text-align:center}
     <tr><td>MAX98357 <code>VIN</code> / <code>GND</code></td><td>5V / GND</td><td>Leave <code>SD</code> and <code>GAIN</code> unconnected</td></tr>
     <tr><td>TFT <code>CS</code> / <code>RESET</code> / <code>DC</code></td><td>GPIO13 / GPIO12 / GPIO11</td><td>ILI9341 over SPI, display only (no MISO)</td></tr>
     <tr><td>TFT <code>SDI</code> (MOSI) / <code>SCK</code></td><td>GPIO10 / GPIO9</td><td>SPI data and clock; <code>TFT_SPI_HZ</code> in config.h (default 10 MHz)</td></tr>
-    <tr><td>TFT <code>VCC</code> / <code>LED</code> / <code>GND</code></td><td>5V / 3V3 / GND</td><td>Module has an on-board 3.3 V regulator (jumper J1 open), so VCC takes 5 V. The backlight pin LED is tied to 3.3 V. SDO and the T_ touch pins stay empty</td></tr>
+    <tr><td>TFT <code>VCC</code> / <code>LED</code> / <code>GND</code></td><td>3V3 / 3V3 / GND</td><td>On the author's module VCC must be on <b>3.3 V</b>: 5 V on VCC made it flicker or stay dark. LED (backlight) is also on 3.3 V. SDO and the T_ touch pins stay empty</td></tr>
     <tr><td>Button <code>NO</code> / <code>C</code></td><td>GPIO14 / GND</td><td>Momentary metal button with C, NO, NC + LED terminals. Use C and NO only; leave NC and the LED unconnected. Internal pull-up is used</td></tr>
   </table>
   <div class="callout warn"><b>Avoid GPIO 35, 36, 37</b>On the N16R8 these pins are used by the octal PSRAM. Using them crashes the board. On the top row also leave <b>RST</b>, <b>3</b> and <b>46</b> alone.</div>
@@ -428,7 +428,7 @@ turn complete</code></pre></div>
     <ul>
       <li>Uses Espressif's <b>ESP-SR / WakeNet</b> through the Arduino <code>ESP_SR</code> library (included with the esp32 core 3.x). The built-in phrase is <b>“Hi, ESP”</b>. A custom phrase needs a trained model (Espressif service or Edge Impulse) and is not implemented.</li>
       <li><b>To enable:</b> set <code>WAKEWORD_ENABLED 1</code>, and choose the partition scheme <b>ESP SR 16M (3MB APP/7MB SPIFFS/2.9MB MODEL)</b> (PlatformIO: <code>esp_sr_16.csv</code>). Without the model partition, <code>wakeBegin()</code> fails and the robot falls back to the button.</li>
-      <li><b>Flow:</b> sleeping (face shows ZZZ) → name heard → <code>geminiBegin()</code>. The listener pauses while a session is active and resumes when it ends. After <code>SESSION_IDLE_SECONDS</code> (15) of silence the robot hangs up and goes back to sleep. The button still works.</li>
+      <li><b>Flow:</b> sleeping (closed eyes and a z) → name heard → <code>geminiBegin()</code>. The listener pauses while a session is active and resumes when it ends. After <code>SESSION_IDLE_SECONDS</code> (15) of silence the robot hangs up and goes back to sleep. The button still works.</li>
       <li><b>Microphone:</b> now configured as 32-bit stereo (INMP441 on the left slot) so the listener and the audio streamer share one I2S port; <code>audioInRead()</code> keeps the left samples.</li>
       <li><b>Engines:</b> <code>WAKE_ENGINE 1</code> = ESP-SR “Hi ESP”. <code>WAKE_ENGINE 2</code> = empty slot for a custom model (Picovoice Porcupine or an Edge Impulse Arduino library): implement <code>wakeBegin/wakeHeard/wakePause/wakeResume</code> in <code>wakeword.cpp</code>. Not implemented or tested.</li>
       <li>Files: <code>src/wakeword.{h,cpp}</code>, changes in <code>main.cpp</code> and <code>audio_in.cpp</code>. API calls (<code>ESP_SR.begin/pause/resume</code>, <code>sr_cmd_t</code>) are written from memory of the library; verify against the installed core.</li>
@@ -439,19 +439,36 @@ turn complete</code></pre></div>
 <!-- POWER -->
 <section id="power">
   <h2><span class="n">8</span>Battery power (optional)</h2>
-  <div class="callout warn"><b>Don't connect the TP4056 output straight to the 5V pin</b>A lithium cell is 3.0–4.2 V. The board's regulator needs about 5 V and will brown out. Add a small <b>5 V boost converter</b> (e.g. MT3608 or a 18650 "power bank" module) between the battery and the board.</div>
+  <div class="callout warn"><b>Don't connect the TP4056 output straight to the 5V pin</b>A lithium cell is 3.0–4.2 V. The board's regulator needs about 5 V and will brown out. Put a <b>5 V boost converter</b> (rated 2 A or more) between the charger board and the brain.</div>
+  <div class="grid">
+    <div class="part"><img class="pimg" src="images/battery.jpg" alt="803450 LiPo battery" style="display:block" onerror="this.remove()"><b>Battery: 803450, 3.7 V, 1500 mAh</b><small>Protected Li-Po, about 5.5 Wh, 3-wire JST plug (red, yellow, black).</small></div>
+    <div class="part"><img class="pimg" src="images/battery_usb.jpg" alt="TP4056 USB-C charger" style="display:block" onerror="this.remove()"><b>Charger: TP4056 (USB-C, with protection)</b><small>B+/B− for the cell, OUT+/OUT− for the load. Default charge current about 1 A.</small></div>
+  </div>
   <figure>
   <svg viewBox="0 0 900 150">
     <defs><marker id="a4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#98a2cf"/></marker></defs>
-    <g font-family="sans-serif" font-size="14" text-anchor="middle" fill="#e8ecff">
-      <rect x="20" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#98a2cf"/><text x="85" y="80">USB-C charger</text>
-      <rect x="200" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="265" y="80">TP4056</text>
-      <rect x="380" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#ffb454"/><text x="445" y="80">18650 cell</text>
-      <rect x="560" y="45" width="140" height="60" rx="12" fill="#1b2444" stroke="#ff6b7d"/><text x="630" y="72">5 V boost</text><text x="630" y="92" font-size="11" fill="#98a2cf">(buy separately)</text>
-      <rect x="750" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#7c8cff"/><text x="815" y="80">ESP32 + amp</text>
-      <g stroke="#98a2cf" stroke-width="2" marker-end="url(#a4)"><path d="M150 75 H196"/><path d="M330 75 H376"/><path d="M510 75 H556"/><path d="M700 75 H746"/></g>
+    <g font-family="sans-serif" font-size="13" text-anchor="middle" fill="#e8ecff">
+      <rect x="10" y="45" width="120" height="60" rx="12" fill="#1b2444" stroke="#98a2cf"/><text x="70" y="80">USB-C</text>
+      <rect x="160" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#3ee6c3"/><text x="225" y="72">TP4056</text><text x="225" y="90" font-size="11" fill="#98a2cf">B+/B− ⇄ cell</text>
+      <rect x="320" y="45" width="130" height="60" rx="12" fill="#1b2444" stroke="#ffb454"/><text x="385" y="72">LiPo 803450</text><text x="385" y="90" font-size="11" fill="#98a2cf">3.7 V 1500 mAh</text>
+      <rect x="480" y="45" width="110" height="60" rx="12" fill="#1b2444" stroke="#98a2cf"/><text x="535" y="80">Slide switch</text>
+      <rect x="620" y="45" width="120" height="60" rx="12" fill="#1b2444" stroke="#ff6b7d"/><text x="680" y="72">5 V boost</text><text x="680" y="90" font-size="11" fill="#98a2cf">≥ 2 A, set to 5.0 V</text>
+      <rect x="770" y="45" width="120" height="60" rx="12" fill="#1b2444" stroke="#7c8cff"/><text x="830" y="72">ESP32 + amp</text><text x="830" y="90" font-size="11" fill="#98a2cf">5V pin + GND</text>
+      <g stroke="#98a2cf" stroke-width="2" marker-end="url(#a4)"><path d="M130 75 H156"/><path d="M290 75 H316"/><path d="M450 75 H476"/><path d="M590 75 H616"/><path d="M740 75 H766"/></g>
     </g>
-  </svg></figure>
+  </svg><figcaption>Cell on B+/B−; the load (switch, boost) hangs from OUT+/OUT−.</figcaption></figure>
+  <h3>Wiring</h3>
+  <table>
+    <tr><th>From</th><th>To</th><th>Notes</th></tr>
+    <tr><td>Battery red (+)</td><td>TP4056 <b>B+</b></td><td><b>Meter the plug first.</b> Cheap packs can have a different pinout.</td></tr>
+    <tr><td>Battery black (−)</td><td>TP4056 <b>B−</b></td><td></td></tr>
+    <tr><td>Battery yellow</td><td>not connected</td><td>Normally the NTC (temperature) wire. The TP4056 does not use it. Insulate it.</td></tr>
+    <tr><td>TP4056 <b>OUT+</b></td><td>Switch → boost <b>IN+</b></td><td>Put the switch on the positive line.</td></tr>
+    <tr><td>TP4056 <b>OUT−</b></td><td>Boost <b>IN−</b></td><td></td></tr>
+    <tr><td>Boost <b>OUT+</b></td><td>ESP32 <b>5V</b> pin</td><td>Set the boost to <b>5.0 V</b> with a meter before connecting the board.</td></tr>
+    <tr><td>Boost <b>OUT−</b></td><td>Common GND</td><td>Breadboard blue rail.</td></tr>
+  </table>
+  <div class="callout"><b>Notes</b>Peak load is about 1 A at 5 V (WiFi, 3 W speaker, backlight), so the boost must supply it; expect about 1 to 2 h per charge (an estimate). Charge with the switch off. Don't power the board from both the battery path and USB at once; whether the 5V pin is isolated from USB depends on your board. Untested on real hardware.</div>
 </section>
 
 <!-- TROUBLE -->

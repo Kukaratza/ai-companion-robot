@@ -28,15 +28,15 @@ for(const w of wires){
   const [ac,ar]=isHole(w.a)?w.a:[null,null],[bc,br]=isHole(w.b)?w.b:[null,null];
   if(ar==='j'&&br==='b2'){const m=modPin(bc),key=m.join(' '),g=label(ac);
     if(key in want){signals++;ok(String(want[key])===g,`${key}: starts at brain pin ${g}, config.h says GPIO${want[key]}`)}
-    if(key==='tft VCC')ok(g==='5V','screen VCC is fed from the brain 5V pin (got '+g+')');
+    if(bc===30)ok(g==='5V'&&key==='none ','the long red wire from the brain 5V pin lands in the free column 30 (got '+g+')');
   }
   if(ar==='j'&&br==='bb'&&bc===ac)ok(label(ac)==='G','ground wire starts at the G pin');
   if(ar==='j'&&br==='rb'&&bc===ac)ok(label(ac)==='3V3','red-rail wire starts at a 3V3 pin');
   if(ar==='bb'&&br==='bt2')ok(bc===ac,'blue rail of strip 1 is bridged straight down to the blue rail of strip 2');
   if(ar==='rb'&&br==='rt2')ok(bc===ac,'red rail of strip 1 is bridged straight down to the red rail of strip 2');
-  if(ar==='rt2'&&br==='b2')ok(['mic VDD','tft LED'].includes(modPin(bc).join(' ')),'red (3.3V) rail feeds only mic VDD and screen LED ('+modPin(bc).join(' ')+')');
+  if(ar==='rt2'&&br==='b2')ok(['mic VDD','tft LED','tft VCC'].includes(modPin(bc).join(' ')),'red (3.3V) rail feeds only mic VDD, screen LED and screen VCC ('+modPin(bc).join(' ')+')');
   if(ar==='b2'&&br==='bt2')ok(['mic GND','mic L/R','amp GND','tft GND'].includes(modPin(ac).join(' ')),'blue rail takes only GND-type pins ('+modPin(ac).join(' ')+')');
-  if(ar==='d2'&&br==='d2'){const k=new Set([modPin(ac).join(' '),modPin(bc).join(' ')]);ok(k.has('tft VCC')&&k.has('amp VIN'),'the short red wire joins the screen VCC column and the amp VIN column (row d)')}
+  if(ar==='d2'&&br==='d2'){const k=new Set([modPin(ac).join(' '),modPin(bc).join(' ')]);ok(k.has('none ')&&k.has('amp VIN')&&(ac===30||bc===30),'the short red wire joins the 5V column 30 and the amp VIN column (row d)')}
   // the rails are cut after column SPLIT: every rail hole must be on the powered half
   for(const e of [w.a,w.b])if(isHole(e)&&RAIL.test(e[1]))ok(e[0]<=SPLIT,`rail hole col ${e[0]} (${e[1]}) is on the powered half (<= ${SPLIT})`);
 }

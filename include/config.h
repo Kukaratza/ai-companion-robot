@@ -67,6 +67,18 @@
 #define PIN_TFT_SCK  9    // screen pin SCK
 // How fast the data wires talk. If you see static or strange colours, try 4000000.
 #define TFT_SPI_HZ   10000000
-// The face is WIDE (320 across), so use 1 or 3 only. If the face is upside down, change it
-// to the other one. (0 and 2 are the tall screen and are not allowed.)
-#define TFT_ROTATION 1
+// Which way is the picture turned? 0, 1, 2 or 3. Run the TFT_Test sketch: it shows each
+// number on the screen. Use the number whose face is right side up. (0 and 2 are tall,
+// 1 and 3 are wide. The face fits itself to all of them.)
+#define TFT_ROTATION 0
+// How big is the face? 100 = as big as the screen allows. Try 110 for even bigger (the
+// edges may get cut off a little).
+#define FACE_SIZE_PERCENT 105
+// Nudge the face if it is not in the middle. A plus number moves it right (X) or down (Y),
+// a minus number moves it left or up. The numbers are in screen dots.
+#define FACE_SHIFT_X 30
+#define FACE_SHIFT_Y -50
+// Smooth drawing: 1 = draw each picture on a hidden board and show it all at once (no
+// flicker). 0 = draw straight onto the screen (may flicker). If the face shows up wrong with 1,
+// try 0.
+#define FACE_SMOOTH 1

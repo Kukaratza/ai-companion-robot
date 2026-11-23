@@ -1,7 +1,7 @@
 // TFT TEST: does the big colour screen (2.4" 240x320, ILI9341) work? Use it when the
 // face stays dark. It draws colour bars and a blinking face, then turns the picture a
-// quarter turn every few seconds and writes "rotation 0, 1, 2 or 3". Widescreen needs
-// rotation 1 or 3: tell config.h (TFT_ROTATION) which one looks right side up.
+// quarter turn every few seconds and writes "rotation 0, 1, 2 or 3". Tell config.h
+// (TFT_ROTATION) which number looks right side up.
 //
 // The wires are listed in config.h (PIN_TFT_...) and in Breadboard Buddy.
 #include <Arduino.h>
@@ -39,6 +39,14 @@ static void drawScene(int rotation, bool eyesOpen) {
     tft.setCursor(8, H - 22);
     tft.print("rotation ");
     tft.print(rotation);
+    tft.print("  ");
+    tft.print(W);
+    tft.print("x");
+    tft.print(H);
+
+    // a white frame round the whole picture: if a side of it is missing, that side is cut off
+    tft.drawRect(0, 0, W, H, ILI9341_WHITE);
+    tft.drawRect(1, 1, W - 2, H - 2, ILI9341_WHITE);
 }
 
 void setup() {
@@ -48,6 +56,8 @@ void setup() {
 
     SPI.begin(PIN_TFT_SCK, -1, PIN_TFT_MOSI, -1);  // the screen only listens, so no MISO wire
     tft.begin(TFT_SPI_HZ);
+    SPI.end();  // the screen library restarts SPI on its own default pins, so set ours again
+    SPI.begin(PIN_TFT_SCK, -1, PIN_TFT_MOSI, -1);
     Serial.println("TFT test: if you can see colours, the screen works!");
 }
 

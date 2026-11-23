@@ -95,3 +95,23 @@ Build a standalone desktop voice assistant. The ESP32-S3 listens for a wake word
 
 ## Update: shorter Robot Guide
 - `guide-kids.html` was cut from about 6,400 words and 700 lines of embedded code to about 3,000 words. Section 9 now has the Robot Maker, three "change the face" tries, four challenges and a one-line-per-file tour; the real code is no longer embedded (`tools/embed_code_in_kids_guide.py` finds no markers and does nothing). Set up, Stuck and What next are short lists. A backup of the long version is in git history (commit 2b6dfe1).
+
+## Update: battery power (optional, not tested)
+- Real parts: 803450 LiPo (3.7 V, 1500 mAh, protected, 3-wire JST: red, yellow, black) and a TP4056 USB-C charger board with protection (`images/battery.jpg`, `images/battery_usb.jpg`; battery.jpg was an AVIF file and is now a real JPEG).
+- Possible, but only with a 5 V boost converter rated 2 A or more (not in the kit): cell on B+/B-, TP4056 OUT+ through a slide switch to the boost IN+, boost OUT+ to the brain's 5V pin, GND to the blue rail. The yellow NTC wire is left unconnected. Meter the plug before soldering. Use one power source at a time (the 5V pin back-feed behaviour is unverified). Runtime estimate 1 to 2 hours, not measured.
+- Added to the kids guide (parts cards, Level 4 and the "How the battery plugs in" box) and the technical guide (section 8). Breadboard Buddy is unchanged.
+
+## Update: screen VCC on 3V3 (confirmed on the real screen)
+- On the author's TFT, VCC on the 5V pin did not work (flicker / dark); VCC on 3V3 works. Screen LED and VCC are both on the red 3.3 V rail now.
+- Breadboard Buddy: the amplifier's VIN can no longer borrow 5V from the screen's VCC column. Now: long red wire from the brain 5V pin to strip 2 column 30 (row b, a free column), then a short red wire along row d from column 30 to the amp VIN column. The verify script passes with 0 crossings.
+
+## Update: the face now fits every rotation and draws like TFT_Test
+- On the author's screen TFT_Test worked but Face_Demo showed no face, and the right rotation turned out to be 0 (the tall view), which the old "1 or 3 only" guard had been blocking. `src/face.cpp` no longer uses the hidden canvas and writePixels blit. It draws straight onto the screen with the same calls TFT_Test uses, erases and redraws only the moving parts, and scales a 280 x 184 design to the screen size, so rotations 0 to 3 all work. Default `TFT_ROTATION` is 0.
+- The face code also resets the SPI pins after `tft.begin()`, because the screen library restarts SPI on its default pins (11 and 12) and undid the custom pins. Not yet confirmed on the real screen.
+
+## Update: full-screen face
+- The face now has no top word strip and no side bars: it is scaled to fill the whole screen (design 280 x 184, scale = min(W/280, H/184) * 0.96, centred). Boot wipes the GRAM black in all four rotations so leftovers from other sketches (TFT_Test bars and text) cannot show. The guides no longer mention the READY/HELLO word strip.
+
+## Update: flicker-free face (FACE_SMOOTH)
+- Erasing and redrawing shapes straight on the screen flickered. `FACE_SMOOTH 1` (default in `config.h`) now draws each picture on a hidden `GFXcanvas16` covering only the face area and shows it in one go with `setAddrWindow` + `writePixels` (the same blit that failed earlier only because of the SPI-pin and rotation bugs). `FACE_SMOOTH 0` keeps the direct-draw path as a fallback. Both paths pass the stub syntax check; not yet confirmed on the real screen. Each blit is about 100 KB, so about 80 ms at 10 MHz; `TFT_SPI_HZ 20000000` makes it faster if the wires allow.
+- Default face position on the author's screen: FACE_SHIFT_X 30, FACE_SHIFT_Y -50 (measured by the author). face.cpp falls back to safe defaults if an older config.h lacks the face settings.

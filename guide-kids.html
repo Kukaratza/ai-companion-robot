@@ -108,11 +108,13 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <div class="card">
     <p style="margin:0">Your robot has a tiny brain. To be super smart, it phones a helper on the internet called <b>Gemini</b>.</p>
   </div>
-  <div class="flow">
-    <div class="box"><span>🗣️</span>You talk</div><div class="arrow">➜</div>
-    <div class="box"><span>👂</span>Ear (mic)</div><div class="arrow">➜</div>
-    <div class="box"><span>📡</span>Gemini</div><div class="arrow">➜</div>
-    <div class="box"><span>📢</span>Mouth (speaker)</div>
+  <div class="kidflow">
+    <div class="fstep"><i>1</i><span class="em">🔘</span><b>Press</b><small>Push the big button to say hi!</small></div>
+    <div class="fstep"><i>2</i><span class="em">🗣️</span><b>Talk</b><small>Ask anything you like.</small></div>
+    <div class="fstep"><i>3</i><span class="em">👂</span><b>Listen</b><small>The ear (mic) turns your voice into numbers.</small></div>
+    <div class="fstep"><i>4</i><span class="em">📡</span><b>Send</b><small>Your voice, as numbers, flies over WiFi.</small></div>
+    <div class="fstep"><i>5</i><span class="em">🧠</span><b>Gemini</b><small>It understands you and finds an answer.</small></div>
+    <div class="fstep"><i>6</i><span class="em">🔊</span><b>Speak</b><small>The speaker says the answer out loud!</small></div>
   </div>
 </section>
 
@@ -145,7 +147,8 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <h3>🎁 Extra parts for later</h3>
   <p class="lead">Your kit has more parts. We do <b>not</b> need them today. They are for upgrades after your robot talks!</p>
   <div class="parts">
-    <div class="pcard later"><div class="pic"><img src="images/battery.jpg" alt="TP4056 charger board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🔋</span></div><div><h3>Battery charger (TP4056)</h3><p>Charges a rechargeable battery so the robot can go anywhere.</p><span class="look">🔎 Blue board with a USB-C plug and “4056” printed on it.</span><span class="look warn">⚠️ Batteries need a grown-up!</span></div></div>
+        <div class="pcard later"><div class="pic"><img src="images/battery.jpg" alt="803450 lithium battery" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🔋</span></div><div><h3>Battery (3.7 V, 1500 mAh)</h3><p>The robot’s <b>backpack power</b>. It lets your robot go anywhere with WiFi.</p><span class="look">🔎 A flat silver pack with a small white plug and 3 wires (red, yellow, black).</span><span class="look warn">⚠️ Batteries need a grown-up!</span></div></div>
+    <div class="pcard later"><div class="pic"><img src="images/battery_usb.jpg" alt="TP4056 USB-C charger board" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>⚡</span></div><div><h3>Battery charger (TP4056)</h3><p>Fills the battery from a USB-C cable and keeps it safe.</p><span class="look">🔎 A small blue board with a USB-C plug and “4056” printed on it.</span></div></div>
     <div class="pcard later"><div class="pic"><img src="images/servo.jpg" alt="MG90S servo" onload="this.nextElementSibling.style.display='none'" onerror="this.remove()"><span>🦾</span></div><div><h3>Servo (MG90S)</h3><p>A tiny motor that turns to an exact spot. It can make your robot nod!</p><span class="look">🔎 A small box with three wires and a little white arm.</span></div></div>
   </div>
 </section>
@@ -248,7 +251,7 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
     <tr><td>🗣️ Moving mouth</td><td>Talking.</td></tr>
   </table>
   <div class="grownup"><b>👩‍👧 Grown-up corner</b>
-    <p>The screen is a 2.4" ILI9341 (240×320, SPI), lying on its side. Dark or strange picture? See <a href="#stuck">Stuck</a>, or run the <code>TFT_Test</code> sketch. In <code>config.h</code>: <code>TFT_ROTATION</code> must be <code>1</code> or <code>3</code> (swap if upside down), and <code>FACE_ENABLED 0</code> runs the robot with no screen.</p>
+    <p>The screen is a 2.4" ILI9341 (240×320, SPI). The face fits itself to the screen. In <code>config.h</code>, <code>TFT_ROTATION</code> (0, 1, 2 or 3) turns the picture: run <code>TFT_Test</code> to see each number, and use the one that looks right side up. Dark or strange picture? See <a href="#stuck">Stuck</a>. <code>FACE_ENABLED 0</code> runs the robot with no screen.</p>
   </div>
 </section>
 
@@ -296,22 +299,22 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <div class="tip"><b>✅ Before you start</b>USB plugged in, “Done uploading” shown, and the <b>Serial Monitor</b> (the robot's diary) open at <code>115200</code>. Empty or strange symbols? See <b>USB CDC On Boot</b> in the <a href="#cheat">cheat sheet</a>.</div>
   <ol class="steps">
     <li><b>Wait for it to wake up.</b>
-      <span class="expect">📖 Diary: <code>WiFi OK</code> &nbsp; 👀 Screen: <b>HELLO!</b>, then <b>READY</b></span>
+      <span class="expect">📖 Diary: <code>WiFi OK</code> &nbsp; 👀 Screen: a smiling face, then blinking eyes</span>
     </li>
     <li><b>Press the big button once.</b>
-      <span class="expect">👀 <b>THINKING</b> &nbsp; 📖 <code>Gemini ready</code> means “I'm listening!”</span>
+      <span class="expect">👀 Eyes swing side to side with dots &nbsp; 📖 <code>Gemini ready</code> means “I'm listening!”</span>
     </li>
-    <li><b>Talk</b> when you see big round eyes and <b>LISTENING</b>:
+    <li><b>Talk</b> when you see big round eyes and pulsing dots:
       <span class="expect">🗣️ “Tell me a joke about space!”</span>
     </li>
     <li><b>Listen!</b> 🚀
-      <span class="expect">👀 <b>TALKING</b> &nbsp; 👂 The answer comes out of the speaker.</span>
+      <span class="expect">👀 A moving mouth &nbsp; 👂 The answer comes out of the speaker.</span>
     </li>
     <li><b>Keep chatting, or press the button to hang up.</b>
-      <span class="expect">📖 <code>Session ended</code> &nbsp; 👀 Back to <b>READY</b></span>
+      <span class="expect">📖 <code>Session ended</code> &nbsp; 👀 Back to blinking eyes</span>
     </li>
   </ol>
-  <div class="tip"><b>🗣️ Wake word on?</b>The robot starts asleep (<b>ZZZ</b>). Say its phrase instead of pressing the button.</div>
+  <div class="tip"><b>🗣️ Wake word on?</b>The robot starts asleep (closed eyes and a floating <b>z</b>). Say its phrase instead of pressing the button.</div>
   <div class="safe"><b>😕 Not working?</b>Happens to every builder! Jump to <a href="#stuck"><b>Stuck?</b></a></div>
   <div class="card" style="text-align:center"><div class="big">🏆</div><h3>You built an AI robot!</h3>Take a photo and show your friends.</div>
 </section>
@@ -354,15 +357,14 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
 
   <h3>😀 Change its face</h3>
   <p>Open the <code>face.cpp</code> tab and search for the line (<b><span class="mod">⌘</span> + F</b>). Change it, then Upload.</p>
-  <div class="tryit"><div><small>FIND</small><code>"READY"</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>"HI!"</code></div><p>The word in the coloured strip changes. Use your own name!</p></div>
   <div class="tryit"><div><small>FIND</small><code>RGB565(0, 220, 255)</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>RGB565(255, 80, 80)</code></div><p>Red eyes! Each number goes from 0 to 255, so mix your own colour.</p></div>
-  <div class="tryit"><div><small>FIND</small><code>const int ew = 76, eh = 84;</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>const int ew = 100, eh = 84;</code></div><p>Wider eyes! Try a bigger <code>eh</code> for taller ones.</p></div>
+  <div class="tryit"><div><small>FIND</small><code>const float ew = 76, eh = 84;</code></div><div class="arr">➜</div><div><small>CHANGE TO</small><code>const float ew = 100, eh = 84;</code></div><p>Wider eyes! Try a bigger <code>eh</code> for taller ones.</p></div>
 
   <h3>🏅 Challenges</h3>
   <ol class="steps" id="codeCheck">
     <li><label><input type="checkbox"> Make a robot with a <b>new personality</b> and have a chat.</label></li>
     <li><label><input type="checkbox"> Try <b>three voices</b>. Which is your favourite?</label></li>
-    <li><label><input type="checkbox"> Put <b>your name</b> in the top band of the screen.</label></li>
+    <li><label><input type="checkbox"> Give a mood a <b>new eye colour</b> (change <code>RGB565(…)</code>).</label></li>
     <li><label><input type="checkbox"> Make the eyes <b>wider</b> or <b>taller</b>.</label></li>
   </ol>
   <div class="bar"><i id="bar3"></i></div>
@@ -393,10 +395,10 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
   <details><summary>📺 The screen is dark or strange</summary>
     <ol>
       <li>Upload <code>arduino / TFT_Test / TFT_Test.ino</code>. You should see colour bars and a blinking face.</li>
-      <li><b>Backlight off:</b> check power. <b>VCC</b> → <b>5V</b> pin, <b>LED</b> → red rail, <b>GND</b> → blue rail.</li>
+      <li><b>Backlight off:</b> check power. <b>VCC</b> and <b>LED</b> → the red 3.3V rail (<b>not</b> the 5V pin: this screen doesn't work on 5V), <b>GND</b> → blue rail.</li>
       <li><b>White or black picture:</b> check the 5 data wires: CS 13, RESET 12, DC 11, SDI 10, SCK 9.</li>
       <li><b>Static or half a picture:</b> tidy the wires, or set <code>TFT_SPI_HZ</code> to <code>4000000</code> in <code>config.h</code>.</li>
-      <li><b>Cut off, stripes, sideways:</b> <code>TFT_ROTATION</code> must be <code>1</code> or <code>3</code>. Try the other one.</li>
+      <li><b>Sideways or upside down:</b> change <code>TFT_ROTATION</code> in <code>config.h</code> to <code>0</code>, <code>1</code>, <code>2</code> or <code>3</code> and upload. <code>TFT_Test</code> shows each number on the screen.</li>
     </ol>
   </details>
   <details><summary>🔌 The computer can't find the board</summary>Pick the right <b>Port</b>. Hold <b>BOOT</b>, tap <b>RST</b>, let go of BOOT, then Upload. Try the other USB port or another cable (some only charge).<div class="osnote" data-for="none">Pick your computer in section 4 for tips.</div><div class="osnote" data-for="mac-arm mac-intel">Plug straight into the Mac (no hub) and restart Arduino IDE.</div><div class="osnote" data-for="windows">Open <b>Device Manager → Ports (COM &amp; LPT)</b> while plugging in. An unknown device may need the <b>CP210x</b> or <b>CH340</b> driver (grown-up).</div></details>
@@ -438,17 +440,39 @@ footer{text-align:center;margin-top:70px;color:var(--muted)}
       <div class="body"><ol>
         <li>“Hi” + its name already works (Robot Maker). “Hi ESP” is the most reliable.</li>
         <li>For a rock-solid custom phrase, train a model: see the teen project below.</li></ol></div></div>
-    <div class="lvl"><header><b>4</b><div><h3>Go portable 🔋</h3><small>⭐⭐⭐ Hard · grown-up & new part</small></div></header>
+    <div class="lvl"><header><b>4</b><div><h3>Go portable 🔋</h3><small>⭐⭐⭐ Hard · grown-up, soldering &amp; a new part</small></div></header>
       <div class="body"><ol>
-        <li>The TP4056 charges a rechargeable battery.</li>
-        <li>You also need a <b>5V boost converter</b> (not in your kit).</li></ol>
-        <div class="need">⚠️ Batteries can be dangerous. Only with a grown-up.</div></div></div>
+        <li>Your battery and charger board are in your kit. Add a <b>5V boost converter</b> (a tiny board, about $2).</li>
+        <li>Follow the steps in <a href="#portable"><b>How the battery plugs in</b></a> below.</li></ol>
+        <div class="need">⚠️ Easiest start: plug the USB cable into a <b>power bank</b>. No wires needed!</div></div></div>
     <div class="lvl"><header><b>5</b><div><h3>Design an expression 😎</h3><small>⭐⭐ Medium</small></div></header>
       <div class="body"><ol>
         <li>In <code>face.cpp</code>, each mood draws eyes with <code>eye(x, y, width, height, colour)</code>. Change them and upload.</li>
         <li>Add eyebrows with <code>canvas.drawLine(x1, y1, x2, y2, colour)</code>.</li></ol>
         <div class="need">🎨 Sketch on graph paper first. The face is 280 × 184 dots.</div></div></div>
   </div>
+  <details class="peek" id="portable">
+    <summary>🔋 How the battery plugs in (grown-up project)</summary>
+    <p>The battery gives about <b>3.7 volts</b>, but the brain wants <b>5 volts</b>. So the power takes a little trip:</p>
+    <div class="kidflow">
+      <div class="fstep"><i>1</i><span class="em">🔌</span><b>Charge</b><small>USB-C fills the battery through the TP4056 board.</small></div>
+      <div class="fstep"><i>2</i><span class="em">🔋</span><b>Store</b><small>The battery keeps the power.</small></div>
+      <div class="fstep"><i>3</i><span class="em">🔘</span><b>Switch</b><small>A little slide switch turns the robot on and off.</small></div>
+      <div class="fstep"><i>4</i><span class="em">⚡</span><b>Boost</b><small>The boost board makes 3.7 V into 5 V.</small></div>
+      <div class="fstep"><i>5</i><span class="em">🧠</span><b>Brain</b><small>5 V goes into the brain’s <b>5V</b> pin.</small></div>
+    </div>
+    <div class="safe"><b>⚠️ Batteries can start fires if wired wrong</b>Only a grown-up connects them. Never poke, bend or squash the battery. Keep it away from metal. Unplug it if it gets hot or puffy.</div>
+    <ol class="steps">
+      <li><b>Check the plug with a multimeter.</b> The battery has <b>3 wires</b>. Find which one is <b>+</b> and which is <b>−</b>. Usually <b>red = +</b>, <b>black = −</b>, and <b>yellow</b> is a temperature wire we do <b>not</b> use. Cheap packs can differ, so measure before you solder!</li>
+      <li><b>Solder to the TP4056:</b> battery <b>+</b> to <b>B+</b>, battery <b>−</b> to <b>B−</b>. Tape over the yellow wire. (Or fit a matching socket.)</li>
+      <li><b>Boost board:</b> TP4056 <b>OUT+</b> goes through the <b>slide switch</b> to the boost board <b>IN+</b>. <b>OUT−</b> goes to <b>IN−</b>.</li>
+      <li><b>Set it to 5 V first!</b> Switch on, turn the little screw on the boost board until a multimeter reads <b>5.0 V</b>. Switch off.</li>
+      <li><b>Connect to the robot:</b> boost <b>OUT+</b> to the brain’s <b>5V</b> pin, boost <b>OUT−</b> to the <b>blue ground rail</b> in Breadboard Buddy.</li>
+      <li><b>Charge it:</b> switch the robot <b>off</b>, plug a USB-C cable into the TP4056. A red light means charging; blue or green means full.</li>
+    </ol>
+    <div class="tip"><b>🔌 One power at a time</b>When the battery is connected, don’t plug the USB cable into the brain. Pick one power source.</div>
+    <div class="grownup"><b>👩‍👧 Grown-up corner</b>The pack is a protected 803450 LiPo (3.7 V, 1500 mAh, about 5.5 Wh). The robot can draw about 1 A at 5 V when it talks loudly, so choose a boost module rated <b>2 A or more</b>. Expect roughly <b>1 to 2 hours</b> of chatting (an estimate, not measured). The TP4056 charges at up to 1 A by default, which is fine for this pack. The yellow wire is normally the pack’s temperature sensor, which the TP4056 does not use. Whether the dev board’s 5V pin can safely be fed while USB is also plugged in depends on the board, so use one source at a time. Not tested on real hardware.</div>
+  </details>
   <details class="peek" id="teen">
     <summary>🧑‍💻 Teen project: your own wake-up phrase</summary>
     <p>“Hi ESP” works best. For any other phrase, train a model and plug it in. The robot already has a slot for it.</p>
@@ -550,9 +574,7 @@ checklist('codeCheck','bar3','kids-code');
     if(now>nextLook){lx=Math.round(Math.random()*32-16);ly=Math.round(Math.random()*12-6);nextLook=now+1500+Math.random()*2500}
     g.innerHTML='';P=g;
     const c=COL[mood];
-    R(0,0,320,40,0,c);                                        // the coloured strip with the word
-    mk('text',{x:12,y:29,'font-size':26,'font-weight':900,'font-family':'monospace',fill:'#000'}).textContent=LAB[mood];
-    P=mk('g',{transform:'translate(20,48)'},g);               // the face picture starts here
+    P=mk('g',{transform:'translate(6,19) scale(1.1)'},g);     // the face fills the whole screen
     const LX=70,RX=210,CY=78,ew=76,eh=84;
     if(mood==='idle'){eye(LX+lx,CY+ly,ew,eh*b,c);eye(RX+lx,CY+ly,ew,eh*b,c)}
     else if(mood==='happy'){
